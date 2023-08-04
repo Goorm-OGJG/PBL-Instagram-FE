@@ -7,3 +7,5 @@ export const Blue1 = "#E0F1FF";
 export const Blue2 = "#0095F6";
 
 export const Red1 = "#ED4956";
+
+export const Main = "45deg,#fcb045,#fd1d1d,#833ab4";
