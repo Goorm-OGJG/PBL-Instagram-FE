@@ -9,6 +9,7 @@ import Feed from "./pages/Feed/Feed";
 import Profile from "./pages/Profile/Profile";
 import EditProfile from "./pages/EditProfile/EditProfile";
 import SavedProfile from "./pages/SavedProfile/SavedProfile";
+import IconsTest from "./pages/IconsTest/IconsTest";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
       <Route path="/accounts/:userName/edit" element={<EditProfile />}></Route>
       {/* 예비 */}
       <Route path="/accounts/:userName/feed/saved" element={<SavedProfile />}></Route>
+      {/* 삭제 예정 */}
+      <Route path="/icons-test" element={<IconsTest />}></Route>
     </Routes>
   );
 }
