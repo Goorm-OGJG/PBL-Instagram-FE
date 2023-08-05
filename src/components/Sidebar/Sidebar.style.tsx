@@ -1,5 +1,5 @@
 import { css, styled } from "styled-components";
-import * as COLOR from "../constants/color";
+import * as COLOR from "../../constants/color";
 import { Link } from "react-router-dom";
 
 interface BoxProps {

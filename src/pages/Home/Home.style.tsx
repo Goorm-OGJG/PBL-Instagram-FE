@@ -19,6 +19,7 @@ export const MainWrapper = styled.section`
   flex-grow: 1;
   align-items: center;
   position: relative;
+  margin-top: 30px;
 `;
 
 export const SideWrapper = styled.div``;
