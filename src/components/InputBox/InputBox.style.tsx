@@ -27,7 +27,10 @@ export const InputBox = styled.input<{ isFocused: boolean }>`
   padding-left: 5px;
   padding-top: ${({ isFocused }) => (isFocused ? "12px" : "0px")};
   background-color: ${COLOR.BackgroundColor};
-
+  &::-ms-reveal,
+  &::-webkit-reveal {
+    display: none;
+  }
   &:focus {
     border: 1px solid ${COLOR.Gray2};
   }
