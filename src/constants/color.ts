@@ -15,3 +15,4 @@ export const BorderColor = "#DBDBDB";
 export const BackgroundColor = "#FAFAFA";
 export const White = "#FFFFFF";
 export const ButtonDisabled = "#56B6F9";
+export const Black = "#000000";
