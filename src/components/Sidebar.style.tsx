@@ -10,7 +10,7 @@ interface BoxProps {
 export const Nav = styled.nav`
   color: ${COLOR.Gray1};
   background-color: #000;
-  position: absolute;
+  position: fixed;
   height: 100vh;
   padding: 8px 12px 20px;
   display: flex;

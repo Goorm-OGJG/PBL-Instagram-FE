@@ -1,4 +1,4 @@
-import UserProfile from "./UserProfile";
+import UserProfile from "../UserProfile/UserProfile";
 import * as S from "./SideUserRecommend.style";
 
 function SideUserRecommend() {
