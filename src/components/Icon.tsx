@@ -24,6 +24,10 @@ export const InstaLogo = ({ size }: IconType) => (
   <img src={`/images/logoIcon.png`} width={size}></img>
 );
 
+export const InstaTextBlack = ({ size }: IconType) => (
+  <img src={`/images/logoText_black.png`} width={size}></img>
+);
+
 export const InstaText = ({ size }: IconType) => (
   <img src={`/images/logoText.png`} width={size}></img>
 );
