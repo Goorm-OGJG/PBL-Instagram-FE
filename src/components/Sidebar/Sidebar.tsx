@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as Icon from "./Icon";
+import * as Icon from "../Icon";
 import * as S from "./Sidebar.style";
 
 function Sidebar() {

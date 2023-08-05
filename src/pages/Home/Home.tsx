@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import SideUserRecommend from "./components/SideUserRecommend/SideUserRecommend";
 import * as S from "./Home.style";
 import Footer from "./components/Footer/Footer";

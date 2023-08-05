@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
   display: flex;
   width: 630px;
   padding: 16px 0;
-  margin-top: 32px;
   height: 117px;
 `;
 

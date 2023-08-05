@@ -2,13 +2,13 @@ import { BsBookmark, BsBookmarkFill, BsGrid3X3, BsInstagram } from "react-icons/
 import { GoHome, GoHomeFill, GoLock, GoSearch } from "react-icons/go";
 import { RiAddBoxLine, RiAddBoxFill } from "react-icons/ri";
 import { AiOutlineMenu, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { FaComment, FaRegComment } from "react-icons/fa";
+import { FaComment, FaPause, FaPlay, FaRegComment } from "react-icons/fa";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
-import { HiDotsHorizontal, HiPlay, HiPause } from "react-icons/hi";
+import { HiDotsHorizontal } from "react-icons/hi";
 import { TbCirclePlus, TbBoxMultiple } from "react-icons/tb";
 import { GrClose } from "react-icons/gr";
 import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
-import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
+import { BiSolidChevronLeftCircle, BiSolidChevronRightCircle } from "react-icons/bi";
 
 interface IconType {
   size?: number;
@@ -100,8 +100,8 @@ export const HorizontalBold = ({ size, color }: IconType) => (
 export const Close = ({ size, color }: IconType) => <GrClose size={size} color={color} />;
 
 // 동영상 관련
-export const Play = ({ size, color }: IconType) => <HiPlay size={size} color={color} />;
-export const Pause = ({ size, color }: IconType) => <HiPause size={size} color={color} />;
+export const Play = ({ size, color }: IconType) => <FaPlay size={size} color={color} />;
+export const Pause = ({ size, color }: IconType) => <FaPause size={size} color={color} />;
 
 // 볼륨
 export const Volume = ({ size, color }: IconType) => (
@@ -113,10 +113,10 @@ export const Mute = ({ size, color }: IconType) => (
 
 // 화살표
 export const Left = ({ size, color }: IconType) => (
-  <CiCircleChevLeft size={size} color={color} />
+  <BiSolidChevronLeftCircle size={size} color={color} />
 );
 export const Right = ({ size, color }: IconType) => (
-  <CiCircleChevRight size={size} color={color} />
+  <BiSolidChevronRightCircle size={size} color={color} />
 );
 
 // 사진 여러 장일 때

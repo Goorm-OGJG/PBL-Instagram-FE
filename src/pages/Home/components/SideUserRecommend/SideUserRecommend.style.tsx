@@ -4,7 +4,7 @@ import * as COLOR from "../../../../constants/color";
 import * as FONT from "../../../../constants/font";
 
 export const Wrapper = styled.div`
-  padding-top: 30px;
+  padding-top: 40px;
 `;
 
 export const UserProfileBox = styled.div``;
