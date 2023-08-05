@@ -2,7 +2,9 @@ import { useState } from "react";
 import { InstaTextBlack, Lock } from "../../components/Icon";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./FindPassword.style";
+import { useNavigate } from "react-router-dom";
 function FindPassword() {
+  const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [validate, setValidate] = useState("");
 
@@ -20,6 +22,7 @@ function FindPassword() {
 
   const handleSubmit = () => {
     alert("인증번호 일치 여부 요청");
+    navigate("/help/newpassword");
   };
 
   const ValidateSubmitButtonAction = userName;

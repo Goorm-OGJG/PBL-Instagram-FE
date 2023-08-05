@@ -10,6 +10,7 @@ import Profile from "./pages/Profile/Profile";
 import EditProfile from "./pages/EditProfile/EditProfile";
 import SavedProfile from "./pages/SavedProfile/SavedProfile";
 import IconsTest from "./pages/IconsTest/IconsTest";
+import SetPassword from "./pages/SetPassword/SetPassword";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/help/password" element={<FindPassword />}></Route>
+      <Route path="/help/newpassword" element={<SetPassword />}></Route>
       <Route path="/Home" element={<Home />}></Route>
       <Route path="/stories/:userName/:storyId" element={<Story />}></Route>
       <Route path="/explore/tags/:query" element={<SearchTag />}></Route>
