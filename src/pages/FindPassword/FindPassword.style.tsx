@@ -60,6 +60,7 @@ export const FindPasswordInfoContent = styled.p`
 export const InputBoxWrapper = styled.div`
   width: inherit;
   padding-top: 10px;
+  position: relative;
 `;
 
 export const SubmitButton = styled.button<{ disabled: boolean }>`
@@ -79,6 +80,8 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
     cursor: auto;
   }
 `;
+
+
 
 export const ValidateSubmitButton = styled(SubmitButton)`
   background-color: ${COLOR.Gray3};

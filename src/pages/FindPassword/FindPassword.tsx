@@ -3,10 +3,21 @@ import { InstaTextBlack, Lock } from "../../components/Icon";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./FindPassword.style";
 import { useNavigate } from "react-router-dom";
+import Timer from "./components/Timer/Timer";
 function FindPassword() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [validate, setValidate] = useState("");
+
+  const [isTimerStart, setIsTimerStart] = useState(false);
+  const [isTimerEnd, setIsTimerEnd] = useState(false);
+  const initialMintes = 3;
+  const initialSeconds = 0;
+
+  const restartTimer = () => {
+    setIsTimerStart(false);
+    setTimeout(() => setIsTimerStart(true), 0);
+  };
 
   const handleUserName = (text: string) => {
     setUserName(text);
@@ -17,12 +28,21 @@ function FindPassword() {
   };
 
   const handleRequestValidate = () => {
+    setIsTimerStart(true);
+    setIsTimerEnd(false);
+    restartTimer();
     alert("인증번호 요청");
   };
 
   const handleSubmit = () => {
-    alert("인증번호 일치 여부 요청");
-    navigate("/help/newpassword");
+    if (isTimerEnd) {
+      alert("요청시간이 만료되었습니다. 다시 인증번호를 받으세요.");
+      return;
+    }
+    if (!isTimerEnd) {
+      alert("인증번호 일치 여부 요청");
+      navigate("/help/newpassword");
+    }
   };
 
   const ValidateSubmitButtonAction = userName;
@@ -54,6 +74,13 @@ function FindPassword() {
             onChange={handleUserName}
           />
 
+          {isTimerStart && (
+            <Timer
+              initialMintes={initialMintes}
+              initialSeconds={initialSeconds}
+              setIsTimerEnd={setIsTimerEnd}
+            />
+          )}
           <InputBox
             type={"text"}
             placeHolderText="인증번호"
