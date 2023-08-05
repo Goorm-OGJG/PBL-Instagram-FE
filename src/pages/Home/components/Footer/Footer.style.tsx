@@ -1,5 +1,5 @@
-import * as COLOR from "../../../constants/color";
-import * as FONT from "../../../constants/font";
+import * as COLOR from "../../../../constants/color";
+import * as FONT from "../../../../constants/font";
 import { styled } from "styled-components";
 
 export const FooterStyle = styled.footer`

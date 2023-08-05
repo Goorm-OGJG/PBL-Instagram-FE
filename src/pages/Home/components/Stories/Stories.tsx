@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import Story from "./Story";
-import * as Icon from "../../../components/Icon";
+import Story from "../Story/Story";
+import * as Icon from "../../../../components/Icon";
 import * as S from "./Stories.style";
 
 function Stories() {

@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
-import * as COLOR from "../../../constants/color";
-import * as FONT from "../../../constants/font";
+import * as COLOR from "../../../../constants/color";
+import * as FONT from "../../../../constants/font";
 import { PropsType } from "./UserProfile";
 
 export const Profile = styled.div`

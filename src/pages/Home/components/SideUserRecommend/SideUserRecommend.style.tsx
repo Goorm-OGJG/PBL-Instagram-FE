@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
-import * as COLOR from "../../../constants/color";
-import * as FONT from "../../../constants/font";
+import * as COLOR from "../../../../constants/color";
+import * as FONT from "../../../../constants/font";
 
 export const Wrapper = styled.div`
   padding-top: 30px;

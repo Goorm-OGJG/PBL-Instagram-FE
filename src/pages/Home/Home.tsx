@@ -1,10 +1,10 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
-import SideUserRecommend from "./components/SideUserRecommend";
+import SideUserRecommend from "./components/SideUserRecommend/SideUserRecommend";
 import * as S from "./Home.style";
-import Footer from "./components/Footer";
-import Stories from "./components/Stories";
-import Feeds from "./components/Feeds";
+import Footer from "./components/Footer/Footer";
+import Stories from "./components/Stories/Stories";
+import Feeds from "./components/Feeds/Feeds";
 
 function Home() {
   return (
