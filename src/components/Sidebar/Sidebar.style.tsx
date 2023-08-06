@@ -9,7 +9,7 @@ interface BoxProps {
 
 export const Nav = styled.nav`
   color: ${COLOR.Gray1};
-  background-color: #000;
+  background-color: ${COLOR.Black};
   position: fixed;
   height: 100vh;
   padding: 8px 12px 20px;
@@ -17,6 +17,7 @@ export const Nav = styled.nav`
   flex-direction: column;
   justify-content: space-between;
   border-right: 1px solid ${COLOR.Gray4};
+  z-index: 1000;
 `;
 
 export const LogoBox = styled(Link)`
@@ -37,6 +38,14 @@ export const IconBox = styled.div<BoxProps>`
     css`
       opacity: 0;
       visibility: hidden;
+    `}
+
+  ${(props) =>
+    props.type === "search" &&
+    props.isClick &&
+    css`
+      border: 1px solid ${COLOR.Gray1};
+      box-sizing: border-box;
     `}
   ${(props) =>
     props.type === "fill" &&
@@ -71,7 +80,11 @@ export const SideBox = styled.div`
   position: relative;
 `;
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  z-index: 1000;
+  background-color: ${COLOR.Black};
+  flex: 1;
+`;
 
 export const ProfileImg = styled.img`
   width: 24px;

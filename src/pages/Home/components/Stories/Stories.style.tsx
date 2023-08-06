@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   width: 630px;
   padding: 16px 0;
   height: 117px;
+  z-index: 10;
 `;
 
 export const StoriesWrapper = styled.div`

@@ -1,15 +1,18 @@
 import { useState } from "react";
 import * as S from "./StoryIcon.style";
 import * as Icon from "../../../../components/Icon";
+import { useRecoilState } from "recoil";
+import { isPlayState } from "../../../../recoil/storyState";
 
 interface Props {
   type: string;
+  onClick?: () => void;
 }
-function StoryIcon({ type }: Props) {
+function StoryIcon({ type, onClick }: Props) {
   const [state, setState] = useState<boolean>(false);
-  // const [isMute, setIsMute] = useState<boolean>(false);
+  const [isPlay, setIsPlay] = useRecoilState(isPlayState);
   const playHandler = () => {
-    setState(!state);
+    setIsPlay(!isPlay);
   };
 
   const volumeHandler = () => {
@@ -29,13 +32,13 @@ function StoryIcon({ type }: Props) {
       )}
       {type === "play" && (
         <S.IconWrapper onClick={playHandler}>
-          {state ? (
+          {isPlay ? (
             <S.IconBox>
-              <Icon.Play size={16} />
+              <Icon.Pause size={16} />
             </S.IconBox>
           ) : (
             <S.IconBox>
-              <Icon.Pause size={16} />
+              <Icon.Play size={16} />
             </S.IconBox>
           )}
         </S.IconWrapper>
@@ -54,12 +57,12 @@ function StoryIcon({ type }: Props) {
         </S.IconWrapper>
       )}
       {type === "arrow-right" && (
-        <S.ArrowRightWrapper>
+        <S.ArrowRightWrapper onClick={onClick}>
           <Icon.Right size={30} />
         </S.ArrowRightWrapper>
       )}
       {type === "arrow-left" && (
-        <S.ArrowLeftWrapper>
+        <S.ArrowLeftWrapper onClick={onClick}>
           <Icon.Left size={30} />
         </S.ArrowLeftWrapper>
       )}
