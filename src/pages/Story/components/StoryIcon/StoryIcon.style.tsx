@@ -1,6 +1,6 @@
 import { css, keyframes, styled } from "styled-components";
 import * as COLOR from "../../../../constants/color";
-import { NowStoryWrapper } from "../../Story.style";
+import { StoryWrapper } from "../StoryContent/StoryContent.style";
 
 interface LikeProps {
   isClick: boolean;
@@ -40,8 +40,12 @@ export const ArrowLeftWrapper = styled(IconWrapper)`
   color: rgba(255, 255, 255, 0.5);
 
   transition: 0.3s;
-  ${NowStoryWrapper}:hover & {
+  ${StoryWrapper}:hover & {
     color: rgba(255, 255, 255, 0.8);
+  }
+  ${StoryWrapper}:not(:nth-child(4)) & {
+    opacity: 0;
+    visibility: hidden;
   }
 `;
 
@@ -53,8 +57,12 @@ export const ArrowRightWrapper = styled(IconWrapper)`
   color: rgba(255, 255, 255, 0.5);
 
   transition: 0.3s;
-  ${NowStoryWrapper}:hover & {
+  ${StoryWrapper}:hover & {
     color: rgba(255, 255, 255, 0.8);
+  }
+  ${StoryWrapper}:not(:nth-child(4)) & {
+    opacity: 0;
+    visibility: hidden;
   }
 `;
 
@@ -62,6 +70,10 @@ export const LikeWrapper = styled(IconWrapper)`
   position: absolute;
   right: 0;
   bottom: 0;
+  ${StoryWrapper}:not(:nth-child(4)) & {
+    opacity: 0;
+    visibility: hidden;
+  }
 `;
 
 export const LikeFillBox = styled(IconBox)<LikeProps>`
