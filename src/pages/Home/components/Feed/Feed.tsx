@@ -3,6 +3,8 @@ import * as Icon from "../../../../components/Icon";
 import { useState } from "react";
 import FeedInput from "../FeedInput/FeedInput";
 import FeedImage from "../FeedImages/FeedImage";
+import { useSetRecoilState } from "recoil";
+import { isModalOpenState } from "../../../../recoil/homeState";
 
 function Feed() {
   const [tmpHeart, setTmpHeart] = useState<boolean>(false);
@@ -13,6 +15,8 @@ function Feed() {
   const likeCancelHandler = () => {
     setTmpHeart(false);
   };
+
+  const setIsModalOpen = useSetRecoilState(isModalOpenState);
 
   return (
     <S.FeedWrapper>
@@ -61,7 +65,7 @@ function Feed() {
         </S.Div>
       </S.Span>
       <S.Div>
-        <S.Desc>댓글 123개 모두 보기</S.Desc>
+        <S.Desc onClick={() => setIsModalOpen(true)}>댓글 123개 모두 보기</S.Desc>
       </S.Div>
       <FeedInput />
     </S.FeedWrapper>
