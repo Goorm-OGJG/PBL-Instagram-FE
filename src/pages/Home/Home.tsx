@@ -5,8 +5,13 @@ import * as S from "./Home.style";
 import Footer from "./components/Footer/Footer";
 import Stories from "./components/Stories/Stories";
 import Feeds from "./components/Feeds/Feeds";
+import FeedModal from "./components/FeedModal/FeedModal";
+import { useRecoilValue } from "recoil";
+import { isModalOpenState } from "../../recoil/homeState";
 
 function Home() {
+  const isModalOpen = useRecoilValue(isModalOpenState);
+
   return (
     <React.Fragment>
       <Sidebar />
@@ -22,6 +27,7 @@ function Home() {
           </S.SideWrapper>
         </S.Wrapper>
       </S.Main>
+      {isModalOpen && <FeedModal />}
     </React.Fragment>
   );
 }

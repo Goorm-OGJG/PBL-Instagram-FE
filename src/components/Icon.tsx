@@ -6,7 +6,8 @@ import { FaComment, FaPause, FaPlay, FaRegComment } from "react-icons/fa";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { TbCirclePlus, TbBoxMultiple } from "react-icons/tb";
-import { GrClose } from "react-icons/gr";
+// import { GrClose } from "react-icons/gr";
+import { IoClose } from "react-icons/io5";
 import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
 import { BiSolidChevronLeftCircle, BiSolidChevronRightCircle } from "react-icons/bi";
 
@@ -97,7 +98,7 @@ export const HorizontalBold = ({ size, color }: IconType) => (
 );
 
 // 닫기 취소
-export const Close = ({ size, color }: IconType) => <GrClose size={size} color={color} />;
+export const Close = ({ size, color }: IconType) => <IoClose size={size} color={color} />;
 
 // 동영상 관련
 export const Play = ({ size, color }: IconType) => <FaPlay size={size} color={color} />;
