@@ -11,25 +11,43 @@ import EditProfile from "./pages/EditProfile/EditProfile";
 import SavedProfile from "./pages/SavedProfile/SavedProfile";
 import IconsTest from "./pages/IconsTest/IconsTest";
 import SetPassword from "./pages/SetPassword/SetPassword";
+import Protected from "./pages/Protected/Protected";
+
+const LoginRoutes = [
+  { path: "/home", component: <Home /> },
+  { path: "/stories/:userName/:storyId", component: <Story /> },
+  { path: "/explore/tags/:query", component: <SearchTag /> },
+  { path: "/feed/:feedId", component: <Feed /> },
+  { path: "/accounts/:userName", component: <Profile /> },
+  { path: "/accounts/:userName/edit", component: <EditProfile /> },
+  { path: "/accounts/:userName/feed/saved", component: <SavedProfile /> },
+];
+
+const LogoutRoutes = [
+  { path: "/login", component: <Login /> },
+  { path: "/signup", component: <SignUp /> },
+  { path: "/help/password", component: <FindPassword /> },
+  { path: "/help/newpassword", component: <SetPassword /> },
+];
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/signup" element={<SignUp />}></Route>
-      <Route path="/help/password" element={<FindPassword />}></Route>
-      <Route path="/help/newpassword" element={<SetPassword />}></Route>
-      <Route path="/Home" element={<Home />}></Route>
-      <Route path="/stories/:userName/:storyId" element={<Story />}></Route>
-      <Route path="/explore/tags/:query" element={<SearchTag />}></Route>
-      {/* 예비 */}
-      <Route path="/feed/:feedId" element={<Feed />}></Route>
-      <Route path="/accounts/:userName" element={<Profile />}></Route>
-      <Route path="/accounts/:userName/edit" element={<EditProfile />}></Route>
-      {/* 예비 */}
-      <Route path="/accounts/:userName/feed/saved" element={<SavedProfile />}></Route>
-      {/* 삭제 예정 */}
-      <Route path="/icons-test" element={<IconsTest />}></Route>
+      {LogoutRoutes.map(({ path, component }) => (
+        <Route
+          key={path}
+          path={path}
+          element={<Protected element={component} option={false} />}
+        />
+      ))}
+      {LoginRoutes.map(({ path, component }) => (
+        <Route
+          key={path}
+          path={path}
+          element={<Protected element={component} option={true} />}
+        />
+      ))}
+      <Route path="/icons-test" element={<IconsTest />} />
     </Routes>
   );
 }
