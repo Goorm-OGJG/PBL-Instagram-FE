@@ -10,7 +10,7 @@ import { TbCirclePlus, TbBoxMultiple } from "react-icons/tb";
 import { IoClose } from "react-icons/io5";
 import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
 import { BiSolidChevronLeftCircle, BiSolidChevronRightCircle } from "react-icons/bi";
-
+import { PiImagesSquareThin } from "react-icons/pi";
 interface IconType {
   size?: number;
   color?: string;
@@ -127,3 +127,8 @@ export const BoxMultiple = ({ size, color }: IconType) => (
 
 // 자물쇠
 export const Lock = ({ size, color }: IconType) => <GoLock size={size} color={color} />;
+
+// 스토리 피드 만드리
+export const ImageAdd = ({ size, color }: IconType) => (
+  <PiImagesSquareThin size={size} color={color} />
+);

@@ -2,11 +2,16 @@ import { styled } from "styled-components";
 import * as COLOR from "../../constants/color";
 import * as FONT from "../../constants/font";
 
-export const Div = styled.div`
+interface StyleProps {
+  type: string;
+}
+
+export const Div = styled.div<StyleProps>`
   color: ${COLOR.Gray1};
   font-size: ${FONT.S};
   position: absolute;
-  bottom: 35px;
+  bottom: ${(props) => props.type === "menu" && "35px"};
+  top: ${(props) => props.type === "add" && "230px"};
   background-color: ${COLOR.Gray4};
   display: flex;
   flex-direction: column;
