@@ -1,4 +1,6 @@
 import { styled } from "styled-components";
+import * as COLOR from "../../constants/color";
+import { Link } from "react-router-dom";
 
 export const Main = styled.main`
   display: flex;
@@ -10,32 +12,12 @@ export const Main = styled.main`
   position: relative;
 `;
 
-// 주변 스토리
-export const StoryWrapper = styled.div`
-  max-width: 600px;
-  height: 50vh;
-  max-height: 550px;
-  min-height: 290px;
-  color: white;
-  background-color: #ddd;
-  position: relative;
-  border-radius: 5px;
+// 아이콘
+export const IconBox = styled(Link)`
   display: flex;
-  justify-content: center;
-  margin: 0 20px;
-`;
-
-export const EmptyWrapper = styled(StoryWrapper)`
-  opacity: 0;
-`;
-export const EmptyBox = styled.img`
-  height: 100%;
-  max-width: 600px;
-  object-fit: fill;
-  position: relative;
-  border-radius: 5px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  position: absolute;
+  right: 10px;
+  color: ${COLOR.White};
+  top: 10px;
+  cursor: pointer;
 `;

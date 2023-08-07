@@ -29,7 +29,6 @@ function StoryContent({ id, idx, setIdx }: Props) {
       setCount(count + 1);
     }
   };
-
   const leftHandler = () => {
     if (count <= 0) {
       if (ref?.current) {

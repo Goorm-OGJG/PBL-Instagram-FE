@@ -3,6 +3,10 @@ import * as COLOR from "../../../../constants/color";
 import * as FONT from "../../../../constants/font";
 import { Link } from "react-router-dom";
 
+interface StyleProps {
+  pos: number;
+}
+
 export const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -26,20 +30,74 @@ export const Wrapper = styled.section`
   max-height: 800px;
 `;
 
+// 이미지 관련
 export const ImgBox = styled.div`
   display: flex;
   max-width: 800px;
-  overflow: hidden;
+  position: relative;
+  flex: 2;
+  scroll-behavior: smooth;
 `;
 
+export const Images = styled.div`
+  display: flex;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  max-width: 800px;
+`;
 export const Img = styled.img`
-  height: 95vh;
+  height: 800px;
+  width: 800px;
   object-fit: fill;
 `;
 
+export const ArrowBox = styled.div`
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: ${FONT.L};
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+`;
+
+export const LeftArrow = styled(ArrowBox)`
+  left: 20px;
+`;
+
+export const RightArrow = styled(ArrowBox)`
+  right: 20px;
+`;
+
+export const PosBox = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 5px;
+`;
+
+export const PosDot = styled.span<StyleProps>`
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+
+  &:nth-child(${(props) => props.pos + 1}) {
+    background-color: ${COLOR.White};
+  }
+`;
+
+// 우측
 export const RightWrapper = styled.div`
   max-width: 500px;
-  width: 400px;
+  min-width: 400px;
+  flex: 1;
   background-color: white;
   display: flex;
   flex-direction: column;

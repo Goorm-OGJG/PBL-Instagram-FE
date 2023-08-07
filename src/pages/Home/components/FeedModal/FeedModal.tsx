@@ -2,12 +2,14 @@ import * as S from "./Feedmodal.style";
 import * as Icon from "../../../../components/Icon";
 import * as COLOR from "../../../../constants/color";
 import Comment from "../Comment/Comment";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isModalOpenState } from "../../../../recoil/homeState";
 function FeedModal() {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
 
+  const imgboxRef = useRef<HTMLDivElement | null>(null);
+  const [pos, setPos] = useState(0);
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -16,6 +18,23 @@ function FeedModal() {
     };
   }, [isModalOpen]);
 
+  const rightHandler = () => {
+    const current = imgboxRef.current;
+    if (pos < 2) {
+      current?.scrollBy(800, 0);
+      setPos(pos + 1);
+    }
+  };
+
+  const leftHandler = () => {
+    const current = imgboxRef.current;
+    current?.scrollBy(-800, 0);
+    if (pos > 0) {
+      current?.scrollBy(-800, 0);
+      setPos(pos - 1);
+    }
+  };
+
   return (
     <S.Overlay>
       <S.CloseBox onClick={() => setIsModalOpen(false)}>
@@ -23,10 +42,24 @@ function FeedModal() {
       </S.CloseBox>
       <S.Wrapper>
         <S.ImgBox>
-          <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
-          <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
-          <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
+          <S.Images ref={imgboxRef}>
+            <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
+            <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
+            <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
+          </S.Images>
+          <S.LeftArrow onClick={leftHandler}>
+            <Icon.Left />
+          </S.LeftArrow>
+          <S.RightArrow onClick={rightHandler}>
+            <Icon.Right />
+          </S.RightArrow>
+          <S.PosBox>
+            <S.PosDot pos={pos} />
+            <S.PosDot pos={pos} />
+            <S.PosDot pos={pos} />
+          </S.PosBox>
         </S.ImgBox>
+
         {/* 피드 모달 우측 정보들 */}
         <S.RightWrapper>
           {/* 피드 상단 게시한 유저 정보 */}
