@@ -2,15 +2,15 @@ import React from "react";
 import { Navigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 
-interface ProtectedPageProps {
+interface ProtectedPagePropsType {
   element: React.ReactNode;
   option: boolean;
 }
 
-const Protected: React.FC<ProtectedPageProps> = ({
+const Protected: React.FC<ProtectedPagePropsType> = ({
   element,
   option,
-}: ProtectedPageProps) => {
+}: ProtectedPagePropsType) => {
   const { isLoggedIn } = useAuth();
 
   if (isLoggedIn && !option) {
