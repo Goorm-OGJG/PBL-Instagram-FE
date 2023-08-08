@@ -8,29 +8,58 @@ function SignUp() {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
+
+  const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  const nicknamePattern = /^[a-z0-9._]{7,20}$/;
+  const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!$@%])[a-zA-Z0-9!$@%]{6,}$/;
+
+  const ValidateEmail = emailPattern.test(email);
+  const ValidateNickname = nicknamePattern.test(nickname);
+  const ValidateEqualPassword = password === checkPassword;
+  const ValidatePassword = passwordPattern.test(password);
+
   const buttonAction = email && password && nickname && password && checkPassword;
 
   const handleEmail = (text: string) => {
     setEmail(text);
   };
-
   const handleUserName = (text: string) => {
     setUserName(text);
   };
-
   const handleNickname = (text: string) => {
     setNickname(text);
   };
-
   const handlePassword = (text: string) => {
     setPassword(text);
   };
-
   const handleCheckPassword = (text: string) => {
     setCheckPassword(text);
   };
 
   const handleSignUp = () => {
+    if (!ValidateEmail) {
+      alert(
+        "이메일 주소 형식이 올바르지 않습니다. 'example@example.com' 형식으로 입력해주세요.",
+      );
+      return;
+    }
+    if (!ValidateNickname) {
+      alert(
+        "올바르지 않은 사용자 이름입니다. 7~20자 사이의 영문 소문자, 숫자, 점, 밑줄만 사용할 수 있습니다.",
+      );
+      return;
+    }
+    if (!ValidatePassword) {
+      alert(
+        "올바르지 않은 비밀번호입니다. 비밀번호는 6자 이상이어야 하고 숫자, 영문, 특수기호(!$@%)의 조합을 포함해야 합니다.",
+      );
+      return;
+    }
+    if (!ValidateEqualPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     alert("회원가입 요청");
   };
 
