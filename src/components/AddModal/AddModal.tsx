@@ -1,12 +1,17 @@
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as S from "./AddModal.style";
 import * as Icon from "../Icon";
 import TextArea from "../TextArea/TextArea";
 import { useRecoilState } from "recoil";
 import { whichAddModalOpenState } from "../../recoil/homeState";
+import { useDropzone } from "react-dropzone";
 
 interface Props {
   type: string;
+}
+
+interface FileWithPreview extends File {
+  preview: string;
 }
 function AddModal({ type }: Props) {
   const [step, setStep] = useState(1);
@@ -14,6 +19,25 @@ function AddModal({ type }: Props) {
   const [pos, setPos] = useState(0);
   const [whichAddModalOpen, setWhichAddModalOpen] =
     useRecoilState(whichAddModalOpenState);
+
+  const [files, setFiles] = useState<FileWithPreview[] | null>(null);
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // console.log(acceptedFiles);
+    const filesWithPreview: FileWithPreview[] = acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      }),
+    );
+    setFiles(filesWithPreview);
+    // console.log(filesWithPreview);
+    setStep(step + 1);
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { "image/png": [], "image/jpeg": [] },
+    onDrop,
+  });
 
   const buttonHandler = () => {
     if (step === 1) {
@@ -65,10 +89,13 @@ function AddModal({ type }: Props) {
         <S.Section>
           {/* 1단계 */}
           {step === 1 && (
-            <S.FirstStepWrapper>
-              <Icon.ImageAdd size={96} />
-              <S.Span>사진과 동영상을 여기에 끌어다 놓으세요</S.Span>
-              <S.Button>컴퓨터에서 선택</S.Button>
+            <S.FirstStepWrapper {...getRootProps()}>
+              <input {...getInputProps()} />
+              <React.Fragment>
+                <Icon.ImageAdd size={96} />
+                <S.Span>사진과 동영상을 여기에 끌어다 놓으세요</S.Span>
+                <S.Button>컴퓨터에서 선택</S.Button>
+              </React.Fragment>
             </S.FirstStepWrapper>
           )}
 
@@ -77,6 +104,7 @@ function AddModal({ type }: Props) {
             <S.SecondStepWrapper>
               <S.ImgWrapper>
                 <S.Images ref={imgboxRef}>
+                  {files?.map((file) => <S.Img src={file.preview} />)}
                   <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
                   <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
                   <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />

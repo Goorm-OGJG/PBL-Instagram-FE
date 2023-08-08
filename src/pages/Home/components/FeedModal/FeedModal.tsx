@@ -5,11 +5,15 @@ import Comment from "../Comment/Comment";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isModalOpenState } from "../../../../recoil/homeState";
+// import { FeedData } from "../Feeds/Feeds";
+
 function FeedModal() {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
-
   const imgboxRef = useRef<HTMLDivElement | null>(null);
+  // 이미지 이동 관련 state
   const [pos, setPos] = useState(0);
+
+  // 이미지 이동 관련
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -33,6 +37,18 @@ function FeedModal() {
       current?.scrollBy(-800, 0);
       setPos(pos - 1);
     }
+  };
+
+  // 좋아요, 좋아요 취소
+  const likeHandler = () => {
+    // 좋아요 요청 보내기
+    alert("좋아요 요청!");
+  };
+
+  //좋아요 취소
+  const likeCancelHandler = () => {
+    // 좋아요 취소 요청 보내기
+    alert("좋아요 취소 요청!");
   };
 
   return (
@@ -82,15 +98,20 @@ function FeedModal() {
             <Comment />
             <Comment />
             <Comment />
+            <S.AddCircleBox>
+              <S.AddCircle>
+                <Icon.AddCircle size={32} />
+              </S.AddCircle>
+            </S.AddCircleBox>
           </S.Comments>
           {/* 좋아요 보관함 아이콘 */}
           <S.Icons>
             {/* 좋아요 */}
             <S.IconWrapper>
-              <S.IconBox>
+              <S.IconBox onClick={likeHandler}>
                 <Icon.Heart size={28} />
               </S.IconBox>
-              <S.IconFillBox>
+              <S.IconFillBox onClick={likeCancelHandler}>
                 <Icon.HeartFill size={28} color={COLOR.Red1} />
               </S.IconFillBox>
             </S.IconWrapper>

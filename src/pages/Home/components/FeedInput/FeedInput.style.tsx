@@ -38,4 +38,5 @@ export const Button = styled.button<TextAreaProps>`
   top: 50%;
   transform: translateY(-50%);
   display: ${(props) => (props.textvalue ? "block" : "none")};
+  cursor: pointer;
 `;

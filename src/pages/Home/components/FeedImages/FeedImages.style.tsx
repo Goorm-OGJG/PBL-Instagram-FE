@@ -19,6 +19,16 @@ export const Arrow = styled.div<ArrowProps>`
   padding: 4px;
   border-radius: 50%;
   cursor: pointer;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+
+  ${ImgWrapper}:hover & {
+    opacity: 1;
+    visibility: visible;
+  }
+
   ${(props) =>
     props.direction === "right" &&
     css`

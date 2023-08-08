@@ -9,6 +9,7 @@ function FeedInput() {
     setValue(e.target.value);
   };
 
+  // 줄 늘어남 조정
   const rowsHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const key = e.key;
 
@@ -21,7 +22,7 @@ function FeedInput() {
       e.preventDefault();
     }
   };
-
+  // 줄 줄어듬 조정
   const removeLine = () => {
     const textarea = ref.current!;
     const lines = textarea.value.split("\n");
@@ -32,6 +33,13 @@ function FeedInput() {
       setRows(rows - 1);
     }
   };
+
+  //댓글 게시
+  const commentHandler = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    alert("댓글 게시 요청");
+  };
+
   return (
     <S.Form>
       <S.TextArea
@@ -43,7 +51,9 @@ function FeedInput() {
         onChange={changeHandler}
         onKeyDown={rowsHandler}
       ></S.TextArea>
-      <S.Button textvalue={value}>게시</S.Button>
+      <S.Button textvalue={value} onClick={commentHandler}>
+        게시
+      </S.Button>
     </S.Form>
   );
 }

@@ -157,7 +157,14 @@ export const IconBox = styled.div<IconProps>`
     css`
       padding: 8px;
     `}
-
+  ${(props) =>
+    props.type === "bookmark-fill" &&
+    props.isClick &&
+    css`
+      opacity: 1;
+      visibility: visible;
+      animation: ${likeAppear} 0.5s 1 both;
+    `}
   ${(props) =>
     props.type === "heart-fill" &&
     css`
