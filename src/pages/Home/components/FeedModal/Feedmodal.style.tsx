@@ -244,3 +244,14 @@ export const CloseBox = styled.div`
   margin-right: 10px;
   cursor: pointer;
 `;
+
+export const AddCircleBox = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 10px;
+`;
+
+export const AddCircle = styled.div`
+  cursor: pointer;
+`;

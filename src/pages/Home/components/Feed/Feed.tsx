@@ -1,67 +1,110 @@
 import * as S from "./Feed.style";
 import * as Icon from "../../../../components/Icon";
-import { useState } from "react";
+// import { useState } from "react";
 import FeedInput from "../FeedInput/FeedInput";
-import FeedImage from "../FeedImages/FeedImage";
+import FeedImages from "../FeedImages/FeedImages";
 import { useSetRecoilState } from "recoil";
 import { isModalOpenState } from "../../../../recoil/homeState";
+import { FeedData } from "../Feeds/Feeds";
 
-function Feed() {
-  const [tmpHeart, setTmpHeart] = useState<boolean>(false);
-  const likeHandler = () => {
-    setTmpHeart(true);
-  };
+interface PropsType {
+  data: FeedData;
+}
 
-  const likeCancelHandler = () => {
-    setTmpHeart(false);
-  };
+function Feed({ data }: PropsType) {
+  const {
+    userId,
+    userImg,
+    nickname,
+    feedId,
+    createdAt,
+    content,
+    likeCount,
+    likeStatus,
+    collectionStatus,
+    feedMedia,
+  } = { ...data };
 
   const setIsModalOpen = useSetRecoilState(isModalOpenState);
 
+  // 좋아요
+  const likeHandler = () => {
+    // setTmpHeart(true);
+    // 좋아요 요청 보내기
+    alert("좋아요 요청!");
+  };
+
+  //좋아요 취소
+  const likeCancelHandler = () => {
+    // setTmpHeart(false);
+    // 좋아요 취소 요청 보내기
+    alert("좋아요 취소 요청!");
+  };
+  // console.log(content);
+
+  // 댓글
+  const commentHandler = () => {
+    // alert("피드 상세모달 열기");
+    setIsModalOpen(true);
+  };
+
+  const bookmarkHandler = () => {
+    alert("보관함 요청");
+  };
+
+  const bookmarkCancelHandler = () => {
+    alert("보관함 취소 요청");
+  };
+
   return (
-    <S.FeedWrapper>
+    <S.FeedWrapper id={feedId}>
       <S.InfoBox>
         <S.ProfileBox>
-          <S.ProfileImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
-          <S.UserName>tmp_username</S.UserName>
-          <S.UploadDate>2일</S.UploadDate>
+          <S.ProfileImg src={userImg} />
+          <S.UserName id={userId}>{nickname}</S.UserName>
+          <S.UploadDate>{createdAt}</S.UploadDate>
         </S.ProfileBox>
         <S.HorizontalIconBox>
           <Icon.HorizontalBold size={16} />
         </S.HorizontalIconBox>
       </S.InfoBox>
-      <FeedImage />
+      <FeedImages feedMedia={feedMedia} />
       <S.FeedIconWrapper>
         <S.FeedIconLeftBox>
           <S.IconBox type="heart" onClick={likeHandler}>
             <Icon.Heart size={28} />
           </S.IconBox>
-          <S.IconBox type="heart-fill" onClick={likeCancelHandler} isClick={tmpHeart}>
+          <S.IconBox type="heart-fill" onClick={likeCancelHandler} isClick={likeStatus}>
             <Icon.HeartFill size={28} />
           </S.IconBox>
-          <S.IconBox type="comment">
+          <S.IconBox type="comment" onClick={commentHandler}>
             <Icon.Comment size={28} />
           </S.IconBox>
         </S.FeedIconLeftBox>
         <S.FeedIconRightBox>
-          <S.IconBox type="bookmark">
+          <S.IconBox type="bookmark" onClick={bookmarkHandler}>
             <Icon.Bookmark size={24} />
           </S.IconBox>
-          <S.IconBox type="bookmark-fill">
+          <S.IconBox
+            type="bookmark-fill"
+            onClick={bookmarkCancelHandler}
+            isClick={collectionStatus}
+          >
             <Icon.BookmarkFill size={24} />
           </S.IconBox>
         </S.FeedIconRightBox>
       </S.FeedIconWrapper>
       <S.Div>
         <S.Span>
-          <S.UserName>ohvely22</S.UserName>님 <S.UserName>여러 명</S.UserName>이
-          좋아합니다
+          {`좋아요 ${likeCount}`}개
+          {/* <S.UserName>ohvely22</S.UserName>님 <S.UserName>여러 명</S.UserName>이
+          좋아합니다 */}
         </S.Span>
       </S.Div>
       <S.Span>
         <S.Div>
-          <S.UserName>tmp_username</S.UserName>
-          <S.Span>asdfsadfsadfsadf</S.Span>
+          <S.UserName>{nickname}</S.UserName>
+          <S.Span>{content}</S.Span>
         </S.Div>
       </S.Span>
       <S.Div>

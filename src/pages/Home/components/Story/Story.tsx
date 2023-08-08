@@ -1,12 +1,27 @@
 import * as S from "./Story.style";
+import { StoryType } from "../Stories/Stories";
+import { useNavigate } from "react-router";
 
-function Story() {
+interface PropsType {
+  story: StoryType;
+}
+
+function Story({ story }: PropsType) {
+  // const }
+  // 유저 아이디도 필요할 듯
+  // const {storyId, profileImg, nickname} = {...story}
+  const navigate = useNavigate();
+
+  const clickHandler = () => {
+    navigate(`/stories/${story.nickname}/${story.storyId}`);
+  };
+
   return (
-    <S.Wrapper>
+    <S.Wrapper id={story.storyId} onClick={clickHandler}>
       <S.ImageWrapper>
-        <S.ProfileImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
+        <S.ProfileImg src={story.profileImg} />
       </S.ImageWrapper>
-      <S.Span>username</S.Span>
+      <S.Span>{story.nickname}</S.Span>
     </S.Wrapper>
   );
 }
