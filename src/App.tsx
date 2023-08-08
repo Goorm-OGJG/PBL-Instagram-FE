@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import FindPassword from "./pages/FindPassword/FindPassword";
@@ -15,12 +15,12 @@ import Protected from "./pages/Protected/Protected";
 
 const LoginRoutes = [
   { path: "/home", component: <Home /> },
-  { path: "/stories/:userName/:storyId", component: <Story /> },
+  { path: "/stories/:nickname/:storyId", component: <Story /> },
   { path: "/explore/tags/:query", component: <SearchTag /> },
   { path: "/feed/:feedId", component: <Feed /> },
-  { path: "/accounts/:userName", component: <Profile /> },
-  { path: "/accounts/:userName/edit", component: <EditProfile /> },
-  { path: "/accounts/:userName/feed/saved", component: <SavedProfile /> },
+  { path: "/accounts/:nickname", component: <Profile /> },
+  { path: "/accounts/:nickname/edit", component: <EditProfile /> },
+  { path: "/accounts/:nickname/feed/saved", component: <SavedProfile /> },
 ];
 
 const LogoutRoutes = [
@@ -48,6 +48,7 @@ function App() {
         />
       ))}
       <Route path="/icons-test" element={<IconsTest />} />
+      <Route path="*" element={<Navigate to={"/login"} />} />
     </Routes>
   );
 }
