@@ -2,14 +2,15 @@ import { BsBookmark, BsBookmarkFill, BsGrid3X3, BsInstagram } from "react-icons/
 import { GoHome, GoHomeFill, GoLock, GoSearch } from "react-icons/go";
 import { RiAddBoxLine, RiAddBoxFill } from "react-icons/ri";
 import { AiOutlineMenu, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { FaComment, FaRegComment } from "react-icons/fa";
+import { FaComment, FaPause, FaPlay, FaRegComment } from "react-icons/fa";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
-import { HiDotsHorizontal, HiPlay, HiPause } from "react-icons/hi";
+import { HiDotsHorizontal } from "react-icons/hi";
 import { TbCirclePlus, TbBoxMultiple } from "react-icons/tb";
-import { GrClose } from "react-icons/gr";
+// import { GrClose } from "react-icons/gr";
+import { IoClose } from "react-icons/io5";
 import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
-import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
-
+import { BiSolidChevronLeftCircle, BiSolidChevronRightCircle } from "react-icons/bi";
+import { PiImagesSquareThin } from "react-icons/pi";
 interface IconType {
   size?: number;
   color?: string;
@@ -97,11 +98,11 @@ export const HorizontalBold = ({ size, color }: IconType) => (
 );
 
 // 닫기 취소
-export const Close = ({ size, color }: IconType) => <GrClose size={size} color={color} />;
+export const Close = ({ size, color }: IconType) => <IoClose size={size} color={color} />;
 
 // 동영상 관련
-export const Play = ({ size, color }: IconType) => <HiPlay size={size} color={color} />;
-export const Pause = ({ size, color }: IconType) => <HiPause size={size} color={color} />;
+export const Play = ({ size, color }: IconType) => <FaPlay size={size} color={color} />;
+export const Pause = ({ size, color }: IconType) => <FaPause size={size} color={color} />;
 
 // 볼륨
 export const Volume = ({ size, color }: IconType) => (
@@ -113,10 +114,10 @@ export const Mute = ({ size, color }: IconType) => (
 
 // 화살표
 export const Left = ({ size, color }: IconType) => (
-  <CiCircleChevLeft size={size} color={color} />
+  <BiSolidChevronLeftCircle size={size} color={color} />
 );
 export const Right = ({ size, color }: IconType) => (
-  <CiCircleChevRight size={size} color={color} />
+  <BiSolidChevronRightCircle size={size} color={color} />
 );
 
 // 사진 여러 장일 때
@@ -126,3 +127,8 @@ export const BoxMultiple = ({ size, color }: IconType) => (
 
 // 자물쇠
 export const Lock = ({ size, color }: IconType) => <GoLock size={size} color={color} />;
+
+// 스토리 피드 만드리
+export const ImageAdd = ({ size, color }: IconType) => (
+  <PiImagesSquareThin size={size} color={color} />
+);

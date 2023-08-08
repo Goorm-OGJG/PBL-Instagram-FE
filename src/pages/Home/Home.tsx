@@ -1,13 +1,36 @@
 import React from "react";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import SideUserRecommend from "./components/SideUserRecommend/SideUserRecommend";
+import * as S from "./Home.style";
+import Footer from "./components/Footer/Footer";
+import Stories from "./components/Stories/Stories";
+import Feeds from "./components/Feeds/Feeds";
+import FeedModal from "./components/FeedModal/FeedModal";
+import { useRecoilValue } from "recoil";
+import { isModalOpenState, whichAddModalOpenState } from "../../recoil/homeState";
+import AddModal from "../../components/AddModal/AddModal";
 
 function Home() {
-  // const tets = import.meta.env.VITE_IMG_URL;
-  // const a = import.meta.env.BASE_URL;
-  // console.log(a);
-  // console.log(tets);
+  const isModalOpen = useRecoilValue(isModalOpenState);
+  const whichModalOpen = useRecoilValue(whichAddModalOpenState);
   return (
     <React.Fragment>
-      <div>Home</div>
+      <Sidebar />
+      <S.Main>
+        <S.Wrapper>
+          <S.MainWrapper>
+            <Stories></Stories>
+            <Feeds></Feeds>
+          </S.MainWrapper>
+          <S.SideWrapper>
+            <SideUserRecommend />
+            <Footer />
+          </S.SideWrapper>
+        </S.Wrapper>
+      </S.Main>
+      {isModalOpen && <FeedModal />}
+      {whichModalOpen === "feed" && <AddModal type="feed" />}
+      {whichModalOpen === "story" && <AddModal type="story" />}
     </React.Fragment>
   );
 }
