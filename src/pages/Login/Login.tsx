@@ -2,8 +2,10 @@ import { useState } from "react";
 import * as S from "./Login.style";
 import InputBox from "../../components/InputBox/InputBox";
 import { InstaTextBlack } from "../../components/Icon";
+import { LoginPayloadType, useUserAPI } from "../../api/useUserAPI";
 
 function Login() {
+  const { requestLogin } = useUserAPI();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const buttonAction = userName && password;
@@ -17,7 +19,19 @@ function Login() {
 
   const handleLogin = () => {
     alert("로그인 요청");
+    const payload: LoginPayloadType = {
+      userName,
+      password,
+      type: getUserNameType(userName),
+    };
+
+    requestLogin(payload);
   };
+
+  function getUserNameType(userName: string) {
+    const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    return emailPattern.test(userName) ? "email" : "nickname";
+  }
 
   return (
     <S.Container>

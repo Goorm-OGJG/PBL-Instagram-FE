@@ -2,10 +2,10 @@ import { useState } from "react";
 import { InstaTextBlack, Lock } from "../../components/Icon";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./FindPassword.style";
-import { useNavigate } from "react-router-dom";
 import Timer from "./components/Timer/Timer";
+import { useUserAPI } from "../../api/useUserAPI";
 function FindPassword() {
-  const navigate = useNavigate();
+  const { requestIsEqualCertNumber } = useUserAPI();
   const [userName, setUserName] = useState("");
   const [validate, setValidate] = useState("");
 
@@ -34,6 +34,11 @@ function FindPassword() {
     alert("인증번호 요청");
   };
 
+  function getUserNameType(userName: string) {
+    const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    return emailPattern.test(userName) ? "email" : "nickname";
+  }
+
   const handleSubmit = () => {
     if (isTimerEnd) {
       alert("요청시간이 만료되었습니다. 다시 인증번호를 받으세요.");
@@ -41,7 +46,12 @@ function FindPassword() {
     }
     if (!isTimerEnd) {
       alert("인증번호 일치 여부 요청");
-      navigate("/help/newpassword");
+      const payload = {
+        userName,
+        type: getUserNameType(userName),
+        validate,
+      };
+      requestIsEqualCertNumber(payload);
     }
   };
 
