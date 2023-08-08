@@ -1,10 +1,10 @@
 import { useState } from "react";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./SetPassword.style";
-import { useNavigate } from "react-router";
+import { useUserAPI } from "../../api/useUserAPI";
 
 function SetPassword() {
-  const nagivate = useNavigate();
+  const { requestSetPassword } = useUserAPI();
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
@@ -22,12 +22,23 @@ function SetPassword() {
   const handleSubmit = () => {
     const validatePattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!$@%])[a-zA-Z0-9!$@%]{6,}$/;
     if (validatePattern.test(password)) {
-      alert("비밀번호 변경 요청");
-      nagivate("/login");
+      const userName = "userName";
+      const payload = {
+        userName,
+        password,
+        type: getUserNameType(userName),
+      };
+      requestSetPassword(payload);
     } else {
       alert("유효하지 않은 패스워드 입니다.");
     }
   };
+
+  function getUserNameType(userName: string) {
+    const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    return emailPattern.test(userName) ? "email" : "nickname";
+  }
+
   return (
     <S.Container>
       <S.NewPasswordForm>

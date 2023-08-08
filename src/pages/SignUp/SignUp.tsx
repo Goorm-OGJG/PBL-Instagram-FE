@@ -2,7 +2,9 @@ import { useState } from "react";
 import { InstaTextBlack } from "../../components/Icon";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./SignUp.style";
+import { SignUpPayloadType, useUserAPI } from "../../api/useUserAPI";
 function SignUp() {
+  const { requestSignUp } = useUserAPI();
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [nickname, setNickname] = useState("");
@@ -36,6 +38,7 @@ function SignUp() {
     setCheckPassword(text);
   };
 
+  // 회원가입 요청
   const handleSignUp = () => {
     if (!ValidateEmail) {
       alert(
@@ -60,7 +63,15 @@ function SignUp() {
       return;
     }
 
-    alert("회원가입 요청");
+    const payload: SignUpPayloadType = {
+      email,
+      userName,
+      nickname,
+      password,
+      type: "",
+    };
+
+    requestSignUp(payload);
   };
 
   return (
