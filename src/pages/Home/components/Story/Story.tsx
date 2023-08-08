@@ -1,9 +1,9 @@
 import * as S from "./Story.style";
-import { StoryType } from "../Stories/Stories";
 import { useNavigate } from "react-router";
+import * as T from "../../../../types/client/story.client";
 
 interface PropsType {
-  story: StoryType;
+  story: T.StoryType;
 }
 
 function Story({ story }: PropsType) {

@@ -46,7 +46,7 @@ function AddModal({ type }: Props) {
       alert("게시 요청");
     }
   };
-
+  // 스크롤 여러번 누를 시 이상하게 됨
   const rightHandler = () => {
     const current = imgboxRef.current;
     const width = current!.clientWidth;

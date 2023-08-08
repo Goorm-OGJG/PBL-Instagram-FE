@@ -1,7 +1,24 @@
 import { Link } from "react-router-dom";
-import { styled } from "styled-components";
+import { css, keyframes, styled } from "styled-components";
 import * as COLOR from "../../../../constants/color";
 import * as FONT from "../../../../constants/font";
+
+interface IconProps {
+  isClick?: boolean;
+}
+
+const likeAppear = keyframes`
+  0%{
+    transform:scale(1);
+    
+  }
+  50%{
+    transform: scale(1.2)
+  }
+  100%{
+    transform:scale(1)
+  }
+`;
 
 export const ProfileWrapper = styled.div`
   display: flex;
@@ -40,7 +57,9 @@ export const CommentText = styled.span`
   word-break: break-all;
 `;
 
-export const TextWrapper = styled.div``;
+export const TextWrapper = styled.div`
+  flex: 1;
+`;
 
 export const CommentInfoWrapper = styled.div`
   display: flex;
@@ -66,18 +85,32 @@ export const IconWrapper = styled.div`
   margin-left: 10px;
 `;
 
-export const IconBox = styled.div`
+export const IconBox = styled.div<IconProps>`
   display: flex;
   height: fit-content;
   cursor: pointer;
+  ${(props) =>
+    props.isClick &&
+    css`
+      opacity: 0;
+      visibility: hidden;
+    `}
 `;
 
-export const IconBoxFill = styled(IconBox)`
+export const IconBoxFill = styled(IconBox)<IconProps>`
   position: absolute;
   top: 0;
   opacity: 0;
   visibility: hidden;
   color: ${COLOR.Red1};
+
+  ${(props) =>
+    props.isClick &&
+    css`
+      opacity: 1;
+      visibility: visible;
+      animation: ${likeAppear} 0.5s 1 both;
+    `}
 `;
 
 export const SettingBox = styled(IconBox)`

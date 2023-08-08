@@ -1,12 +1,12 @@
 import * as S from "./FeedImages.style";
 import * as Icon from "../../../../components/Icon";
 import { useState, useRef } from "react";
-import { MediaData } from "../Feeds/Feeds";
+import * as T from "../../../../types/client/feed.client";
 
-interface Props {
-  feedMedia: MediaData[];
+interface PropsType {
+  feedMedia: T.MediaDataType[];
 }
-function FeedImages({ feedMedia }: Props) {
+function FeedImages({ feedMedia }: PropsType) {
   const [imgPos, setImgPos] = useState<number>(0);
   const imgRef = useRef<HTMLDivElement | null>(null);
   const imgLength = feedMedia.length;
