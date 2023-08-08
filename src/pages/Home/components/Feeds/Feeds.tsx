@@ -1,32 +1,9 @@
 import Feed from "../Feed/Feed";
 import * as S from "./Feeds.style";
-
-export interface FeedData {
-  userId: string;
-  userImg: string;
-  nickname: string;
-  feedId: string;
-  createdAt: string;
-  content: string;
-  likeCount: number;
-  likeStatus: boolean;
-  collectionStatus: boolean;
-  feedMedia: MediaData[];
-}
-
-export interface MediaData {
-  mediaId: string;
-  mediaType: string;
-  mediaUrl: string;
-}
-
-interface FeedResponse {
-  contents: FeedData[];
-  isLast: boolean;
-}
+import * as T from "../../../../types/client/feed.client";
 
 function Feeds() {
-  const feeds: FeedResponse = {
+  const feeds: T.FeedResponseType = {
     contents: [
       {
         userId: "user123",

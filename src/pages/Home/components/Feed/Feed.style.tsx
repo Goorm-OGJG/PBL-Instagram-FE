@@ -179,6 +179,13 @@ export const IconBox = styled.div<IconProps>`
       visibility: visible;
       animation: ${likeAppear} 0.5s 1 both;
     `}
+    ${(props) =>
+    props.type === "heart" &&
+    props.isClick &&
+    css`
+      opacity: 0;
+      visibility: hidden;
+    `}
 
 
   ${(props) =>
@@ -200,6 +207,10 @@ export const Span = styled.span`
   line-height: 18px;
   padding: 2px 0;
   font-size: ${FONT.S};
+`;
+
+export const LikeSpan = styled(Span)`
+  cursor: pointer;
 `;
 
 export const Desc = styled(Span)`

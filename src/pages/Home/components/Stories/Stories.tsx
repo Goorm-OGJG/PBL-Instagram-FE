@@ -2,29 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import Story from "../Story/Story";
 import * as Icon from "../../../../components/Icon";
 import * as S from "./Stories.style";
-
-interface StoryMediaDataType {
-  mediaUrl: string;
-  likeStatus: boolean;
-}
-
-export interface StoryType {
-  storyId: string;
-  nickname: string;
-  profileImg: string;
-  createdAt: string;
-  mediaList: StoryMediaDataType[];
-}
-
-interface StoryListResponse {
-  storyList: StoryType[];
-}
+import * as T from "../../../../types/client/story.client";
 
 function Stories() {
   // 스토리 목록 가져오기 api 사용
   const ref = useRef<HTMLDivElement | null>(null);
   const [isHover, setIsHover] = useState<boolean>(false);
-  const stories: StoryListResponse = {
+  const stories: T.StoryListResponseType = {
     storyList: [
       {
         storyId: "story1",
