@@ -2,7 +2,7 @@ import styled, {css} from "styled-components";
 import * as FONT from "../../constants/font";
 import * as COLOR from "../../constants/color";
 
-interface Props {
+interface PropsType {
   fontSize?: string;
   fontWeight?: string;
   backGround?: string;
@@ -19,7 +19,7 @@ export const ProfileWrapper = styled.div`
     overflow-x:hidden;
 `;
 
-export const ProfileNavbar = styled.div<Props>`
+export const ProfileNavbar = styled.div<PropsType>`
   display:flex;
   justify-content:center;
   border-top: 1px solid ${COLOR.Gray4};
@@ -28,7 +28,7 @@ export const ProfileNavbar = styled.div<Props>`
   font-weight: ${FONT.Medium};
 `;
 
-export const ProfileItem = styled.button<Props>`
+export const ProfileItem = styled.button<PropsType>`
   display :flex!important;
   align-items:center;
   margin: 0px 70px;
@@ -41,7 +41,7 @@ export const ProfileItem = styled.button<Props>`
   font-size: ${FONT.XS};
   font-weight: ${FONT.Bold};
   color: ${COLOR.Gray3};
-  ${(props) => props.isActive && css`
+  ${(PropsType) => PropsType.isActive && css`
     border-top: 1px solid ${COLOR.Gray1};
     color: ${COLOR.Gray1};
   `}
@@ -79,7 +79,7 @@ export const FeedImg =styled.img`
     filter:brightness(0.5);
   }; 
 `;
-export const FeedHover =styled.div<Props>`
+export const FeedHover =styled.div<PropsType>`
   position: absolute;
   display:flex;
   align-self:center;
@@ -89,7 +89,7 @@ export const FeedHover =styled.div<Props>`
   z-index:100;
 `;
 
-export const FeedHoverItem = styled.div<Props>`
+export const FeedHoverItem = styled.div<PropsType>`
   margin: 0px 15px;
   align-self:center;
   justify-content:center;
@@ -99,9 +99,9 @@ export const FeedHoverItem = styled.div<Props>`
 
 
 
-// export const ConstantTestDiv = styled.div<Props>`
-//   font-size: ${(props) => props.fontSize ? props.fontSize : FONT.S };
-//   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : FONT.Medium)};
-//   color: ${(props)=> props.fontColor ?props.fontColor : COLOR.Gray1 };
-//   background: ${(props)=> props.backGround ?props.backGround : COLOR.Gray4 };
+// export const ConstantTestDiv = styled.div<PropsType>`
+//   font-size: ${(PropsType) => PropsType.fontSize ? PropsType.fontSize : FONT.S };
+//   font-weight: ${(PropsType) => (PropsType.fontWeight ? PropsType.fontWeight : FONT.Medium)};
+//   color: ${(PropsType)=> PropsType.fontColor ?PropsType.fontColor : COLOR.Gray1 };
+//   background: ${(PropsType)=> PropsType.backGround ?PropsType.backGround : COLOR.Gray4 };
 // `;

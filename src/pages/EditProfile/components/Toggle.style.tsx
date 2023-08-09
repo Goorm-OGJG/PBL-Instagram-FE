@@ -35,6 +35,7 @@ export const ToggleCircle = styled.div<Props>`
   justify-content: center;
   cursor:pointer;
   background-color:${(props)=> (props.isOn ? COLOR.Gray1 : COLOR.Gray3)};
+  box-shadow: 2px 2px 6px 12px rgba(0, 0, 0, 0.2);
   transition: background-color 0.5s ease;
   ${(props) =>
       props.isOn &&

@@ -91,7 +91,7 @@ export const NickName = styled.h2<Props>`
     font-size: ${FONT.ML};
 `;
 
-export const FollowingBtn = styled.button<Props>`
+export const EditProfileBtn = styled.button<Props>`
     display:flex;
     justify-content:center;
     padding: 15px;
@@ -123,9 +123,11 @@ export const UserPost = styled.div`
 `;
 export const UserFollowing = styled.div`
     margin-right:40px;
+    cursor: pointer;
 `;
 export const UserFollower = styled.div`
     margin-right:40px;
+    cursor: pointer;
 `;
 export const UserIntro = styled.div<Props>`    
     font-size: ${FONT.S};

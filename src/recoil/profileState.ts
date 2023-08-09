@@ -6,8 +6,8 @@ export const ItemState = atom<boolean>({
     default: false, 
   });
   // feed이미지 호버시
-  export const HoverImgState = atom<boolean>({
-    key: "hoverImg",
+  export const OverlayState = atom<boolean>({
+    key: "overlay",
     default: false, 
   });
   

@@ -4,8 +4,9 @@ import * as S from "./Profile.style";
 import ProfileHeader from "./components/ProfileHeader";
 import * as Icon from "../../components/Icon";
 import { useRecoilState } from "recoil";
-import { ItemState, HoverImgState, ImgIdState } from "../../recoil/profileState";
-import FeedCard from "./components/FeedCard";
+import { ItemState, OverlayState, ImgIdState } from "../../recoil/profileState";
+
+
 
 interface FeedList {
   feedId: number;
@@ -174,10 +175,9 @@ function Profile() {
     setItem((prev) => !prev);
   };
   const [item, setItem] = useRecoilState<boolean>(ItemState);
-  const [hoverImg, setHoverImg] = useRecoilState<boolean>(HoverImgState);
+  const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
 
-  console.log(hoverImg);
 
   return (
     <>
@@ -208,7 +208,7 @@ function Profile() {
             return (
               <S.FeedBox key={feed.feedId}>
                 <S.FeedHover fontSize={FONT.M} fontWeight={FONT.Bold}>
-                  {hoverImg && ImgId === feed.feedId && (
+                  {overlay && ImgId === feed.feedId && (
                     <>
                       {" "}
                       <S.FeedHoverItem>
@@ -224,11 +224,11 @@ function Profile() {
                   src={feed.mediaUrl}
                   alt="dd"
                   onMouseEnter={() => {
-                    setHoverImg(true);
+                    setOverlay(true);
                     setImgId(feed.feedId);
                   }}
                   onMouseLeave={() => {
-                    setHoverImg(false);
+                    setOverlay(false);
                     setImgId(100000000000);
                   }}
                 />
