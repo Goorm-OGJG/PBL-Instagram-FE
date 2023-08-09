@@ -46,9 +46,17 @@ function FeedImages({ feedMedia }: PropsType) {
       <S.ImgBox ref={imgRef}>
         {feedMedia.map(({ mediaId, mediaType, mediaUrl }) => {
           if (mediaType === "video") {
-            return <S.FeedImg src={mediaUrl} id={mediaId} />;
+            return (
+              <S.FeedImgBox>
+                <S.FeedImg as="video" src={mediaUrl} id={mediaId} autoPlay muted loop />
+              </S.FeedImgBox>
+            );
           } else if (mediaType === "image") {
-            return <S.FeedImg src={mediaUrl} id={mediaId} />;
+            return (
+              <S.FeedImgBox>
+                <S.FeedImg src={mediaUrl} id={mediaId} />
+              </S.FeedImgBox>
+            );
           }
         })}
       </S.ImgBox>
@@ -59,9 +67,6 @@ function FeedImages({ feedMedia }: PropsType) {
             return <S.ImgPos imgPos={imgPos} />;
           }
         })}
-        {/* <S.ImgPos imgPos={imgPos} />
-        <S.ImgPos imgPos={imgPos} />
-        <S.ImgPos imgPos={imgPos} /> */}
       </S.ImgPosBox>
     </S.ImgWrapper>
   );

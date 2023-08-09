@@ -35,6 +35,12 @@ function FeedModal() {
         mediaType: "image",
         mediaUrl: "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
       },
+      {
+        mediaId: "media999",
+        mediaType: "video",
+        mediaUrl:
+          "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/videos/people_-_84973+(720p).mp4",
+      },
     ],
     comments: [
       {
@@ -108,7 +114,7 @@ function FeedModal() {
 
   const rightHandler = () => {
     const current = imgboxRef.current;
-    if (pos < 2) {
+    if (pos < feedMedia.length - 1) {
       current?.scrollBy(800, 0);
       setPos(pos + 1);
     }
@@ -161,6 +167,7 @@ function FeedModal() {
     console.log(hashTags);
   };
   // console.log(comments);
+  console.log(feedMedia);
   return (
     <S.Overlay>
       <S.CloseBox onClick={() => setIsModalOpen(false)}>
@@ -169,16 +176,27 @@ function FeedModal() {
       <S.Wrapper id={feedId}>
         <S.ImgBox>
           <S.Images ref={imgboxRef}>
-            <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
-            <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
-            <S.Img src="https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg"></S.Img>
+            {feedMedia.map(({ mediaType, mediaId, mediaUrl }) => {
+              if (mediaType === "video") {
+                return (
+                  <S.Img as="video" src={mediaUrl} id={mediaId} autoPlay loop muted />
+                );
+              } else if (mediaType === "image") {
+                return <S.Img src={mediaUrl} id={mediaId} />;
+              }
+            })}
           </S.Images>
-          <S.LeftArrow onClick={leftHandler}>
-            <Icon.Left />
-          </S.LeftArrow>
-          <S.RightArrow onClick={rightHandler}>
-            <Icon.Right />
-          </S.RightArrow>
+          {feedMedia.length > 1 && pos > 0 && (
+            <S.LeftArrow onClick={leftHandler}>
+              <Icon.Left />
+            </S.LeftArrow>
+          )}
+          {feedMedia.length > 1 && (
+            <S.RightArrow onClick={rightHandler}>
+              <Icon.Right />
+            </S.RightArrow>
+          )}
+
           <S.PosBox>
             {feedMedia.length > 1 && feedMedia.map(() => <S.PosDot pos={pos} />)}
           </S.PosBox>
