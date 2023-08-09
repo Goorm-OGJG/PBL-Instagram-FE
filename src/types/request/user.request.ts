@@ -23,7 +23,7 @@ export interface SignUpPayloadType {
   password: string;
 }
 
-export interface SetPasswordType {
+export interface SetPasswordPayloadType {
   userName: string;
   type: string;
   password: string;

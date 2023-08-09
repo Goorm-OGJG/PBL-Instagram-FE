@@ -1,14 +1,18 @@
 import * as T from "../types/request/user.request";
-import axios from "./axios";
 import { useNavigate } from "react-router";
+import { useAxios } from "./useAxios";
 
 export function useUserAPI() {
   const navigate = useNavigate();
+  const axios = useAxios();
+
   const requestLogin = (payload: T.LoginPayloadType) => {
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/users/login`, payload)
       .then((response) => {
-        localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("accessToken", response.headers.Authorization);
+        localStorage.setItem("nickname", response.data.nickname);
+        localStorage.setItem("userImg", response.data.userImg);
         navigate("/home");
       })
       .catch((error) => {
@@ -39,7 +43,7 @@ export function useUserAPI() {
       });
   }
 
-  function requestSetPassword(payload: T.SetPasswordType) {
+  function requestSetPassword(payload: T.SetPasswordPayloadType) {
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/`, payload)
       .then(() => {
@@ -51,5 +55,10 @@ export function useUserAPI() {
       });
   }
 
-  return { requestLogin, requestSignUp, requestIsEqualCertNumber, requestSetPassword };
+  return {
+    requestLogin,
+    requestSignUp,
+    requestIsEqualCertNumber,
+    requestSetPassword,
+  };
 }

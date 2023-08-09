@@ -2,7 +2,8 @@ import { useState } from "react";
 import { InstaTextBlack } from "../../components/Icon";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./SignUp.style";
-import { SignUpPayloadType, useUserAPI } from "../../api/useUserAPI";
+import { useUserAPI } from "../../api/useUserAPI";
+import { SignUpPayloadType } from "../../types/request/user.request";
 function SignUp() {
   const { requestSignUp } = useUserAPI();
   const [email, setEmail] = useState("");

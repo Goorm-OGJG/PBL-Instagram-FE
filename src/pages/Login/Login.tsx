@@ -2,13 +2,15 @@ import { useState } from "react";
 import * as S from "./Login.style";
 import InputBox from "../../components/InputBox/InputBox";
 import { InstaTextBlack } from "../../components/Icon";
-import { LoginPayloadType, useUserAPI } from "../../api/useUserAPI";
+import { useUserAPI } from "../../api/useUserAPI";
+import * as T from "../../types/request/user.request";
 
 function Login() {
   const { requestLogin } = useUserAPI();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const buttonAction = userName && password;
+
   const handleUserName = (text: string) => {
     setUserName(text);
   };
@@ -19,7 +21,8 @@ function Login() {
 
   const handleLogin = () => {
     alert("로그인 요청");
-    const payload: LoginPayloadType = {
+
+    const payload: T.LoginPayloadType = {
       userName,
       password,
       type: getUserNameType(userName),
