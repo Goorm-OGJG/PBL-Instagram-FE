@@ -1,5 +1,5 @@
 import * as Icon from "../../../components/Icon";
-import * as S from "./PrivateModal.style";
+import * as S from "./PrivateModal.style";
 import * as FONT from "../../../constants/font";
 import * as COLOR from "../../../constants/color";
 

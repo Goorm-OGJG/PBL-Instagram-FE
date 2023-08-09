@@ -2,7 +2,7 @@ import styled from "styled-components";
 import * as FONT from "../../constants/font";
 import * as COLOR from "../../constants/color";
 
-interface Props {
+interface PropsType {
   fontSize?: string;
   fontWeight?: string;
   backGround?: string;
@@ -20,9 +20,10 @@ export const EditProfileWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   border: 1px solid ${COLOR.Gray4};
+  margin-bottom: 60px;
 `;
 
-export const EditHeader = styled.header<Props>`
+export const EditHeader = styled.header<PropsType>`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -33,7 +34,7 @@ export const EditHeader = styled.header<Props>`
   color: ${COLOR.Gray1};
 `;
 
-export const EditUserInfo = styled.section<Props>`
+export const EditUserInfo = styled.section<PropsType>`
   align-items: stretch;
   display: flex;
   flex-direction: row;
@@ -67,15 +68,16 @@ export const EditUserTextBox = styled.div`
   box-sizing: border-box;
   vertical-align: baseline;
 `;
-export const UserNickname = styled.div<Props>`
+export const UserNickname = styled.div<PropsType>`
   margin: 4px 0;
   line-height: 20px;
-  font-size: ${FONT.S};
+  font-size: ${FONT.M};
   font-weight: ${FONT.Medium};
   color: ${COLOR.Gray1};
   width: 8px;
+  width: max-content;
 `;
-export const UserImgEditBtn = styled.div<Props>`
+export const UserImgEditBtn = styled.div<PropsType>`
   border: 0;
   background-color: transparent;
   box-sizing: border-box;
@@ -89,7 +91,7 @@ export const UserImgEditBtn = styled.div<Props>`
   }
 `;
 // EditEtc
-export const EditEtcForm = styled.form<Props>`
+export const EditEtcForm = styled.form<PropsType>`
   align-items: stretch;
   border: 0;
   display: flex;
@@ -101,14 +103,13 @@ export const EditEtcForm = styled.form<Props>`
   margin-top: 16px;
   padding: 0;
   vertical-align: baseline;
-  
 `;
-export const EditIntroBox = styled.section<Props>`
+export const EditIntroBox = styled.section<PropsType>`
   display: flex;
   flex-direction: row;
   margin: 30px 32px 0 124px;
 `;
-export const EctTitle = styled.div<Props>`
+export const EctTitle = styled.div<PropsType>`
   box-sizing: border-box;
   flex: 0 0 194px;
   line-height: 18px;
@@ -120,15 +121,14 @@ export const EctTitle = styled.div<Props>`
   padding-right: 32px;
 `;
 
-export const InputBox = styled.div<Props>`
-  min-width:355px;
+export const InputBox = styled.div<PropsType>`
+  min-width: 355px;
   width: 100%;
-  
 `;
 
-export const IntroInput = styled.textarea<Props>`
+export const IntroInput = styled.textarea<PropsType>`
   flex: 0 1 405px;
-  min-width:355px;
+  min-width: 355px;
   background: transparent;
   border: 1px solid ${COLOR.Gray4};
   border-radius: 3px;
@@ -138,36 +138,34 @@ export const IntroInput = styled.textarea<Props>`
   padding: 6px 10px;
   resize: vertical;
   &::-webkit-scrollbar {
-    background:${COLOR.Gray4};
+    background: ${COLOR.Gray4};
     height: 8px;
     width: 10px;
-  };
+  }
   &::-webkit-scrollbar-thumb {
     background: ${COLOR.Gray3};
     border-radius: 5px;
     width: 4px;
-    padding:2px;
+    padding: 2px;
   }
 `;
 
-export const InputCounter = styled.div<Props>`
+export const InputCounter = styled.div<PropsType>`
   font-size: ${FONT.XS};
   color: ${COLOR.Gray2};
   weight: ${FONT.Medium};
   line-height: 16px;
-  margin-top:10px;
-
+  margin-top: 10px;
 `;
-export const EditRecommendBox = styled.section<Props>`
+export const EditRecommendBox = styled.section<PropsType>`
   display: flex;
   flex-direction: row;
   margin: 30px 32px 0 124px;
 `;
-export const RecommendCheckBox = styled.input<Props>`
+export const RecommendCheckBox = styled.input<PropsType>`
   accent-color: ${COLOR.Gray4};
-
 `;
-export const RecommendExplain = styled.div<Props>`
+export const RecommendExplain = styled.div<PropsType>`
   font-size: ${FONT.S};
   font-weight: ${FONT.Medium};
   color: ${COLOR.Gray1};
@@ -177,11 +175,11 @@ export const RecommendExplain = styled.div<Props>`
   font-weight: ${FONT.Bold};
   color: ${COLOR.Gray1};
   margin-left: 10px;
-
 `;
+
 // Private
-export const PrivateHeader = styled.header<Props>`
-  width: 80%;
+export const PrivateHeader = styled.header<PropsType>`
+  width: 85%;
   display: flex;
   flex-direction: row;
   margin-top: 100px;
@@ -191,17 +189,15 @@ export const PrivateHeader = styled.header<Props>`
   font-weight: ${FONT.Medium};
   color: ${COLOR.Gray1};
   border-top: 1px solid ${COLOR.Gray4};
-  
 `;
 
-
 export const PrivateTitleBox = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   margin-top: 50px;
 `;
-export const PrivateTitle = styled.div<Props>`
-  display:flex;
+export const PrivateTitle = styled.div<PropsType>`
+  display: flex;
   justify-content: space-between;
   box-sizing: border-box;
   line-height: 18px;
@@ -209,40 +205,60 @@ export const PrivateTitle = styled.div<Props>`
   font-weight: ${FONT.Bold};
   color: ${COLOR.Gray1};
   text-align: right;
-  margin: 10px 0px 30px 10px;
+  margin: 10px 0px 30px 20px;
   padding-right: 32px;
-
 `;
-export const EditPrivateBox = styled.section<Props>`
+export const ToggleBox = styled.div``;
+export const EditPrivateBox = styled.section<PropsType>`
   display: flex;
   flex-direction: column;
-  margin: 30px 32px 0 124px;
+  margin: 30px 124px 0 124px;
 `;
-export const PrivateRable = styled.label<Props>`
+export const PrivateRable = styled.label<PropsType>`
   accent-color: ${COLOR.Gray4};
-
 `;
-export const PrivateCheckBox = styled.input<Props>`
+export const PrivateCheckBox = styled.input<PropsType>`
   accent-color: ${COLOR.Gray4};
-
 `;
 
-export const PrivateExplain = styled.div<Props>`
+export const PrivateExplain = styled.div<PropsType>`
   font-size: ${FONT.S};
   font-weight: ${FONT.Medium};
   color: ${COLOR.Gray1};
-  flex: 0 1 310px;
+  flex: 0 1 1px;
   line-height: 18px;
   font-size: ${FONT.XS};
   font-weight: ${FONT.Medium};
   color: ${COLOR.Gray2};
   margin-left: 10px;
+  width: 100%;
+`;
+export const EditBtnBox = styled.div`
+  display: flex;
+  margin-top: 40px;
+  width: 95%;
+  justify-content: right;
+`;
+export const EditProfileBtn = styled.button<PropsType>`
+  display: flex;
+  padding: 0 16px;
+  align-items: center;
+  height: 32px;
+  width: auto;
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: ${FONT.S};
+  background-color: ${COLOR.Blue2};
+  color: ${COLOR.Gray1};
+  cursor: pointer;
 
+  &:hover {
+    background-color: #3776ff;
+  }
 `;
 
-
-
-// font-size : ${(props) => props.fontSize ? props.fontSize: FONT.S};
-// font-weight: ${(props) => (props.fontWeight ? props.fontWeight : FONT.Medium)};
-// color: ${(props)=> props.fontColor ? props.fontColor : COLOR.Gray1 };
-// background: ${(props)=> props.backGround ?props.backGround : COLOR.Gray4 };
+// font-size : ${(PropsType) => PropsType.fontSize ? PropsType.fontSize: FONT.S};
+// font-weight: ${(PropsType) => (PropsType.fontWeight ? PropsType.fontWeight : FONT.Medium)};
+// color: ${(PropsType)=> PropsType.fontColor ? PropsType.fontColor : COLOR.Gray1 };
+// background: ${(PropsType)=> PropsType.backGround ?PropsType.backGround : COLOR.Gray4 };

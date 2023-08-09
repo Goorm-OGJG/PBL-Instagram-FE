@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import * as FONT from "../../../constants/font";
 import * as COLOR from "../../../constants/color";
 
-interface Props {
+interface PropsType {
   fontSize?: string;
   fontWeight?: string;
   backGround?: string;
@@ -22,14 +22,13 @@ export const Overlay = styled.div`
   z-index: 99;
 `;
 
-export const PrivateModalWrapper = styled.div<Props>`
+export const PrivateModalWrapper = styled.div`
   display: flex;
   width: 420px;
   height: 360px;
   align-items: stretch;
   border: 0;
   box-sizing: border-box;
-  display: flex;
   flex-direction: column;
   flex-shrink: 0;
   font: inherit;
@@ -45,7 +44,7 @@ export const PrivateModalWrapper = styled.div<Props>`
   z-index: 100;
 `;
 
-export const PrivateModalTitle = styled.div<Props>`
+export const PrivateModalTitle = styled.div`
   display: flex;
   justify-content: center;
   line-height: 25px;
