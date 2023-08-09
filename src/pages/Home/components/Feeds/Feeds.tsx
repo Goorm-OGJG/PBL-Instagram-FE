@@ -1,8 +1,16 @@
 import Feed from "../Feed/Feed";
 import * as S from "./Feeds.style";
 import * as T from "../../../../types/client/feed.client";
+// import { useEffect, useState } from "react";
+// import { useFeedAPI } from "../../../../api/useFeedAPI";
 
 function Feeds() {
+  // const [data, setData] = useState<T.FeedResponseType | []>([]);
+  // const { requestFeedList } = useFeedAPI();
+  // useEffect(() => {
+  //   requestFeedList(0, 0, setData);
+  // }, [data]);
+
   const feeds: T.FeedResponseType = {
     contents: [
       {
@@ -53,7 +61,6 @@ function Feeds() {
     ],
     isLast: true,
   };
-
   return (
     <S.Wrapper>
       {feeds.contents.map((content) => (

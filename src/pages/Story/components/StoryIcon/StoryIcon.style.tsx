@@ -3,7 +3,7 @@ import * as COLOR from "../../../../constants/color";
 import { StoryWrapper } from "../StoryContent/StoryContent.style";
 
 interface LikeProps {
-  isClick: boolean;
+  likeStatus: boolean;
 }
 
 const likeAppear = keyframes`
@@ -43,10 +43,6 @@ export const ArrowLeftWrapper = styled(IconWrapper)`
   ${StoryWrapper}:hover & {
     color: rgba(255, 255, 255, 0.8);
   }
-  ${StoryWrapper}:not(:nth-child(4)) & {
-    opacity: 0;
-    visibility: hidden;
-  }
 `;
 
 export const ArrowRightWrapper = styled(IconWrapper)`
@@ -60,29 +56,28 @@ export const ArrowRightWrapper = styled(IconWrapper)`
   ${StoryWrapper}:hover & {
     color: rgba(255, 255, 255, 0.8);
   }
-  ${StoryWrapper}:not(:nth-child(4)) & {
-    opacity: 0;
-    visibility: hidden;
-  }
 `;
 
 export const LikeWrapper = styled(IconWrapper)`
   position: absolute;
   right: 0;
   bottom: 0;
-  ${StoryWrapper}:not(:nth-child(4)) & {
-    opacity: 0;
-    visibility: hidden;
-  }
 `;
 
+export const LikeBox = styled(IconBox)<LikeProps>`
+  ${(props) =>
+    props.likeStatus &&
+    css`
+      display: block;
+    `};
+`;
 export const LikeFillBox = styled(IconBox)<LikeProps>`
   position: absolute;
   animation: ${likeAppear} 0.5s 1 both;
   display: none;
   color: ${COLOR.Red1};
   ${(props) =>
-    props.isClick &&
+    props.likeStatus &&
     css`
       display: block;
     `};

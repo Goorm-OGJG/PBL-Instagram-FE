@@ -2,133 +2,121 @@ import React, { useRef, useState } from "react";
 import * as S from "./StoryContent.style";
 import StoryIcon from "../StoryIcon/StoryIcon";
 import ControlBox from "../ControlBox/ControlBox";
-import { useRecoilValue } from "recoil";
-import { isPlayState } from "../../../../recoil/storyState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  isPlayState,
+  nowStoryState,
+  storyDataState,
+} from "../../../../recoil/storyState";
 import Progress from "../Progress/Progress";
+import * as T from "../../../../types/client/story.client";
+import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
+import { useNavigate } from "react-router";
 
 interface Props {
-  id: string;
-  idx: number;
-  setIdx: React.Dispatch<React.SetStateAction<number>>;
+  story: T.StoryType;
+  index: number;
 }
 
-function StoryContent({ id, idx, setIdx }: Props) {
+function StoryContent({ story, index }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
   const isPlay = useRecoilValue(isPlayState);
-  // const [sec, setSec] = useState(0);
+
+  const navigate = useNavigate();
+  // 업로드 시간 계산
+  const { createdAt, mediaList, nickname, profileImg } = story;
+  const timeCalculate = useTimeCalculate();
+  const diff_date = timeCalculate(createdAt);
+  const data = useRecoilValue(storyDataState);
+  const [nowStory, setNowStory] = useRecoilState(nowStoryState);
+
   const rightHadler = () => {
-    if (count >= 2) {
-      if (ref?.current) {
-        ref?.current?.parentElement?.firstChild?.remove();
-        const tmp = ref?.current.cloneNode(true);
-        ref?.current?.parentElement?.appendChild(tmp);
-        setIdx(idx + 1);
+    // console.log(count);
+    if (count >= mediaList.length - 1) {
+      if (nowStory < data.length - 1) {
+        const next = nowStory + 1;
+        setNowStory(next);
+        navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
+      } else {
+        console.log("마지막 스토리 입니다.");
+        navigate("/home");
       }
+      // 추가 데이터 붙이기
     } else {
+      console.log("사진 넘기기");
       setCount(count + 1);
     }
   };
   const leftHandler = () => {
     if (count <= 0) {
-      if (ref?.current) {
-        const parent = ref?.current?.parentElement;
-        parent?.lastChild?.remove();
-        const tmp = ref?.current.cloneNode(true);
-        parent?.insertBefore(tmp, parent?.firstChild);
-        setIdx(idx - 1);
+      if (nowStory > 0) {
+        const prev = nowStory - 1;
+        setNowStory(prev);
+        navigate(`/stories/${data[prev].nickname}/${data[prev].storyId}`);
+      } else {
+        console.log("이전 마지막 스토리 입니다.");
       }
+      console.log("이전 스토리로 이동");
     } else {
       setCount(count - 1);
     }
   };
-
   return (
-    <S.StoryWrapper ref={ref}>
+    <S.StoryWrapper ref={ref} index={index} nowStory={nowStory}>
       <React.Fragment>
-        <StoryIcon type="arrow-left" onClick={leftHandler} />
-        <StoryIcon type="arrow-right" onClick={rightHadler} />
+        {nowStory > 0 && nowStory === index && (
+          <StoryIcon type="arrow-left" onClick={leftHandler} />
+        )}
+        {nowStory === index && <StoryIcon type="arrow-right" onClick={rightHadler} />}
       </React.Fragment>
       <S.StoryImgs>
         {/* 현재 보고 있는 스토리가 아닐 때 */}
+        {nowStory !== index && (
+          <S.OtherProfileBox>
+            <S.OtherProfileDiv>
+              <S.OtherProfileImg src={profileImg} />
+            </S.OtherProfileDiv>
+            <S.OtherName to="/home">{nickname}</S.OtherName>
+            <S.OtherUpload>{diff_date}</S.OtherUpload>
+          </S.OtherProfileBox>
+        )}
 
-        <S.OtherProfileBox>
-          <S.OtherProfileDiv>
-            <S.OtherProfileImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
-          </S.OtherProfileDiv>
-          <S.OtherName to="/home">other_user</S.OtherName>
-          <S.OtherUpload>3시간</S.OtherUpload>
-        </S.OtherProfileBox>
         {/* 프로그레스바 및 유저 정보 */}
-        <S.StoryHeader>
-          <S.Progresses>
-            <Progress
-              pos={0}
-              count={count}
-              isPlay={isPlay}
-              setCount={setCount}
-              id={id}
-              idx={idx}
-              setIdx={setIdx}
-              current={ref?.current}
-            />
-            <Progress
-              pos={1}
-              count={count}
-              isPlay={isPlay}
-              setCount={setCount}
-              id={id}
-              idx={idx}
-              setIdx={setIdx}
-              current={ref?.current}
-            />
-            <Progress
-              pos={2}
-              count={count}
-              isPlay={isPlay}
-              setCount={setCount}
-              id={id}
-              idx={idx}
-              setIdx={setIdx}
-              current={ref?.current}
-            />
-          </S.Progresses>
-          <S.StoryInfo>
-            <S.UserInfo>
-              <S.ProfileImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
-              <S.UserName to="/accounts/username">tmpusername</S.UserName>
-              <S.UploadTime>23시간</S.UploadTime>
-            </S.UserInfo>
-            <ControlBox />
-          </S.StoryInfo>
-        </S.StoryHeader>
+        {nowStory === index && (
+          <S.StoryHeader>
+            <S.Progresses>
+              {mediaList.map((_, i) => (
+                <Progress
+                  pos={i}
+                  count={count}
+                  isPlay={isPlay}
+                  setCount={setCount}
+                  current={ref?.current}
+                  imgLength={mediaList.length}
+                />
+              ))}
+            </S.Progresses>
+            <S.StoryInfo>
+              <S.UserInfo>
+                <S.ProfileImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
+                <S.UserName to="/accounts/username">{nickname}</S.UserName>
+                <S.UploadTime>{diff_date}</S.UploadTime>
+              </S.UserInfo>
+              {nowStory === index && <ControlBox />}
+            </S.StoryInfo>
+          </S.StoryHeader>
+        )}
+
         {/* 스토리 이미지 */}
-        {count === 0 && (
-          <React.Fragment>
-            <S.StoryImg
-              src="https://cdn.pixabay.com/photo/2023/05/12/19/02/mountains-7989160_1280.jpg"
-              id="0"
-            />
-            <StoryIcon type="like" />
-          </React.Fragment>
-        )}
-        {count === 1 && (
-          <React.Fragment>
-            <S.StoryImg
-              src="https://cdn.pixabay.com/photo/2023/07/27/13/37/cottage-8153413_1280.jpg"
-              id="1"
-            />
-            <StoryIcon type="like" />
-          </React.Fragment>
-        )}
-        {count === 2 && (
-          <React.Fragment>
-            <S.StoryImg
-              src="https://cdn.pixabay.com/photo/2023/04/07/09/19/woman-7905926_1280.jpg"
-              id="2"
-            />
-            <StoryIcon type="like" />
-          </React.Fragment>
+        {mediaList.map(
+          (media, i) =>
+            count === i && (
+              <React.Fragment>
+                <S.StoryImg src={media.mediaUrl} />
+                <StoryIcon type="like" likeStatus={media.likeStatus} />
+              </React.Fragment>
+            ),
         )}
       </S.StoryImgs>
       {/* <StoryIcon type="like" /> */}

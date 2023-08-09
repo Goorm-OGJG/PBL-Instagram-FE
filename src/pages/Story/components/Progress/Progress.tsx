@@ -1,41 +1,48 @@
 import React, { useRef, useEffect } from "react";
 import * as S from "./Progress.style";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { nowStoryState, storyDataState } from "../../../../recoil/storyState";
+import { useNavigate } from "react-router";
 
 interface Props {
   pos: number;
   count: number;
   isPlay: boolean;
-  id: string;
   setCount: React.Dispatch<React.SetStateAction<number>>;
-  idx: number;
-  setIdx: React.Dispatch<React.SetStateAction<number>>;
   current: HTMLDivElement | null;
+  imgLength: number;
 }
-function Progress({ pos, count, isPlay, id, setCount, idx, setIdx, current }: Props) {
+function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
+  const data = useRecoilValue(storyDataState);
+  const navigate = useNavigate();
+  const [nowStory, setNowStory] = useRecoilState(nowStoryState);
 
   const countHandler = () => {
     const full = boxRef.current!.clientWidth;
     const now = progressRef.current!.clientWidth;
-    if (now === full - 1) {
-      setCount((prev) => prev + 1);
-      if (count == 2) {
-        setCount(0);
-        current?.parentElement?.firstChild?.remove();
-        const tmp = current?.cloneNode(true);
-
-        current?.parentElement?.appendChild(tmp as Node);
-        setIdx(idx + 1);
+    if (now === full - 5) {
+      if (count >= imgLength - 1) {
+        if (nowStory < data.length - 1) {
+          const next = nowStory + 1;
+          setNowStory(next);
+          navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
+        } else {
+          console.log("마지막 스토리 입니다.");
+          navigate("/home");
+        }
+        // 추가 데이터 붙이기
+      } else {
+        // console.log("사진 넘기기");
+        setCount(count + 1);
       }
     }
   };
 
-  useEffect;
   useEffect(() => {
-    if (pos === count && count <= 2 && id === String(idx)) {
+    if (pos === count && count <= imgLength - 1) {
       const intervalId = setInterval(countHandler, 10);
-
       return () => {
         clearInterval(intervalId);
       };

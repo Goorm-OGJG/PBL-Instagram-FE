@@ -7,6 +7,7 @@ import { useSetRecoilState } from "recoil";
 import { isModalOpenState } from "../../../../recoil/homeState";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import * as T from "../../../../types/client/feed.client";
+import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 
 interface PropsType {
   data: T.FeedDataType;
@@ -29,6 +30,9 @@ function Feed({ data }: PropsType) {
   const setIsModalOpen = useSetRecoilState(isModalOpenState);
   const timeCalculator = useTimeCalculate();
   const diff_date = timeCalculator(createdAt);
+
+  const likeCalculate = useLikeCalculate();
+  const likeNum = likeCalculate(likeCount);
 
   // 좋아요
   const likeHandler = () => {
@@ -105,7 +109,7 @@ function Feed({ data }: PropsType) {
       </S.FeedIconWrapper>
       <S.Div>
         <S.LikeSpan onClick={likeModalHandler}>
-          {`좋아요 ${likeCount}`}개
+          {`좋아요 ${likeNum}`}
           {/* <S.UserName>ohvely22</S.UserName>님 <S.UserName>여러 명</S.UserName>이
           좋아합니다 */}
         </S.LikeSpan>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import * as S from "./StoryIcon.style";
 import * as Icon from "../../../../components/Icon";
 import { useRecoilState } from "recoil";
@@ -7,8 +7,9 @@ import { isPlayState } from "../../../../recoil/storyState";
 interface Props {
   type: string;
   onClick?: () => void;
+  likeStatus?: boolean;
 }
-function StoryIcon({ type, onClick }: Props) {
+function StoryIcon({ type, onClick, likeStatus }: Props) {
   const [state, setState] = useState<boolean>(false);
   const [isPlay, setIsPlay] = useRecoilState(isPlayState);
   const playHandler = () => {
@@ -20,11 +21,15 @@ function StoryIcon({ type, onClick }: Props) {
   };
 
   const likeHandler = () => {
-    setState(!state);
+    if (likeStatus) {
+      alert("좋아요 취소 요청");
+    } else {
+      alert("좋아요 요청");
+    }
   };
 
   return (
-    <>
+    <React.Fragment>
       {type === "settings" && (
         <S.IconWrapper>
           <Icon.HorizontalBold />
@@ -68,15 +73,15 @@ function StoryIcon({ type, onClick }: Props) {
       )}
       {type === "like" && (
         <S.LikeWrapper onClick={likeHandler}>
-          <S.IconBox>
+          <S.LikeBox likeStatus={likeStatus as boolean}>
             <Icon.Heart size={30} />
-          </S.IconBox>
-          <S.LikeFillBox isClick={state}>
+          </S.LikeBox>
+          <S.LikeFillBox likeStatus={likeStatus as boolean}>
             <Icon.HeartFill size={30} />
           </S.LikeFillBox>
         </S.LikeWrapper>
       )}
-    </>
+    </React.Fragment>
   );
 }
 
