@@ -38,15 +38,15 @@ function Feeds() {
         feedMedia: [
           {
             mediaId: "media987",
-            mediaType: "video",
+            mediaType: "image",
             mediaUrl:
-              "https://images.pexels.com/photos/17836360/pexels-photo-17836360.jpeg",
+              "https://images.pexels.com/photos/17781404/pexels-photo-17781404.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
           },
           {
             mediaId: "media654",
             mediaType: "image",
             mediaUrl:
-              "https://images.pexels.com/photos/17693898/pexels-photo-17693898.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              "https://cdn.pixabay.com/photo/2023/07/25/18/42/mountains-8149677_1280.jpg",
           },
         ],
       },

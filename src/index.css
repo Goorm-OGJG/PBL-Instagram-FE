@@ -50,3 +50,11 @@ table {
 img{
 	vertical-align: top;
 }
+
+textarea{
+	font-family: "Malgun Gothic", serif;
+
+	&::placeholder{
+		font-family: "Malgun Gothic", serif;
+	}
+}
