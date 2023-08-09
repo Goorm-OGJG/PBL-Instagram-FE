@@ -28,3 +28,7 @@ export interface SetPasswordPayloadType {
   type: string;
   password: string;
 }
+
+export interface IsExistEmailPayloadType {
+  email: string;
+}
