@@ -62,8 +62,12 @@ export const ImgBox = styled.div`
   border-radius: 5px;
 `;
 
+export const FeedImgBox = styled.div`
+  width: 470px;
+  height: 470px;
+`;
 export const FeedImg = styled.img`
-  width: 100%;
+  width: 470px;
   height: 470px;
 `;
 

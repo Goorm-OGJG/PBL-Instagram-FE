@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { css, keyframes, styled } from "styled-components";
 import * as COLOR from "../../../../constants/color";
 import * as FONT from "../../../../constants/font";
 import { Link } from "react-router-dom";
@@ -6,6 +6,23 @@ import { Link } from "react-router-dom";
 interface StyleProps {
   pos: number;
 }
+
+interface IconProps {
+  isClick?: boolean;
+}
+
+const likeAppear = keyframes`
+  0%{
+    transform:scale(1);
+    
+  }
+  50%{
+    transform: scale(1.2)
+  }
+  100%{
+    transform:scale(1)
+  }
+`;
 
 export const Overlay = styled.div`
   position: fixed;
@@ -160,7 +177,7 @@ export const IconBox = styled.div`
   }
 `;
 
-export const IconFillBox = styled(IconBox)`
+export const IconFillBox = styled(IconBox)<IconProps>`
   position: absolute;
   left: 0;
   opacity: 0;
@@ -169,6 +186,14 @@ export const IconFillBox = styled(IconBox)`
   &:hover {
     color: initial;
   }
+
+  ${(props) =>
+    props.isClick &&
+    css`
+      opacity: 1;
+      visibility: visible;
+      animation: ${likeAppear} 0.5s 1 both;
+    `}
 `;
 
 export const Comments = styled.div`

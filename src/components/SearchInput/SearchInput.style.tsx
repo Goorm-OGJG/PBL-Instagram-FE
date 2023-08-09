@@ -25,11 +25,11 @@ export const SearchInput = styled.input`
   width: 100%;
   border: none;
   color: ${COLOR.Gray1};
-  font-family: "Malgun Gothic", serif;
+  font-family: "Malgun Gothic", sans-serif;
   font-size: ${FONT.M};
   outline: none;
   &::placeholder {
-    font-family: "Malgun Gothic", serif;
+    font-family: "Malgun Gothic", sans-serif;
     color: ${COLOR.Gray2};
   }
 `;

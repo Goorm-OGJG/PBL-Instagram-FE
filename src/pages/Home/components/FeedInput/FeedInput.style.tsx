@@ -21,9 +21,9 @@ export const TextArea = styled.textarea<TextAreaProps>`
   padding: 0;
   color: ${COLOR.Gray1};
   font-size: ${FONT.S};
-  font-family: "Malgun Gothic", serif;
+  /* font-family: "Malgun Gothic", serif; */
   &::placeholder {
-    font-family: "Malgun Gothic", serif;
+    /* font-family: "Malgun Gothic", serif; */
     color: ${COLOR.Gray2};
   }
 `;

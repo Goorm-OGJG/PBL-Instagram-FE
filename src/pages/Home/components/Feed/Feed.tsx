@@ -5,10 +5,11 @@ import FeedInput from "../FeedInput/FeedInput";
 import FeedImages from "../FeedImages/FeedImages";
 import { useSetRecoilState } from "recoil";
 import { isModalOpenState } from "../../../../recoil/homeState";
-import { FeedData } from "../Feeds/Feeds";
+import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
+import * as T from "../../../../types/client/feed.client";
 
 interface PropsType {
-  data: FeedData;
+  data: T.FeedDataType;
 }
 
 function Feed({ data }: PropsType) {
@@ -26,6 +27,8 @@ function Feed({ data }: PropsType) {
   } = { ...data };
 
   const setIsModalOpen = useSetRecoilState(isModalOpenState);
+  const timeCalculator = useTimeCalculate();
+  const diff_date = timeCalculator(createdAt);
 
   // 좋아요
   const likeHandler = () => {
@@ -56,13 +59,19 @@ function Feed({ data }: PropsType) {
     alert("보관함 취소 요청");
   };
 
+  const likeModalHandler = () => {
+    alert("좋아요 모달 띄우기");
+  };
+
+  // 업로드 관련
+
   return (
     <S.FeedWrapper id={feedId}>
       <S.InfoBox>
         <S.ProfileBox>
           <S.ProfileImg src={userImg} />
           <S.UserName id={userId}>{nickname}</S.UserName>
-          <S.UploadDate>{createdAt}</S.UploadDate>
+          <S.UploadDate>{diff_date}</S.UploadDate>
         </S.ProfileBox>
         <S.HorizontalIconBox>
           <Icon.HorizontalBold size={16} />
@@ -95,11 +104,11 @@ function Feed({ data }: PropsType) {
         </S.FeedIconRightBox>
       </S.FeedIconWrapper>
       <S.Div>
-        <S.Span>
+        <S.LikeSpan onClick={likeModalHandler}>
           {`좋아요 ${likeCount}`}개
           {/* <S.UserName>ohvely22</S.UserName>님 <S.UserName>여러 명</S.UserName>이
           좋아합니다 */}
-        </S.Span>
+        </S.LikeSpan>
       </S.Div>
       <S.Span>
         <S.Div>

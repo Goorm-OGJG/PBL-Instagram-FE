@@ -5,6 +5,7 @@ import TextArea from "../TextArea/TextArea";
 import { useRecoilState } from "recoil";
 import { whichAddModalOpenState } from "../../recoil/homeState";
 import { useDropzone } from "react-dropzone";
+import { useFileManage } from "../../hooks/useFileManage";
 
 interface Props {
   type: string;
@@ -13,6 +14,7 @@ interface Props {
 interface FileWithPreview extends File {
   preview: string;
 }
+
 function AddModal({ type }: Props) {
   const [step, setStep] = useState(1);
   const imgboxRef = useRef<HTMLDivElement | null>(null);
@@ -21,6 +23,7 @@ function AddModal({ type }: Props) {
     useRecoilState(whichAddModalOpenState);
 
   const [files, setFiles] = useState<FileWithPreview[] | null>(null);
+  const { handleUpload } = useFileManage();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // console.log(acceptedFiles);
@@ -35,18 +38,24 @@ function AddModal({ type }: Props) {
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { "image/png": [], "image/jpeg": [] },
+    accept: { "image/png": [], "image/jpeg": [], "video/mp4": [] },
     onDrop,
   });
 
-  const buttonHandler = () => {
+  const buttonHandler = async () => {
     if (step === 1) {
       setStep(step + 1);
     } else if (step === 2) {
-      alert("게시 요청");
+      // 업로드 테스트
+      const fileUrls = handleUpload(files);
+      console.log(fileUrls);
+      // 삭제 테스트
+      // handleDelete(
+      //   "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/videos/people_-_84973+(720p).mp4",
+      // );
     }
   };
-
+  // 스크롤 여러번 누를 시 이상하게 됨
   const rightHandler = () => {
     const current = imgboxRef.current;
     const width = current!.clientWidth;

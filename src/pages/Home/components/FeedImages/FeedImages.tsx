@@ -1,12 +1,12 @@
 import * as S from "./FeedImages.style";
 import * as Icon from "../../../../components/Icon";
 import { useState, useRef } from "react";
-import { MediaData } from "../Feeds/Feeds";
+import * as T from "../../../../types/client/feed.client";
 
-interface Props {
-  feedMedia: MediaData[];
+interface PropsType {
+  feedMedia: T.MediaDataType[];
 }
-function FeedImages({ feedMedia }: Props) {
+function FeedImages({ feedMedia }: PropsType) {
   const [imgPos, setImgPos] = useState<number>(0);
   const imgRef = useRef<HTMLDivElement | null>(null);
   const imgLength = feedMedia.length;
@@ -46,9 +46,17 @@ function FeedImages({ feedMedia }: Props) {
       <S.ImgBox ref={imgRef}>
         {feedMedia.map(({ mediaId, mediaType, mediaUrl }) => {
           if (mediaType === "video") {
-            return <S.FeedImg src={mediaUrl} id={mediaId} />;
+            return (
+              <S.FeedImgBox>
+                <S.FeedImg as="video" src={mediaUrl} id={mediaId} autoPlay muted loop />
+              </S.FeedImgBox>
+            );
           } else if (mediaType === "image") {
-            return <S.FeedImg src={mediaUrl} id={mediaId} />;
+            return (
+              <S.FeedImgBox>
+                <S.FeedImg src={mediaUrl} id={mediaId} />
+              </S.FeedImgBox>
+            );
           }
         })}
       </S.ImgBox>
@@ -59,9 +67,6 @@ function FeedImages({ feedMedia }: Props) {
             return <S.ImgPos imgPos={imgPos} />;
           }
         })}
-        {/* <S.ImgPos imgPos={imgPos} />
-        <S.ImgPos imgPos={imgPos} />
-        <S.ImgPos imgPos={imgPos} /> */}
       </S.ImgPosBox>
     </S.ImgWrapper>
   );

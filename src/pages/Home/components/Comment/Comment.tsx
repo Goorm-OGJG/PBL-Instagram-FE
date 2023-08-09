@@ -1,18 +1,29 @@
 import CommentContent from "../CommentContent/CommentContent";
 import * as S from "./Comment.style";
+import * as T from "../../../../types/client/feed.client";
+import React from "react";
 
-function Comment() {
+interface PropsType {
+  comment: T.CommentType;
+}
+
+function Comment({ comment }: PropsType) {
+  // console.log(comment);
   return (
     <S.Wrapper>
       {/* 댓글 */}
-      <CommentContent />
+      <CommentContent comment={comment} />
       <S.ReplyWrapper>
-        <S.ReplyHeader>
-          <S.Line></S.Line>
-          <S.ReplyText>답글 보기(n개)</S.ReplyText>
-        </S.ReplyHeader>
-        {/* 답글 */}
-        <CommentContent />
+        {comment.innerCommentCount > 1 && (
+          <React.Fragment>
+            <S.ReplyHeader>
+              <S.Line></S.Line>
+              <S.ReplyText>{`답글 보기(${comment.innerCommentCount}개)`}</S.ReplyText>
+            </S.ReplyHeader>
+            {/* 답글 */}
+            {/* <CommentContent /> */}
+          </React.Fragment>
+        )}
       </S.ReplyWrapper>
     </S.Wrapper>
   );
