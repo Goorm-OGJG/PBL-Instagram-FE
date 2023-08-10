@@ -5,3 +5,7 @@ export const Wrapper = styled.div`
   width: 100%;
   background-color: #dbdbdb;
 `;
+
+export const Observer = styled.div`
+  opacity: 0;
+`;
