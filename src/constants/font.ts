@@ -2,6 +2,7 @@ export const XS = "12px";
 export const S = "14px";
 export const M = "16px";
 export const XM = "17px";
+export const ML = "20px";
 export const L = "24px";
 export const XL = "30px";
 export const Medium = "400";
