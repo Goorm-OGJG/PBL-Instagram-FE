@@ -6,8 +6,6 @@ import * as Icon from "../../components/Icon";
 import { useRecoilState } from "recoil";
 import { ItemState, OverlayState, ImgIdState } from "../../recoil/profileState";
 
-
-
 interface FeedList {
   feedId: number;
   mediaUrl: string;
@@ -178,17 +176,13 @@ function Profile() {
   const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
 
-
   return (
     <>
       <ProfileHeader />
 
       <S.ProfileWrapper>
         <S.ProfileNavbar>
-          <S.ProfileItem
-            isActive={!item}
-            onClick={handleItemClick}
-          >
+          <S.ProfileItem isActive={!item} onClick={handleItemClick}>
             <Icon.Grid /> <S.ProfileText>게시물 </S.ProfileText>
           </S.ProfileItem>
           <S.ProfileItem
@@ -212,10 +206,10 @@ function Profile() {
                     <>
                       {" "}
                       <S.FeedHoverItem>
-                        <Icon.HeartFill fontSize={FONT.ML} /> {feed.likeCount}
+                        <Icon.HeartFill size={20} /> {feed.likeCount}
                       </S.FeedHoverItem>{" "}
-                      <S.FeedHoverItem >
-                        <Icon.CommentFill fontSize={FONT.M} /> {feed.commentCount}
+                      <S.FeedHoverItem>
+                        <Icon.CommentFill size={16} /> {feed.commentCount}
                       </S.FeedHoverItem>
                     </>
                   )}
@@ -242,4 +236,3 @@ function Profile() {
 }
 
 export default Profile;
-

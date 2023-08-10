@@ -1,6 +1,5 @@
 import * as S from "./EditProfile.style";
 import * as FONT from "../../constants/font";
-import * as COLOR from "../../constants/color";
 import { useState } from "react";
 import Toggle from "./components/Toggle";
 import { useParams } from "react-router";
@@ -18,11 +17,11 @@ const accounts: Account = {
 };
 
 function EditProfile() {
-  const {nickname} = useParams();
+  const { nickname } = useParams();
   const [text, setText] = useState("");
   const [countText, setCountText] = useState(0);
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       // 폼 제출 기본 동작 막기
       e.preventDefault();
@@ -49,13 +48,12 @@ function EditProfile() {
           <S.EctTitle>소개</S.EctTitle>
           <S.InputBox>
             <S.IntroInput
-              type="text"
               value={text}
               onChange={(e) => {
                 setText(e.target.value);
                 setCountText(e.target.value.length);
               }}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
             />
             <S.InputCounter>{countText}/150</S.InputCounter>
           </S.InputBox>

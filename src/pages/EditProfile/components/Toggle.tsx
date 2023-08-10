@@ -13,7 +13,6 @@ export default function Toggle() {
       setIsPublicModalOpen(!isPublicModalOpen);
     } else {
       setIsPrivateModalOpen(!isPrivateModalOpen);
-      
     }
   };
 
@@ -24,18 +23,10 @@ export default function Toggle() {
       </S.ToggleWrapper>
 
       {isPublicModalOpen && (
-        <PublicModal
-          isPublicModalOpen={isPublicModalOpen}
-          setIsPublicModalOpen={setIsPublicModalOpen}
-          setIsOn={setIsOn}
-        />
+        <PublicModal setIsPublicModalOpen={setIsPublicModalOpen} setIsOn={setIsOn} />
       )}
       {isPrivateModalOpen && (
-        <PrivateModal
-          isPrivateModalOpen={isPrivateModalOpen}
-          setIsPrivateModalOpen={setIsPrivateModalOpen}
-          setIsOn={setIsOn}
-        />
+        <PrivateModal setIsPrivateModalOpen={setIsPrivateModalOpen} setIsOn={setIsOn} />
       )}
     </>
   );

@@ -1,13 +1,6 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import * as FONT from "../../../constants/font";
 import * as COLOR from "../../../constants/color";
-
-interface PropsType {
-  fontSize?: string;
-  fontWeight?: string;
-  backGround?: string;
-  fontColor?: string;
-}
 
 export const Overlay = styled.div`
   position: fixed;
@@ -50,13 +43,13 @@ export const PrivateModalTitle = styled.div`
   line-height: 25px;
   font-size: ${FONT.ML};
   color: ${COLOR.Gray1};
-  margin-bottom:25px;
+  margin-bottom: 25px;
 `;
 
 export const PrivateModalBox = styled.div`
   display: flex;
   flex-direction: column;
-  text-align:left;
+  text-align: left;
   padding-top: 16px;
   width: 100%;
   padding: 30px 30px 40px 30px;
@@ -72,11 +65,9 @@ export const PrivateModalMessage = styled.div`
   margin-bottom: 30px;
 `;
 export const MessageIcon = styled.div`
-display:flex;
-margin-right:10px;
+  display: flex;
+  margin-right: 10px;
 `;
-
-
 
 export const PrivateFooter = styled.div`
   width: 100%;

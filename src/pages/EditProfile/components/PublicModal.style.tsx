@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import * as FONT from "../../../constants/font";
 import * as COLOR from "../../../constants/color";
 
@@ -51,13 +51,13 @@ export const PublicModalTitle = styled.div<Props>`
   line-height: 25px;
   font-size: ${FONT.ML};
   color: ${COLOR.Gray1};
-  margin-bottom:20px;
+  margin-bottom: 20px;
 `;
 
 export const PublicModalBox = styled.div`
   display: flex;
   flex-direction: column;
-  text-align:left;
+  text-align: left;
   padding-top: 16px;
   width: 100%;
   padding: 30px 30px 0px 30px;
@@ -73,11 +73,9 @@ export const PublicModalMessage = styled.div`
   margin-bottom: 30px;
 `;
 export const MessageIcon = styled.div`
-display:flex;
-margin-right:10px;
+  display: flex;
+  margin-right: 10px;
 `;
-
-
 
 export const PublicFooter = styled.div`
   width: 100%;

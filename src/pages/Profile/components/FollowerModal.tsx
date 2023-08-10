@@ -1,6 +1,5 @@
 import * as S from "./FollowerModal.style";
 import * as Icon from "../../../components/Icon";
-import { Navigate } from "../../../../node_modules/react-router-dom/dist/index";
 interface FollowPropsType {
   followModal: boolean;
   setFollowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -79,11 +78,11 @@ export default function FollowerModal({
   followerModal,
   setFollowerModal,
 }: FollowPropsType) {
-
-  const handleModalContentClick = (e) => {
+  const handleModalContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // 이벤트 버블링을 방지하여 모달이 닫히지 않도록 함
     e.stopPropagation();
   };
+
   const handleExitModal = () => {
     followerModal ? setFollowerModal(false) : setFollowModal(false);
   };
@@ -98,7 +97,7 @@ export default function FollowerModal({
           <S.FollowModalTitle>{followerModal ? "팔로워" : "팔로우"}</S.FollowModalTitle>{" "}
           <S.FollowModalExitBtn
             onClick={() => {
-                handleExitModal();
+              handleExitModal();
             }}
           >
             <Icon.Close />
@@ -106,14 +105,22 @@ export default function FollowerModal({
         </S.FollowModalHeader>
         <S.FollowModalBody>
           {followerModal
-        //  팔로워 모달일때 
-            ? follower.map((data) => (
+            ? //  팔로워 모달일때
+              follower.map((data) => (
                 <S.FollowModalBox key={data.nickname}>
-                  <S.FollowProfileImgBox to={`/accounts/${data.nickname}`} onClick={handleExitModal}>
+                  <S.FollowProfileImgBox
+                    to={`/accounts/${data.nickname}`}
+                    onClick={handleExitModal}
+                  >
                     <S.ProfileImg src={data.profileImg} />
                   </S.FollowProfileImgBox>
                   <S.FollowProfileNicknameBox>
-                    <S.Nickname to={`/accounts/${data.nickname}`} onClick={handleExitModal}>{data.nickname}</S.Nickname>{" "}
+                    <S.Nickname
+                      to={`/accounts/${data.nickname}`}
+                      onClick={handleExitModal}
+                    >
+                      {data.nickname}
+                    </S.Nickname>{" "}
                     {!data.followingStatus && (
                       <>
                         {" "}
@@ -126,14 +133,16 @@ export default function FollowerModal({
                   </S.FollowDeleteBox>
                 </S.FollowModalBox>
               ))
-        //   팔로우 모달일때 
-            : following.map((data) => (
+            : //   팔로우 모달일때
+              following.map((data) => (
                 <S.FollowModalBox key={data.nickname}>
-                  <S.FollowProfileImgBox>
+                  <S.FollowProfileImgBox to={`/accounts/${data.nickname}`}>
                     <S.ProfileImg src={data.profileImg} />
                   </S.FollowProfileImgBox>
                   <S.FollowProfileNicknameBox>
-                    <S.Nickname>{data.nickname}</S.Nickname>{" "}
+                    <S.Nickname to={`/accounts/${data.nickname}`}>
+                      {data.nickname}
+                    </S.Nickname>{" "}
                   </S.FollowProfileNicknameBox>
                   <S.FollowDeleteBox>
                     <S.DeleteBtn>삭제</S.DeleteBtn>

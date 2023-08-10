@@ -1,5 +1,3 @@
-import * as FONT from "../../../constants/font";
-import * as COLOR from "../../../constants/color";
 import * as S from "./ProfileHeader.style";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -33,7 +31,7 @@ const accounts: Account[] = [
 ];
 
 function ProfileHeader() {
-  const {nickname} = useParams();
+  const { nickname } = useParams();
   const navigate = useNavigate();
   const [followerModal, setFollowerModal] = useState(false);
   const [followModal, setFollowModal] = useState(false);
@@ -73,6 +71,8 @@ function ProfileHeader() {
               <FollowerModal
                 followerModal={followerModal}
                 setFollowerModal={setFollowerModal}
+                followModal={followModal}
+                setFollowModal={setFollowModal}
               />
             )}
             <S.UserFollower
@@ -84,9 +84,12 @@ function ProfileHeader() {
               팔로우 {accounts[0].followingCount}
             </S.UserFollower>
             {followModal && (
-              <FollowerModal 
-                followModal={followModal} 
-                setFollowModal={setFollowModal} />
+              <FollowerModal
+                followerModal={followerModal}
+                setFollowerModal={setFollowerModal}
+                followModal={followModal}
+                setFollowModal={setFollowModal}
+              />
             )}
           </S.InfoFollowBox>
           <S.UserIntro>{accounts[0].userIntro}</S.UserIntro>

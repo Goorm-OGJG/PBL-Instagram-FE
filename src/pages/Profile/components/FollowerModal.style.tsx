@@ -1,14 +1,7 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import * as FONT from "../../../constants/font";
 import * as COLOR from "../../../constants/color";
 import { Link } from "react-router-dom";
-
-interface Props {
-  fontSize?: string;
-  fontWeight?: string;
-  backGround?: string;
-  fontColor?: string;
-}
 
 export const Overlay = styled.div`
   position: fixed;

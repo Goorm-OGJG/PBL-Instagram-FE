@@ -1,12 +1,12 @@
-import axios from "./axios";
 import * as T from "../types/request/feed.request";
 import React from "react";
 import { FeedResponseType } from "../types/client/feed.client";
+import { useAxios } from "./useAxios";
 
 export function useFeedAPI() {
   const API_URL = import.meta.env.VITE_API_URL;
   const feedURL = `${API_URL}/api/feed`;
-
+  const axios = useAxios();
   // 피드 목록 불러오기
   const requestFeedList = (
     page: number,

@@ -153,7 +153,7 @@ export const IntroInput = styled.textarea<PropsType>`
 export const InputCounter = styled.div<PropsType>`
   font-size: ${FONT.XS};
   color: ${COLOR.Gray2};
-  weight: ${FONT.Medium};
+  font-weight: ${FONT.Medium};
   line-height: 16px;
   margin-top: 10px;
 `;
@@ -257,8 +257,3 @@ export const EditProfileBtn = styled.button<PropsType>`
     background-color: #3776ff;
   }
 `;
-
-// font-size : ${(PropsType) => PropsType.fontSize ? PropsType.fontSize: FONT.S};
-// font-weight: ${(PropsType) => (PropsType.fontWeight ? PropsType.fontWeight : FONT.Medium)};
-// color: ${(PropsType)=> PropsType.fontColor ? PropsType.fontColor : COLOR.Gray1 };
-// background: ${(PropsType)=> PropsType.backGround ?PropsType.backGround : COLOR.Gray4 };
