@@ -32,8 +32,8 @@ function AddModal({ type }: Props) {
         preview: URL.createObjectURL(file),
       }),
     );
-    setFiles(filesWithPreview);
     // console.log(filesWithPreview);
+    setFiles(filesWithPreview);
     setStep(step + 1);
   }, []);
 
@@ -59,7 +59,7 @@ function AddModal({ type }: Props) {
   const rightHandler = () => {
     const current = imgboxRef.current;
     const width = current!.clientWidth;
-    if (pos < 2) {
+    if (files && pos < files.length - 1) {
       current?.scrollBy(width, 0);
       setPos(pos + 1);
     }
@@ -113,22 +113,27 @@ function AddModal({ type }: Props) {
             <S.SecondStepWrapper>
               <S.ImgWrapper>
                 <S.Images ref={imgboxRef}>
-                  {files?.map((file) => <S.Img src={file.preview} />)}
+                  {files?.map((file) => {
+                    if (file.type.includes("video")) {
+                      return <S.Img as="video" src={file.preview} />;
+                    } else return <S.Img src={file.preview} />;
+                  })}
+                  {/* <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
                   <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
+                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" /> */}
                 </S.Images>
-                <S.ArrowBox onClick={leftHandler}>
-                  <Icon.Left size={24} />
-                </S.ArrowBox>
-                <S.ArrowRightBox onClick={rightHandler}>
-                  <Icon.Right size={24} />
-                </S.ArrowRightBox>
-                <S.PosBox>
-                  <S.PosDot pos={pos} />
-                  <S.PosDot pos={pos} />
-                  <S.PosDot pos={pos} />
-                </S.PosBox>
+                {files && files.length > 0 && pos > 0 && (
+                  <S.ArrowBox onClick={leftHandler}>
+                    <Icon.Left size={24} />
+                  </S.ArrowBox>
+                )}
+                {files && files.length > 0 && pos < files.length - 1 && (
+                  <S.ArrowRightBox onClick={rightHandler}>
+                    <Icon.Right size={24} />
+                  </S.ArrowRightBox>
+                )}
+
+                <S.PosBox>{files?.map(() => <S.PosDot pos={pos} />)}</S.PosBox>
               </S.ImgWrapper>
               {whichAddModalOpen === "feed" && (
                 <S.SecondRightWrapper>

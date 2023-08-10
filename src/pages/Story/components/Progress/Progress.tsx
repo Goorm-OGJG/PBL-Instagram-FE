@@ -22,7 +22,7 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
   const countHandler = () => {
     const full = boxRef.current!.clientWidth;
     const now = progressRef.current!.clientWidth;
-    if (now === full - 5) {
+    if (now > full - 5) {
       if (count >= imgLength - 1) {
         if (nowStory < data.length - 1) {
           const next = nowStory + 1;

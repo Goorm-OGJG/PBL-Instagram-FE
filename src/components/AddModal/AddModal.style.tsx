@@ -139,6 +139,8 @@ export const Images = styled.div`
   display: flex;
   scroll-behavior: smooth;
   overflow: hidden;
+  min-width: 300px;
+  min-height: 300px;
 `;
 
 export const ArrowBox = styled.div`
@@ -164,6 +166,7 @@ export const SecondRightWrapper = styled.div`
 
 export const Img = styled.img`
   max-width: 100%;
+  object-fit: fill;
 `;
 
 export const UserInfo = styled.div`

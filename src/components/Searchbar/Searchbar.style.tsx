@@ -6,6 +6,15 @@ interface StyleProps {
   isSearch?: boolean;
 }
 
+export const Overlay = styled.div<StyleProps>`
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0);
+  top: 0;
+  left: 72px;
+  display: ${(props) => (props.isSearch ? "block" : "none")};
+`;
 export const Div = styled.div<StyleProps>`
   position: fixed;
   height: 100vh;

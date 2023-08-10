@@ -55,6 +55,11 @@ export const CommentText = styled.span`
   font-size: ${FONT.S};
   color: ${COLOR.Black};
   word-break: break-all;
+
+  & > a {
+    color: ${COLOR.Blue2};
+    cursor: pointer;
+  }
 `;
 
 export const TextWrapper = styled.div`

@@ -13,7 +13,6 @@ import { useHashTag } from "../../../../hooks/useHashTag";
 function FeedModal() {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
   const imgboxRef = useRef<HTMLDivElement | null>(null);
-
   // 이미지 이동 관련 state
   const [pos, setPos] = useState(0);
 
@@ -24,7 +23,7 @@ function FeedModal() {
     userId: "user456",
     nickname: "Alice",
     userImg: "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
-    content: "오늘의 풍경 너무 아름다워요! 😍",
+    content: "오늘의 #풍경#너무 아름다워요! 가나다라마 #가로수😍",
     likeCount: 25,
     likeStatus: true,
     collectionStatus: true,
@@ -101,8 +100,7 @@ function FeedModal() {
   const likeCalculator = useLikeCalculate();
   const likeNum = likeCalculator(likeCount);
 
-  const extractHashtags = useHashTag();
-
+  const { extractHashtags } = useHashTag();
   // 이미지 이동 관련
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -163,11 +161,12 @@ function FeedModal() {
 
   const postHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    // console.log(value);
     const hashTags = extractHashtags(value);
     console.log(hashTags);
   };
   // console.log(comments);
-  console.log(feedMedia);
+  // console.log(feedMedia);
   return (
     <S.Overlay>
       <S.CloseBox onClick={() => setIsModalOpen(false)}>

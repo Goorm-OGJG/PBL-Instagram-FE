@@ -238,6 +238,7 @@ export const CommentInput = styled.input`
   outline: none;
   border: none;
   padding: 10px 0;
+  resize: none;
   flex: 1;
   font-size: ${FONT.S};
   &::placeholder {
