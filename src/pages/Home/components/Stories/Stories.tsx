@@ -3,14 +3,16 @@ import Story from "../Story/Story";
 import * as Icon from "../../../../components/Icon";
 import * as S from "./Stories.style";
 // import * as T from "../../../../types/client/story.client";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { storyDataState } from "../../../../recoil/storyState";
+import { useStoryAPI } from "../../../../api/useStoryAPI";
 
 function Stories() {
   // 스토리 목록 가져오기 api 사용
   const ref = useRef<HTMLDivElement | null>(null);
   const [isHover, setIsHover] = useState<boolean>(false);
-  const data = useRecoilValue(storyDataState);
+  const [data, setData] = useRecoilState(storyDataState);
+  const { requestStoryList } = useStoryAPI();
   const scrollHandler = (direction: string) => {
     switch (direction) {
       case "right":
@@ -31,6 +33,12 @@ function Stories() {
     setIsHover(false);
   };
 
+  // data 관련 useEffect
+  useEffect(() => {
+    requestStoryList(0, 0, setData);
+  });
+
+  // event handler 관련 useEffect
   useEffect(() => {
     const refCurrent = ref.current!;
     refCurrent.addEventListener("mouseover", hoverHandler);
