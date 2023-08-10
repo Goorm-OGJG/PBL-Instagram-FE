@@ -2,7 +2,8 @@ import { useState } from "react";
 import { InstaTextBlack } from "../../components/Icon";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./SignUp.style";
-import { SignUpPayloadType, useUserAPI } from "../../api/useUserAPI";
+import { useUserAPI } from "../../api/useUserAPI";
+import * as T from "../../types/request/user.request";
 function SignUp() {
   const { requestSignUp } = useUserAPI();
   const [email, setEmail] = useState("");
@@ -39,7 +40,7 @@ function SignUp() {
   };
 
   // 회원가입 요청
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!ValidateEmail) {
       alert(
         "이메일 주소 형식이 올바르지 않습니다. 'example@example.com' 형식으로 입력해주세요.",
@@ -63,7 +64,7 @@ function SignUp() {
       return;
     }
 
-    const payload: SignUpPayloadType = {
+    const payload: T.SignUpPayloadType = {
       email,
       userName,
       nickname,
