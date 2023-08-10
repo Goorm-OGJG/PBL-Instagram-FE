@@ -29,6 +29,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #000;
 }
 ol, ul {
 	list-style: none;
@@ -44,4 +45,16 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+img{
+	vertical-align: top;
+}
+
+textarea{
+	font-family: sans-serif;
+
+	&::placeholder{
+		font-family: sans-serif;
+	}
 }
