@@ -1,4 +1,5 @@
 {
+  "homepage": "https://goorm-ogjg.github.io/PBL-Instagram-FE/",
   "name": "instagram",
   "private": true,
   "version": "0.0.0",
@@ -7,7 +8,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "aws-sdk": "^2.1429.0",
