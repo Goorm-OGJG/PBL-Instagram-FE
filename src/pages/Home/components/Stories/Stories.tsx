@@ -2,64 +2,19 @@ import { useRef, useState, useEffect } from "react";
 import Story from "../Story/Story";
 import * as Icon from "../../../../components/Icon";
 import * as S from "./Stories.style";
-import * as T from "../../../../types/client/story.client";
+// import * as T from "../../../../types/client/story.client";
+import { useRecoilValue } from "recoil";
+import { storyDataState } from "../../../../recoil/storyState";
 
 function Stories() {
   // 스토리 목록 가져오기 api 사용
   const ref = useRef<HTMLDivElement | null>(null);
   const [isHover, setIsHover] = useState<boolean>(false);
-  const stories: T.StoryListResponseType = {
-    storyList: [
-      {
-        storyId: "story1",
-        nickname: "user123",
-        profileImg: "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
-        createdAt: "2023-08-08",
-        mediaList: [
-          {
-            mediaUrl:
-              "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
-            likeStatus: true,
-          },
-          {
-            mediaUrl:
-              "https://images.pexels.com/photos/17781404/pexels-photo-17781404.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            likeStatus: false,
-          },
-          {
-            mediaUrl:
-              "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
-            likeStatus: true,
-          },
-        ],
-      },
-      {
-        storyId: "story2",
-        nickname: "user456",
-        profileImg: "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
-        createdAt: "2023-08-07",
-        mediaList: [
-          {
-            mediaUrl:
-              "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
-            likeStatus: false,
-          },
-          {
-            mediaUrl:
-              "https://cdn.pixabay.com/photo/2023/06/15/17/07/sun-8066051_1280.jpg",
-            likeStatus: true,
-          },
-        ],
-      },
-    ],
-  };
-
+  const data = useRecoilValue(storyDataState);
   const scrollHandler = (direction: string) => {
     switch (direction) {
       case "right":
         ref.current?.scrollBy(316, 0);
-        // console.log(ref.current?.scrollLeft);
-        // console.log(ref.current?.scrollWidth);
 
         break;
       case "left":
@@ -103,7 +58,10 @@ function Stories() {
       )}
       {/* 스토리 목록 출력 */}
       <S.StoriesWrapper ref={ref}>
-        {stories && stories.storyList.map((story) => <Story story={story} />)}
+        {data &&
+          data.map((story, index) => (
+            <Story key={story.storyId} story={story} index={index} />
+          ))}
       </S.StoriesWrapper>
 
       {/* 스토리 많아지면 생기는 화살표 */}

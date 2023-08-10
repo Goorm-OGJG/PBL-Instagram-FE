@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 import * as COLOR from "../../../../constants/color";
 import * as FONT from "../../../../constants/font";
 
-export const StoryWrapper = styled.div`
+interface StylePropsType {
+  index: number;
+  nowStory: number;
+}
+
+export const StoryWrapper = styled.div<StylePropsType>`
   max-width: 600px;
   height: 95vh;
   max-height: 1068px;
@@ -18,36 +23,28 @@ export const StoryWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   transition: 0.5s;
-  &:nth-child(1) {
-    left: calc(50% - 1100px);
-    transform: translate(-50%, -50%) scale(0.4);
-  }
 
-  &:nth-child(2) {
-    left: calc(50% - 800px);
-    transform: translate(-50%, -50%) scale(0.4);
-  }
-  &:nth-child(3) {
-    left: calc(50% - 500px);
-    transform: translate(-50%, -50%) scale(0.4);
-  }
-  &:nth-child(4) {
-    left: calc(50%);
-    transform: translate(-50%, -50%) scale(1);
-  }
-  &:nth-child(5) {
-    left: calc(50% + 500px);
-    transform: translate(-50%, -50%) scale(0.4);
-  }
+  ${(props) => {
+    const index = props.index;
+    const nowStory = props.nowStory;
+    if (index !== nowStory) {
+      let position = "0px";
+      if (Math.abs(index - nowStory) === 1) {
+        position = `${(index - nowStory) * 500}px`;
+      } else {
+        position = `${(index - nowStory) * 400}px`;
+      }
 
-  &:nth-child(6) {
-    left: calc(50% + 800px);
-    transform: translate(-50%, -50%) scale(0.4);
-  }
-  &:nth-child(7) {
-    left: calc(50% + 1100px);
-    transform: translate(-50%, -50%) scale(0.4);
-  }
+      return css`
+        left: calc(50% + ${position});
+        transform: translate(-50%, -50%) scale(0.4);
+      `;
+    } else
+      return css`
+        left: calc(50%);
+        transform: translate(-50%, -50%) scale(1);
+      `;
+  }}
 `;
 
 export const StoryImgs = styled.div`
@@ -83,11 +80,6 @@ export const StoryHeader = styled.header`
   position: absolute;
   z-index: 10;
   top: 15px;
-
-  ${StoryWrapper}:not(:nth-child(4)) & {
-    opacity: 0;
-    visibility: hidden;
-  }
 `;
 
 export const Progresses = styled.div`
@@ -133,11 +125,6 @@ export const OtherProfileBox = styled.div`
   transform: translateY(-50%) scale(2);
   align-items: center;
   gap: 3px;
-
-  ${StoryWrapper}:nth-child(4) & {
-    opacity: 0;
-    visibility: hidden;
-  }
 `;
 
 export const OtherProfileDiv = styled.div`
