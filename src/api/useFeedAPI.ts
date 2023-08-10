@@ -1,6 +1,6 @@
 import * as T from "../types/request/feed.request";
 import React from "react";
-import { FeedResponseType } from "../types/client/feed.client";
+import { FeedDataType } from "../types/client/feed.client";
 import { useAxios } from "./useAxios";
 
 export function useFeedAPI() {
@@ -11,7 +11,7 @@ export function useFeedAPI() {
   const requestFeedList = (
     page: number,
     size: number,
-    setData: React.Dispatch<React.SetStateAction<FeedResponseType | []>>,
+    setData: React.Dispatch<React.SetStateAction<FeedDataType[] | []>>,
   ) => {
     axios
       .get(`${feedURL}?page=${page}&size=${size}`)
@@ -19,7 +19,7 @@ export function useFeedAPI() {
         setData(response.data);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -32,7 +32,7 @@ export function useFeedAPI() {
         console.log("피드 모달 상세 데이터 요청 불러오기");
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -44,7 +44,7 @@ export function useFeedAPI() {
         console.log(response.data);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -62,7 +62,7 @@ export function useFeedAPI() {
         console.log("대댓글 데이터 요청 불러오기");
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -74,7 +74,7 @@ export function useFeedAPI() {
         console.log("피드 작성 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -87,7 +87,7 @@ export function useFeedAPI() {
         console.log("피드 삭제 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -99,7 +99,7 @@ export function useFeedAPI() {
         console.log("피드 보관함 추가 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -111,7 +111,7 @@ export function useFeedAPI() {
         console.log("피드 보관함 삭제 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -123,7 +123,7 @@ export function useFeedAPI() {
         console.log("피드 보관함 추가 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -135,7 +135,7 @@ export function useFeedAPI() {
         console.log("피드 보관함 삭제 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -147,7 +147,7 @@ export function useFeedAPI() {
         console.log("피드 댓글 작성 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
   // 피드 댓글 삭제
@@ -158,7 +158,7 @@ export function useFeedAPI() {
         console.log("피드 댓글 삭제 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -170,7 +170,7 @@ export function useFeedAPI() {
         console.log("피드 댓글 좋아요 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
   // 피드 댓글 좋아요 삭제
@@ -181,7 +181,7 @@ export function useFeedAPI() {
         console.log("피드 댓글 좋아요 취소 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -193,7 +193,7 @@ export function useFeedAPI() {
         console.log("피드 대댓글 작성 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
   // 피드 대댓글 삭제
@@ -204,7 +204,7 @@ export function useFeedAPI() {
         console.log("피드 대댓글 삭제 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
   // 피드 대댓글 좋아요
@@ -215,7 +215,7 @@ export function useFeedAPI() {
         console.log("피드 대댓글 좋아요 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
@@ -226,7 +226,7 @@ export function useFeedAPI() {
         console.log("피드 대댓글 삭제 요청", response);
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   };
 
