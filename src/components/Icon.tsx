@@ -1,3 +1,4 @@
+
 import { BsBookmark, BsBookmarkFill, BsGrid3X3, BsInstagram, BsAt } from "react-icons/bs";
 import { GoHome, GoHomeFill, GoLock, GoSearch } from "react-icons/go";
 import { RiAddBoxLine, RiAddBoxFill } from "react-icons/ri";
@@ -6,12 +7,10 @@ import { FaComment, FaPause, FaPlay, FaRegComment } from "react-icons/fa";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { TbCirclePlus, TbBoxMultiple, TbExchange } from "react-icons/tb";
-// import { GrClose } from "react-icons/gr";
 import { IoClose } from "react-icons/io5";
 import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
 import { BiSolidChevronLeftCircle, BiSolidChevronRightCircle, BiMoviePlay } from "react-icons/bi";
 import { PiImagesSquareThin } from "react-icons/pi";
-
 
 interface IconType {
   size?: number;
@@ -134,7 +133,7 @@ export const Lock = ({ size, color }: IconType) => <GoLock size={size} color={co
 export const ImageAdd = ({ size, color }: IconType) => (
   <PiImagesSquareThin size={size} color={color} />
 );
-// 동영상 (공개전환관련)
+
 export const Movie = ({ size, color }: IconType) => <BiMoviePlay size={size} color={color} />;
 export const At = ({ size, color }: IconType) => <BsAt size={size} color={color} />;
 export const Change = ({ size, color }: IconType) => <TbExchange size={size} color={color} />;
