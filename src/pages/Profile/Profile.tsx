@@ -1,10 +1,20 @@
 import * as FONT from "../../constants/font";
-import * as COLOR from "../../constants/color";
 import * as S from "./Profile.style";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import ProfileHeader from "./components/ProfileHeader";
 import * as Icon from "../../components/Icon";
-import { useRecoilState } from "recoil";
-import { ItemState, OverlayState, ImgIdState } from "../../recoil/profileState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  ItemState,
+  OverlayState,
+  ImgIdState,
+  ProfileState,
+} from "../../recoil/profileState";
+import { ProfileResponseType } from "../../types/client/profile.client";
+import useProfileAPI from "../../api/useProfileAPI";
+import { useRef, useState, useEffect } from "react";
+import { isModalOpenState } from "../../recoil/homeState";
+import FeedModal from '../Home/components/FeedModal/FeedModal';
 
 interface FeedList {
   feedId: number;
@@ -20,12 +30,16 @@ interface StorageList {
   likeCount: number;
   commentCount: number;
 }
+interface Props {
+  type: string;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+}
 const feedList: FeedList[] = [
   {
     feedId: 1,
     mediaUrl:
       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
+    isMediaOne: false,
     likeCount: 20,
     commentCount: 11,
   },
@@ -33,7 +47,7 @@ const feedList: FeedList[] = [
     feedId: 2,
     mediaUrl:
       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
+    isMediaOne: false,
     likeCount: 10,
     commentCount: 11,
   },
@@ -41,7 +55,7 @@ const feedList: FeedList[] = [
     feedId: 3,
     mediaUrl:
       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
+    isMediaOne: false,
     likeCount: 10,
     commentCount: 11,
   },
@@ -99,7 +113,7 @@ const storageList: StorageList[] = [
     feedId: 1,
     mediaUrl:
       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
+    isMediaOne: false,
     likeCount: 20,
     commentCount: 11,
   },
@@ -131,7 +145,7 @@ const storageList: StorageList[] = [
     feedId: 5,
     mediaUrl:
       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
+    isMediaOne: false,
     likeCount: 10,
     commentCount: 11,
   },
@@ -147,7 +161,7 @@ const storageList: StorageList[] = [
     feedId: 7,
     mediaUrl:
       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
+    isMediaOne: false,
     likeCount: 10,
     commentCount: 11,
   },
@@ -168,39 +182,104 @@ const storageList: StorageList[] = [
     commentCount: 11,
   },
 ];
+
 function Profile() {
-  const handleItemClick = () => {
-    setItem((prev) => !prev);
+  const localIdString = localStorage.getItem("userId");
+  const localId = localIdString !== null ? parseInt(localIdString) : null; // localStorage 값
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const handleFeedListClick = () => {
+    setItem(false);
+    const newData = feedList;
+    setFeeds(newData);
   };
+  const handleSavedListClick = () => {
+    setItem(true);
+    const newData = storageList;
+    setFeeds(newData);
+  };
+  const { requestProfileInfo, requestProfileFeed, requestSavedFeed } = useProfileAPI();
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [item, setItem] = useRecoilState<boolean>(ItemState);
+  const [feeds, setFeeds] = useState<FeedList[]>([]);
   const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState<boolean>(isModalOpenState);
+  const setProfileInfo = useSetRecoilState<ProfileResponseType>(ProfileState);
+
+  const loadMoreFeeds = async () => {
+    setLoading(true);
+    try {
+      {
+        if (!item) {
+          //🔥 API
+          // requestProfileFeed(page,9,setFeeds);
+          setFeeds((prev) => [...prev, ...feedList]);
+        } else {
+          //🔥 API
+          // requestSavedFeed(page,9,setFeeds);
+          setFeeds((prev) => [...prev, ...storageList]);
+        }
+      }
+      setPage(page + 1);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (localId !== null) {
+      requestProfileInfo(localId, setProfileInfo);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !loading) {
+          loadMoreFeeds();
+        }
+      });
+    });
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+
+    }
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [loading, feeds, item]);
 
   return (
     <>
+      <Sidebar/>
       <ProfileHeader />
 
       <S.ProfileWrapper>
         <S.ProfileNavbar>
-          <S.ProfileItem isActive={!item} onClick={handleItemClick}>
+          <S.ProfileItem isActive={!item} onClick={handleFeedListClick}>
             <Icon.Grid /> <S.ProfileText>게시물 </S.ProfileText>
           </S.ProfileItem>
-          <S.ProfileItem
-            fontSize={FONT.XS}
-            fontWeight={FONT.Bold}
-            fontColor={COLOR.Gray3}
-            isActive={item}
-            onClick={handleItemClick}
-          >
+          <S.ProfileItem isActive={item} onClick={handleSavedListClick}>
             <Icon.Bookmark /> <S.ProfileText>저장됨 </S.ProfileText>
           </S.ProfileItem>
         </S.ProfileNavbar>
 
         <S.FeedContainer>
-          {(!item ? feedList : storageList).map((feed) => {
+          {/* {(!item ? feedList : storageList) */}
+          {feeds.map((feed) => {
             // <FeedCard key={feed.feedId} feed={feed} />;
             return (
-              <S.FeedBox key={feed.feedId}>
+              <S.FeedBox key={feed.feedId} onClick={()=>{setIsModalOpen(true);}}>
+                <S.FeedHoverMutiple>
+                  {!feed.isMediaOne && (
+                    <S.FeedHoverMultiItem>
+                      <Icon.BoxMultiple size={20} />
+                    </S.FeedHoverMultiItem>
+                  )}
+                </S.FeedHoverMutiple>
                 <S.FeedHover fontSize={FONT.M} fontWeight={FONT.Bold}>
                   {overlay && ImgId === feed.feedId && (
                     <>
@@ -230,7 +309,9 @@ function Profile() {
             );
           })}
         </S.FeedContainer>
+        <S.Observer ref={observerRef} />
       </S.ProfileWrapper>
+      {isModalOpen && <FeedModal/>}
     </>
   );
 }
