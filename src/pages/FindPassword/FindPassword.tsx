@@ -5,7 +5,7 @@ import * as S from "./FindPassword.style";
 import Timer from "./components/Timer/Timer";
 import { useUserAPI } from "../../api/useUserAPI";
 function FindPassword() {
-  const { requestIsEqualCertNumber } = useUserAPI();
+  const { requestIsEqualCertNumber, requestCertNumber } = useUserAPI();
   const [userName, setUserName] = useState("");
   const [validate, setValidate] = useState("");
 
@@ -32,6 +32,12 @@ function FindPassword() {
     setIsTimerEnd(false);
     restartTimer();
     alert("인증번호 요청");
+
+    const payload = {
+      userName,
+      type: getUserNameType(userName),
+    };
+    requestCertNumber(payload);
   };
 
   function getUserNameType(userName: string) {
