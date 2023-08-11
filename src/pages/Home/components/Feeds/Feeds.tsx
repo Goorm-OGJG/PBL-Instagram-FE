@@ -65,6 +65,7 @@ function Feeds() {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !loading) {
           loadMoreFeeds();
+          // console.log(entry.isIntersecting);
         }
       });
     });
@@ -74,7 +75,7 @@ function Feeds() {
     }
     return () => {
       if (observerRef.current) {
-        observer.unobserve(observerRef.current);
+        observer.unobserve(observerRef.current as HTMLDivElement);
       }
     };
   }, [loading, feeds]);

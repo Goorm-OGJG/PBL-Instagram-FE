@@ -59,9 +59,11 @@ function AddModal({ type }: Props) {
   const rightHandler = () => {
     const current = imgboxRef.current;
     const width = current!.clientWidth;
-    if (files && pos < files.length - 1) {
-      current?.scrollBy(width, 0);
-      setPos(pos + 1);
+    if (current!.scrollLeft % width === 0) {
+      if (files && pos < files.length - 1) {
+        current?.scrollBy(width, 0);
+        setPos(pos + 1);
+      }
     }
   };
 
@@ -69,9 +71,11 @@ function AddModal({ type }: Props) {
     const current = imgboxRef.current;
     // current?.scrollBy(-800, 0);
     const width = current!.clientWidth;
-    if (pos > 0) {
-      current?.scrollBy(-1 * width, 0);
-      setPos(pos - 1);
+    if (current!.scrollLeft % width === 0) {
+      if (pos > 0) {
+        current?.scrollBy(-1 * width, 0);
+        setPos(pos - 1);
+      }
     }
   };
 

@@ -167,6 +167,11 @@ export const SecondRightWrapper = styled.div`
 export const Img = styled.img`
   max-width: 100%;
   object-fit: fill;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 `;
 
 export const UserInfo = styled.div`

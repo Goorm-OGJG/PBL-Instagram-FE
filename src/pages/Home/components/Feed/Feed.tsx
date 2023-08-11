@@ -5,7 +5,7 @@ import * as Icon from "../../../../components/Icon";
 import FeedInput from "../FeedInput/FeedInput";
 import FeedImages from "../FeedImages/FeedImages";
 import { useSetRecoilState } from "recoil";
-import { isModalOpenState } from "../../../../recoil/homeState";
+import { isLikeModalOpenState, isModalOpenState } from "../../../../recoil/homeState";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
@@ -38,7 +38,7 @@ function Feed({ data }: PropsType) {
   const diff_date = timeCalculator(createdAt);
   const likeCalculate = useLikeCalculate();
   const likeNum = likeCalculate(likeCount);
-
+  const setIsLikeModalOpen = useSetRecoilState(isLikeModalOpenState);
   // 좋아요
   const likeHandler = () => {
     // setTmpHeart(true);
@@ -69,7 +69,8 @@ function Feed({ data }: PropsType) {
   };
 
   const likeModalHandler = () => {
-    alert("좋아요 모달 띄우기");
+    // alert("좋아요 모달 띄우기");
+    setIsLikeModalOpen(true);
   };
 
   return (

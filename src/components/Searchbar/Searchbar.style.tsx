@@ -13,7 +13,16 @@ export const Overlay = styled.div<StyleProps>`
   background-color: rgba(0, 0, 0, 0);
   top: 0;
   left: 72px;
-  display: ${(props) => (props.isSearch ? "block" : "none")};
+  opacity: 0;
+  visibility: hidden;
+
+  ${(props) =>
+    props.isSearch &&
+    css`
+      left: 72px;
+      opacity: 1;
+      visibility: visible;
+    `}
 `;
 export const Div = styled.div<StyleProps>`
   position: fixed;
