@@ -69,6 +69,11 @@ export const FeedImgBox = styled.div`
 export const FeedImg = styled.img`
   width: 470px;
   height: 470px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 `;
 
 export const ImgPosBox = styled.div<ArrowProps>`

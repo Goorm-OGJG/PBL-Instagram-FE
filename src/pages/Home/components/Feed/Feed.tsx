@@ -1,13 +1,16 @@
+import { useState } from "react";
 import * as S from "./Feed.style";
 import * as Icon from "../../../../components/Icon";
 // import { useState } from "react";
 import FeedInput from "../FeedInput/FeedInput";
 import FeedImages from "../FeedImages/FeedImages";
 import { useSetRecoilState } from "recoil";
-import { isModalOpenState } from "../../../../recoil/homeState";
+import { isLikeModalOpenState, isModalOpenState } from "../../../../recoil/homeState";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
+import FeedMenu from "../FeedMenu/FeedMenu";
+import { useNavigate } from "react-router";
 
 interface PropsType {
   data: T.FeedDataType;
@@ -27,13 +30,15 @@ function Feed({ data }: PropsType) {
     feedMedia,
   } = { ...data };
 
+  const [isFeedMenuOpen, setIsFeedMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
   const setIsModalOpen = useSetRecoilState(isModalOpenState);
   const timeCalculator = useTimeCalculate();
   const diff_date = timeCalculator(createdAt);
-
   const likeCalculate = useLikeCalculate();
   const likeNum = likeCalculate(likeCount);
-
+  const setIsLikeModalOpen = useSetRecoilState(isLikeModalOpenState);
   // 좋아요
   const likeHandler = () => {
     // setTmpHeart(true);
@@ -64,20 +69,22 @@ function Feed({ data }: PropsType) {
   };
 
   const likeModalHandler = () => {
-    alert("좋아요 모달 띄우기");
+    // alert("좋아요 모달 띄우기");
+    setIsLikeModalOpen(true);
   };
-
-  // 업로드 관련
 
   return (
     <S.FeedWrapper id={feedId}>
       <S.InfoBox>
+        {isFeedMenuOpen && <FeedMenu />}
         <S.ProfileBox>
-          <S.ProfileImg src={userImg} />
-          <S.UserName id={userId}>{nickname}</S.UserName>
+          <S.ProfileImg src={userImg} onClick={() => navigate(`/accounts/${nickname}`)} />
+          <S.UserName id={userId} onClick={() => navigate(`/accounts/${nickname}`)}>
+            {nickname}
+          </S.UserName>
           <S.UploadDate>{diff_date}</S.UploadDate>
         </S.ProfileBox>
-        <S.HorizontalIconBox>
+        <S.HorizontalIconBox onClick={() => setIsFeedMenuOpen(!isFeedMenuOpen)}>
           <Icon.HorizontalBold size={16} />
         </S.HorizontalIconBox>
       </S.InfoBox>
