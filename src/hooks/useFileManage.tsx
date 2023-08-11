@@ -8,9 +8,8 @@ export const useFileManage = () => {
   });
 
   //파일 업로드
-  const handleUpload = (selectedFiles: File[] | null) => {
-    const fileUrl: string[] = [];
-
+  const handleUpload = async (selectedFiles: File[] | null) => {
+    const result: string[] = [];
     if (!selectedFiles) {
       console.error("No file selected.");
       return;
@@ -20,9 +19,7 @@ export const useFileManage = () => {
 
     // S3 객체 생성
     const s3 = new AWS.S3();
-
-    // 파일 업로드
-    selectedFiles.map((selectedFile) => {
+    for (const selectedFile of selectedFiles) {
       const params: AWS.S3.PutObjectRequest = {
         Bucket: import.meta.env.VITE_AWS_BUCKET,
         Key: selectedFile.name.endsWith(".mp4")
@@ -31,18 +28,15 @@ export const useFileManage = () => {
         Body: selectedFile,
       };
 
-      s3.upload(params, (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
-        if (err) {
-          console.error("Error uploading file:", err);
-        } else {
-          // console.log("File uploaded successfully.", data.Location);
-          console.log("File uploaded successfully.");
-          // 업로드 성공 후 추가 작업을 수행할 수 있습니다.
-          fileUrl.push(data.Location);
-        }
-      });
-    });
-    return fileUrl;
+      try {
+        const stored = await s3.upload(params).promise();
+        // console.log(stored);
+        result.push(stored.Location);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    return result;
   };
 
   // 파일 삭제 요청
@@ -66,6 +60,5 @@ export const useFileManage = () => {
       console.error("Error deleting file:", error);
     }
   };
-
   return { handleUpload, handleDelete };
 };

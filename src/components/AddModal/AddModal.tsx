@@ -47,7 +47,7 @@ function AddModal({ type }: Props) {
       setStep(step + 1);
     } else if (step === 2) {
       // 업로드 테스트
-      const fileUrls = handleUpload(files);
+      const fileUrls = await handleUpload(files);
       console.log(fileUrls);
       // 삭제 테스트
       // handleDelete(
