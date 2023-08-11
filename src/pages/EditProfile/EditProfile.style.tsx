@@ -7,7 +7,7 @@ interface PropsType {
   fontWeight?: string;
   backGround?: string;
   fontColor?: string;
-}
+};
 
 export const EditProfileWrapper = styled.div`
   display: flex;
@@ -77,7 +77,7 @@ export const UserNickname = styled.div<PropsType>`
   width: 8px;
   width: max-content;
 `;
-export const UserImgEditBtn = styled.div<PropsType>`
+export const UserImgEditBtn = styled.label<PropsType>`
   border: 0;
   background-color: transparent;
   box-sizing: border-box;
@@ -90,6 +90,7 @@ export const UserImgEditBtn = styled.div<PropsType>`
     color: ${COLOR.Gray1};
   }
 `;
+
 // EditEtc
 export const EditEtcForm = styled.form<PropsType>`
   align-items: stretch;
