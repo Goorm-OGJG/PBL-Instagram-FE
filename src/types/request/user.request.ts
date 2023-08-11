@@ -32,3 +32,8 @@ export interface SetPasswordPayloadType {
 export interface IsExistEmailPayloadType {
   email: string;
 }
+
+export interface CertNumberPayloadType {
+  userName: string;
+  type: string;
+}
