@@ -58,10 +58,36 @@ export function useUserAPI() {
       });
   }
 
+  function requestCertNumber(payload: T.CertNumberPayloadType) {
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/api/users/`, payload)
+      .then(() => {
+        alert("등록된 이메일로 인증번호가 전송되었습니다.");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
+  function requestLogout() {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/api/users/logout`)
+      .then(() => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("nickname");
+        localStorage.removeItem("userImg");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
   return {
     requestLogin,
     requestSignUp,
     requestIsEqualCertNumber,
     requestSetPassword,
+    requestCertNumber,
+    requestLogout,
   };
 }
