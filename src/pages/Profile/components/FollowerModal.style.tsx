@@ -80,7 +80,24 @@ export const FollowModalBody = styled.div`
   flex-direction: column;
   height: 90%;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+    
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background: ${COLOR.Gray3};
+  }
+  &::-webkit-scrollbar-track {
+    width: 10px;
+    background: ${COLOR.Gray4};
+    border-right:1px solid ${COLOR.Gray3};
+    border-left:1px solid ${COLOR.Gray3};
+
+  }
 `;
+
 
 export const FollowModalBox = styled.div`
   display: flex;
