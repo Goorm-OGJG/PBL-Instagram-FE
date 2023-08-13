@@ -119,3 +119,33 @@ export const Observer = styled.div`
   opacity:0;
 `;
 
+// 시크릿 모드
+export const SecretContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  height: 150px;
+  width:100%;
+  padding: 40px;
+  border:1px solid ${COLOR.Gray4};
+`;
+export const SecretBox = styled.div`
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  justify-content: center;
+  text-align:center;
+  align-items:center;
+  font-size:${FONT.S};
+  font-weight:${FONT.Medium};
+  color:${COLOR.Gray1};
+  margin:0 auto;
+
+`;
+export const SecretScript = styled.div`
+
+  display:flex;
+  width:100%;
+  justify-content: center;
+  line-height:24px;
+  margin: 10px 0px;
+`;

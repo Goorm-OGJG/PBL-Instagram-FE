@@ -206,15 +206,15 @@ function Profile() {
   const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
   const [isModalOpen, setIsModalOpen] = useRecoilState<boolean>(isModalOpenState);
-  const setProfileInfo = useSetRecoilState<ProfileResponseType>(ProfileState);
-
+  const [profileInfo,setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState);
+  const isSecret = profileInfo.isSecret;
   const loadMoreFeeds = async () => {
     setLoading(true);
     try {
       {
         if (!item) {
           //🔥 API
-          // requestProfileFeed(page,9,setFeeds);
+          // requestProfileFeed(userId,page,9,setFeeds);
           setFeeds((prev) => [...prev, ...feedList]);
         } else {
           //🔥 API
@@ -258,15 +258,21 @@ function Profile() {
       <ProfileHeader />
 
       <S.ProfileWrapper>
+        {/* 🔥 isSecret에 ! 느낌표 처리 할 것*/}
+        {!isSecret ? 
+        <>
         <S.ProfileNavbar>
           <S.ProfileItem isActive={!item} onClick={handleFeedListClick}>
             <Icon.Grid /> <S.ProfileText>게시물 </S.ProfileText>
           </S.ProfileItem>
+          {/*  🔥  */}
+          {/* {localId === profileInfo.userId && */}
           <S.ProfileItem isActive={item} onClick={handleSavedListClick}>
             <Icon.Bookmark /> <S.ProfileText>저장됨 </S.ProfileText>
           </S.ProfileItem>
+          {/* } */}
+          
         </S.ProfileNavbar>
-
         <S.FeedContainer>
           {/* {(!item ? feedList : storageList) */}
           {feeds.map((feed) => {
@@ -308,8 +314,11 @@ function Profile() {
               </S.FeedBox>
             );
           })}
+      <S.Observer ref={observerRef} />
         </S.FeedContainer>
-        <S.Observer ref={observerRef} />
+        </>
+         : <S.SecretContainer><S.SecretBox><S.SecretScript>비공개 계정입니다.</S.SecretScript><S.SecretScript>사진 및 동영상을 보려면 팔로우하세요.</S.SecretScript></S.SecretBox></S.SecretContainer>} 
+        {/*   */}
       </S.ProfileWrapper>
       {isModalOpen && <FeedModal/>}
     </>

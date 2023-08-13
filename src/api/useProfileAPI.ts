@@ -22,9 +22,9 @@ export default function useProfileAPI() {
   };
 
   // 프로필 피드 목록 가져오기
-  const requestProfileFeed = (page: number, size: number, setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>) => {
+  const requestProfileFeed = (userId:number,page: number, size: number, setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>) => {
     axios
-      .get(`${profileURL}/myFeeds?page=${page}&size=${size}`)
+      .get(`${profileURL}/${userId}/feeds?page=${page}&size=${size}`)
       .then((response) => {
         setFeeds(response.data);})
       .catch((error) => {
@@ -34,7 +34,7 @@ export default function useProfileAPI() {
   // 프로필 피드 목록 가져오기
   const requestSavedFeed = (page: number, size: number, setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>) => {
     axios
-      .get(`${profileURL}/savedFeeds?page=${page}&size=${size}`)
+      .get(`${profileURL}/collected-feed?page=${page}&size=${size}`)
       .then((response) => {
         setFeeds(response.data);})
       .catch((error) => {

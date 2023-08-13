@@ -66,6 +66,7 @@ function ProfileHeader() {
   //   }
   // };
   
+  
   return (
     <S.ProfileWrapper>
       <S.ProfileHeader>
@@ -99,7 +100,10 @@ function ProfileHeader() {
             {/*🔥 profileInfo.feedCount */}
             <S.UserFollowing
               onClick={() => {
+                //🔥 isSecret에 ! 느낌표 처리 할 것
+                if (!isSecret){
                 setFollowerModal((prev) => !prev);
+                }
               }}
             >
               팔로워 {accounts[0].followerCount}
@@ -115,9 +119,13 @@ function ProfileHeader() {
               />
             )}
             <S.UserFollower
+              
               onClick={() => {
+                //🔥 isSecret에 ! 느낌표 처리 할 것
+                if (!isSecret){
                 setFollowModal((prev) => !prev);
-              }}
+              }
+            }}
             >
               {" "}
               팔로우 {accounts[0].followingCount}
