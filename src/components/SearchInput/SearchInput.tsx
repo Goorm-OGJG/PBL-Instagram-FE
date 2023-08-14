@@ -22,6 +22,7 @@ function SearchInput() {
       const handler = setTimeout(() => {
         console.log(value);
         console.log("debounce 실행");
+        // 요청 날릴 예정
       }, delay);
 
       return () => {
@@ -31,10 +32,9 @@ function SearchInput() {
   };
 
   const debouncedSearchTerm = useDebounce(value, 500);
-
   useEffect(() => {
     debouncedSearchTerm;
-  }, [debouncedSearchTerm]);
+  });
 
   return (
     <S.SearchBox>

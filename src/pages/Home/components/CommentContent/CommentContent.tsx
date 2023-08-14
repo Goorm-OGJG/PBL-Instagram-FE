@@ -3,7 +3,7 @@ import * as Icon from "../../../../components/Icon";
 import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
-import React from "react";
+import React, { useState } from "react";
 import { useHashTag } from "../../../../hooks/useHashTag";
 
 interface PropsType {
@@ -32,7 +32,9 @@ function CommentContent({ comment }: PropsType) {
 
   const { extractHashTagsElement } = useHashTag();
   const extractContent = extractHashTagsElement(content);
-  console.log(extractContent);
+
+  const [isSettingClick, setIsSettingClick] = useState(false);
+  // console.log(extractContent);
   return (
     <S.ProfileWrapper id={commentId}>
       <S.ProfileImgBox id={userId}>
@@ -58,10 +60,12 @@ function CommentContent({ comment }: PropsType) {
               <S.InfoText>답글 달기</S.InfoText>
             </React.Fragment>
           )}
-
-          <S.SettingBox>
-            <Icon.Horizontal size={16} />
-          </S.SettingBox>
+          <S.SettingWrapper>
+            <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
+              <Icon.Horizontal size={16} />
+            </S.SettingBox>
+            {isSettingClick && <S.Delete>삭제</S.Delete>}
+          </S.SettingWrapper>
         </S.CommentInfoWrapper>
       </S.TextWrapper>
       {/* 좋아요 */}

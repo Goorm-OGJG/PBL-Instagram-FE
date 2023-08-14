@@ -5,7 +5,8 @@ export const useHashTag = () => {
 
     if (matches) {
       // 중복 제거를 위해 Set을 사용하고 다시 배열로 변환
-      return Array.from(new Set(matches));
+      const result = Array.from(new Set(matches)).map((str) => str.replace("#", ""));
+      return result;
     }
     return [];
   };
