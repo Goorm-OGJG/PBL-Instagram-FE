@@ -3,7 +3,7 @@ import * as S from "./Profile.style";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ProfileHeader from "./components/ProfileHeader";
 import * as Icon from "../../components/Icon";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   ItemState,
   OverlayState,
@@ -30,10 +30,10 @@ interface StorageList {
   likeCount: number;
   commentCount: number;
 }
-interface Props {
-  type: string;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
-}
+// interface Props {
+//   type: string;
+//   setState: React.Dispatch<React.SetStateAction<boolean>>;
+// }
 const feedList: FeedList[] = [
   {
     feedId: 1,
@@ -185,7 +185,11 @@ const storageList: StorageList[] = [
 
 function Profile() {
   const localIdString = localStorage.getItem("userId");
-  const localId = localIdString !== null ? parseInt(localIdString) : null; // localStorage 값
+  let localId: number|null =null;
+// localStorage 값
+  if (localIdString !== null ){
+    localId =  parseInt(localIdString);
+  };
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const handleFeedListClick = () => {
@@ -207,18 +211,18 @@ function Profile() {
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
   const [isModalOpen, setIsModalOpen] = useRecoilState<boolean>(isModalOpenState);
   const [profileInfo,setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState);
-  const isSecret = profileInfo.isSecret;
+  const isSecret = profileInfo.secretStatus;
   const loadMoreFeeds = async () => {
     setLoading(true);
     try {
       {
-        if (!item) {
+        if (!item && localId !== null) {
           //🔥 API
-          // requestProfileFeed(userId,page,9,setFeeds);
+          requestProfileFeed(localId,page,9,setFeeds);
           setFeeds((prev) => [...prev, ...feedList]);
-        } else {
+        } else if(item && localId !== null) {
           //🔥 API
-          // requestSavedFeed(page,9,setFeeds);
+          requestSavedFeed(page,9,setFeeds);
           setFeeds((prev) => [...prev, ...storageList]);
         }
       }
@@ -266,17 +270,16 @@ function Profile() {
             <Icon.Grid /> <S.ProfileText>게시물 </S.ProfileText>
           </S.ProfileItem>
           {/*  🔥  */}
-          {/* {localId === profileInfo.userId && */}
+          {localId === profileInfo.userId &&
           <S.ProfileItem isActive={item} onClick={handleSavedListClick}>
             <Icon.Bookmark /> <S.ProfileText>저장됨 </S.ProfileText>
           </S.ProfileItem>
-          {/* } */}
+          } 
           
         </S.ProfileNavbar>
         <S.FeedContainer>
           {/* {(!item ? feedList : storageList) */}
           {feeds.map((feed) => {
-            // <FeedCard key={feed.feedId} feed={feed} />;
             return (
               <S.FeedBox key={feed.feedId} onClick={()=>{setIsModalOpen(true);}}>
                 <S.FeedHoverMutiple>

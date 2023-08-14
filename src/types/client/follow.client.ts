@@ -1,12 +1,12 @@
 export interface FollowerResponseType {
-  userId: string;
+  userId: number;
   nickname: string;
   profileImg: string;
   followStatus: boolean;
 }
 
 export interface FollowResponseType {
-  userId: string;
+  userId: number;
   nickname: string;
   profileImg: string;
 }
