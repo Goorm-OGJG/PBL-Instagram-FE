@@ -70,6 +70,7 @@ export const CommentInfoWrapper = styled.div`
   display: flex;
   height: 14px;
   margin-top: 5px;
+  position: relative;
 `;
 
 export const InfoText = styled.span`
@@ -124,4 +125,24 @@ export const SettingBox = styled(IconBox)`
   ${ProfileWrapper}:hover & {
     display: block;
   }
+`;
+export const Delete = styled.div`
+  position: absolute;
+  background-color: ${COLOR.White};
+  font-size: ${FONT.XS};
+  color: ${COLOR.Red1};
+  width: 40px;
+  height: 20px;
+  left: 15px;
+  top: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+`;
+export const SettingWrapper = styled.div`
+  position: relative;
 `;

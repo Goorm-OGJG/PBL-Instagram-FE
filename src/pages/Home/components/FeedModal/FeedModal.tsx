@@ -101,6 +101,9 @@ function FeedModal() {
   const likeNum = likeCalculator(likeCount);
 
   const { extractHashtags } = useHashTag();
+
+  const [isSettingClick, setIsSettingClick] = useState(false);
+
   // 이미지 이동 관련
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -167,6 +170,7 @@ function FeedModal() {
   };
   // console.log(comments);
   // console.log(feedMedia);
+
   return (
     <S.Overlay>
       <S.CloseBox onClick={() => setIsModalOpen(false)}>
@@ -211,9 +215,10 @@ function FeedModal() {
               </S.ProfileImgBox>
               <S.UserName to="/home">{nickname}</S.UserName>
             </S.ProfileWrapper>
-            <S.IconBox>
+            <S.IconBox onClick={() => setIsSettingClick(!isSettingClick)}>
               <Icon.Horizontal size={24} />
             </S.IconBox>
+            {isSettingClick && <S.Delete>삭제</S.Delete>}
           </S.FeedHeader>
           {/* 댓글 */}
           <S.Comments>

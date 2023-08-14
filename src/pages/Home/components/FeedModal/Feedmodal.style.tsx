@@ -142,6 +142,7 @@ export const FeedHeader = styled.header`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid ${COLOR.BorderColor};
+  position: relative;
 `;
 
 export const ProfileWrapper = styled.div`
@@ -279,5 +280,22 @@ export const AddCircleBox = styled.div`
 `;
 
 export const AddCircle = styled.div`
+  cursor: pointer;
+`;
+
+export const Delete = styled.div`
+  position: absolute;
+  background-color: ${COLOR.White};
+  font-size: ${FONT.XS};
+  color: ${COLOR.Red1};
+  width: 40px;
+  height: 20px;
+  right: 20px;
+  top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
   cursor: pointer;
 `;

@@ -15,6 +15,7 @@ function Searchbar({ isSearch, setIsSearch }: Props) {
       setIsSearch(!isSearch);
     }
   };
+
   return (
     <S.Overlay isSearch={isSearch} onClick={overlayHandler} id="overlay" ref={ref}>
       <S.Div isSearch={isSearch}>
