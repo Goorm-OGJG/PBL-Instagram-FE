@@ -78,6 +78,17 @@ export const FeedImg = styled.img`
     filter: brightness(0.5);
   }
 `;
+
+export const FeedHoverMutiple = styled.div<PropsType>`
+  position: absolute;
+  display: flex;
+  width:300px;
+  justify-content:right;
+  font-size: ${FONT.ML};
+  font-weight: ${FONT.Bold};
+  z-index: 10;
+`;
+
 export const FeedHover = styled.div<PropsType>`
   position: absolute;
   display: flex;
@@ -88,6 +99,15 @@ export const FeedHover = styled.div<PropsType>`
   z-index: 100;
 `;
 
+export const FeedHoverMultiItem = styled.div<PropsType>`
+  margin: 5px 10px;
+  align-self: center;
+  justify-content: center;
+  font-size: ${FONT.ML};
+  font-weight: ${FONT.Bold};
+  color: rgba(255,255,255,0.8);
+`;
+
 export const FeedHoverItem = styled.div<PropsType>`
   margin: 0px 15px;
   align-self: center;
@@ -95,10 +115,37 @@ export const FeedHoverItem = styled.div<PropsType>`
   font-size: ${FONT.ML};
   font-weight: ${FONT.Bold};
 `;
+export const Observer = styled.div`
+  opacity:0;
+`;
 
-// export const ConstantTestDiv = styled.div<PropsType>`
-//   font-size: ${(PropsType) => PropsType.fontSize ? PropsType.fontSize : FONT.S };
-//   font-weight: ${(PropsType) => (PropsType.fontWeight ? PropsType.fontWeight : FONT.Medium)};
-//   color: ${(PropsType)=> PropsType.fontColor ?PropsType.fontColor : COLOR.Gray1 };
-//   background: ${(PropsType)=> PropsType.backGround ?PropsType.backGround : COLOR.Gray4 };
-// `;
+// 시크릿 모드
+export const SecretContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  height: 150px;
+  width:100%;
+  padding: 40px;
+  border:1px solid ${COLOR.Gray4};
+`;
+export const SecretBox = styled.div`
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  justify-content: center;
+  text-align:center;
+  align-items:center;
+  font-size:${FONT.S};
+  font-weight:${FONT.Medium};
+  color:${COLOR.Gray1};
+  margin:0 auto;
+
+`;
+export const SecretScript = styled.div`
+
+  display:flex;
+  width:100%;
+  justify-content: center;
+  line-height:24px;
+  margin: 10px 0px;
+`;

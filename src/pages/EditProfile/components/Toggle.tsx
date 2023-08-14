@@ -1,11 +1,12 @@
 import { useState } from "react";
 import PublicModal from "./PublicModal";
 import PrivateModal from "./PrivateModal";
-
+import { useRecoilState } from "recoil";
+import { ToggleState } from "../../../recoil/profileState";
 import * as S from "./Toggle.style";
 
 export default function Toggle() {
-  const [isOn, setIsOn] = useState(false);
+  const [isOn, setIsOn] = useRecoilState<boolean>(ToggleState);
   const [isPublicModalOpen, setIsPublicModalOpen] = useState(false);
   const [isPrivateModalOpen, setIsPrivateModalOpen] = useState(false);
   const toggleHandler = () => {
