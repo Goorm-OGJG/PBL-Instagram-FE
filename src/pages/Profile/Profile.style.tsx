@@ -20,7 +20,7 @@ export const ProfileWrapper = styled.div`
   overflow-x: hidden;
 `;
 
-export const ProfileNavbar = styled.div<PropsType>`
+export const ProfileNavbar = styled.div`
   display: flex;
   justify-content: center;
   border-top: 1px solid ${COLOR.Gray4};
@@ -79,7 +79,7 @@ export const FeedImg = styled.img`
   }
 `;
 
-export const FeedHoverMutiple = styled.div<PropsType>`
+export const FeedHoverMutiple = styled.div`
   position: absolute;
   display: flex;
   width:300px;
@@ -89,7 +89,7 @@ export const FeedHoverMutiple = styled.div<PropsType>`
   z-index: 10;
 `;
 
-export const FeedHover = styled.div<PropsType>`
+export const FeedHover = styled.div`
   position: absolute;
   display: flex;
   align-self: center;
@@ -99,7 +99,7 @@ export const FeedHover = styled.div<PropsType>`
   z-index: 100;
 `;
 
-export const FeedHoverMultiItem = styled.div<PropsType>`
+export const FeedHoverMultiItem = styled.div`
   margin: 5px 10px;
   align-self: center;
   justify-content: center;
@@ -108,7 +108,7 @@ export const FeedHoverMultiItem = styled.div<PropsType>`
   color: rgba(255,255,255,0.8);
 `;
 
-export const FeedHoverItem = styled.div<PropsType>`
+export const FeedHoverItem = styled.div`
   margin: 0px 15px;
   align-self: center;
   justify-content: center;

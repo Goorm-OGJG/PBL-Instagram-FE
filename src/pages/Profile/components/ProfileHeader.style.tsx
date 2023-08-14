@@ -7,7 +7,7 @@ interface Props {
   fontWeight?: string;
   backGround?: string;
   fontColor?: string;
-  blueColor: boolean;
+  blueColor?: boolean;
 }
 export const ProfileWrapper = styled.div`
   display: flex;
@@ -82,7 +82,7 @@ export const UserNickName = styled.a`
   cursor: pointer;
 `;
 
-export const NickName = styled.h2<Props>`
+export const NickName = styled.h2`
   color: white;
   min-width: 100%;
   margin-right: 20px;
@@ -109,7 +109,7 @@ export const EditProfileBtn = styled.button<Props>`
     background: ${props => (props.blueColor ? '#1877F2' : '#1c1e21')}
   }
 `;
-export const InfoFollowBox = styled.div<Props>`
+export const InfoFollowBox = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
@@ -126,7 +126,7 @@ export const UserFollower = styled.div`
   margin-right: 40px;
   cursor: pointer;
 `;
-export const UserIntro = styled.div<Props>`
+export const UserIntro = styled.div`
   font-size: ${FONT.S};
   font-weight: ${FONT.Bold};
 `;
