@@ -7,12 +7,12 @@ import * as T from "../../types/request/user.request";
 
 function Login() {
   const { requestLogin } = useUserAPI();
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const buttonAction = userName && password;
+  const buttonAction = username && password;
 
   const handleUserName = (text: string) => {
-    setUserName(text);
+    setUsername(text);
   };
 
   const handlePassword = (text: string) => {
@@ -23,17 +23,17 @@ function Login() {
     alert("로그인 요청");
 
     const payload: T.LoginPayloadType = {
-      userName,
+      username,
       password,
-      type: getUserNameType(userName),
+      type: getUserNameType(username),
     };
 
     requestLogin(payload);
   };
 
-  function getUserNameType(userName: string) {
+  function getUserNameType(username: string) {
     const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-    return emailPattern.test(userName) ? "email" : "nickname";
+    return emailPattern.test(username) ? "email" : "nickname";
   }
 
   return (
@@ -44,7 +44,7 @@ function Login() {
           <InputBox
             type={"text"}
             placeHolderText="전화번호, 사용자 이름 또는 이메일"
-            value={userName}
+            value={username}
             onChange={handleUserName}
           />
           <InputBox
