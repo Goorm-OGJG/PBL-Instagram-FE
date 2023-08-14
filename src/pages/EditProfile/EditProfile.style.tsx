@@ -2,12 +2,6 @@ import styled from "styled-components";
 import * as FONT from "../../constants/font";
 import * as COLOR from "../../constants/color";
 
-interface PropsType {
-  fontSize?: string;
-  fontWeight?: string;
-  backGround?: string;
-  fontColor?: string;
-};
 
 export const EditProfileWrapper = styled.div`
   display: flex;
@@ -23,7 +17,7 @@ export const EditProfileWrapper = styled.div`
   margin-bottom: 60px;
 `;
 
-export const EditHeader = styled.header<PropsType>`
+export const EditHeader = styled.header`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -34,7 +28,7 @@ export const EditHeader = styled.header<PropsType>`
   color: ${COLOR.Gray1};
 `;
 
-export const EditUserInfo = styled.section<PropsType>`
+export const EditUserInfo = styled.section`
   align-items: stretch;
   display: flex;
   flex-direction: row;
@@ -68,7 +62,7 @@ export const EditUserTextBox = styled.div`
   box-sizing: border-box;
   vertical-align: baseline;
 `;
-export const UserNickname = styled.div<PropsType>`
+export const UserNickname = styled.div`
   margin: 4px 0;
   line-height: 20px;
   font-size: ${FONT.M};
@@ -77,7 +71,7 @@ export const UserNickname = styled.div<PropsType>`
   width: 8px;
   width: max-content;
 `;
-export const UserImgEditBtn = styled.label<PropsType>`
+export const UserImgEditBtn = styled.label`
   border: 0;
   background-color: transparent;
   box-sizing: border-box;
@@ -92,7 +86,7 @@ export const UserImgEditBtn = styled.label<PropsType>`
 `;
 
 // EditEtc
-export const EditEtcForm = styled.form<PropsType>`
+export const EditEtcForm = styled.form`
   align-items: stretch;
   border: 0;
   display: flex;
@@ -105,12 +99,12 @@ export const EditEtcForm = styled.form<PropsType>`
   padding: 0;
   vertical-align: baseline;
 `;
-export const EditIntroBox = styled.section<PropsType>`
+export const EditIntroBox = styled.section`
   display: flex;
   flex-direction: row;
   margin: 30px 32px 0 124px;
 `;
-export const EctTitle = styled.div<PropsType>`
+export const EctTitle = styled.div`
   box-sizing: border-box;
   flex: 0 0 194px;
   line-height: 18px;
@@ -122,12 +116,12 @@ export const EctTitle = styled.div<PropsType>`
   padding-right: 32px;
 `;
 
-export const InputBox = styled.div<PropsType>`
+export const InputBox = styled.div`
   min-width: 355px;
   width: 100%;
 `;
 
-export const IntroInput = styled.textarea<PropsType>`
+export const IntroInput = styled.textarea`
   flex: 0 1 405px;
   min-width: 355px;
   background: transparent;
@@ -151,22 +145,22 @@ export const IntroInput = styled.textarea<PropsType>`
   }
 `;
 
-export const InputCounter = styled.div<PropsType>`
+export const InputCounter = styled.div`
   font-size: ${FONT.XS};
   color: ${COLOR.Gray2};
   font-weight: ${FONT.Medium};
   line-height: 16px;
   margin-top: 10px;
 `;
-export const EditRecommendBox = styled.section<PropsType>`
+export const EditRecommendBox = styled.section`
   display: flex;
   flex-direction: row;
   margin: 30px 32px 0 124px;
 `;
-export const RecommendCheckBox = styled.input<PropsType>`
+export const RecommendCheckBox = styled.input`
   accent-color: ${COLOR.Gray4};
 `;
-export const RecommendExplain = styled.div<PropsType>`
+export const RecommendExplain = styled.div`
   font-size: ${FONT.S};
   font-weight: ${FONT.Medium};
   color: ${COLOR.Gray1};
@@ -179,7 +173,7 @@ export const RecommendExplain = styled.div<PropsType>`
 `;
 
 // Private
-export const PrivateHeader = styled.header<PropsType>`
+export const PrivateHeader = styled.header`
   width: 85%;
   display: flex;
   flex-direction: row;
@@ -197,7 +191,7 @@ export const PrivateTitleBox = styled.div`
   flex-direction: column;
   margin-top: 50px;
 `;
-export const PrivateTitle = styled.div<PropsType>`
+export const PrivateTitle = styled.div`
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -210,19 +204,19 @@ export const PrivateTitle = styled.div<PropsType>`
   padding-right: 32px;
 `;
 export const ToggleBox = styled.div``;
-export const EditPrivateBox = styled.section<PropsType>`
+export const EditPrivateBox = styled.section`
   display: flex;
   flex-direction: column;
   margin: 30px 124px 0 124px;
 `;
-export const PrivateRable = styled.label<PropsType>`
+export const PrivateRable = styled.label`
   accent-color: ${COLOR.Gray4};
 `;
-export const PrivateCheckBox = styled.input<PropsType>`
+export const PrivateCheckBox = styled.input`
   accent-color: ${COLOR.Gray4};
 `;
 
-export const PrivateExplain = styled.div<PropsType>`
+export const PrivateExplain = styled.div`
   font-size: ${FONT.S};
   font-weight: ${FONT.Medium};
   color: ${COLOR.Gray1};
@@ -240,7 +234,7 @@ export const EditBtnBox = styled.div`
   width: 95%;
   justify-content: right;
 `;
-export const EditProfileBtn = styled.button<PropsType>`
+export const EditProfileBtn = styled.button`
   display: flex;
   padding: 0 16px;
   align-items: center;
