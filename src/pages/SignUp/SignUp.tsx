@@ -7,7 +7,7 @@ import * as T from "../../types/request/user.request";
 function SignUp() {
   const { requestSignUp } = useUserAPI();
   const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
@@ -27,7 +27,7 @@ function SignUp() {
     setEmail(text);
   };
   const handleUserName = (text: string) => {
-    setUserName(text);
+    setUsername(text);
   };
   const handleNickname = (text: string) => {
     setNickname(text);
@@ -66,10 +66,9 @@ function SignUp() {
 
     const payload: T.SignUpPayloadType = {
       email,
-      userName,
+      username,
       nickname,
       password,
-      type: "",
     };
 
     requestSignUp(payload);
@@ -91,7 +90,7 @@ function SignUp() {
           <InputBox
             type={"text"}
             placeHolderText="성명"
-            value={userName}
+            value={username}
             onChange={handleUserName}
           />
           <InputBox

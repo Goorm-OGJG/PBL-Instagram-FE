@@ -39,7 +39,7 @@ export function useUserAPI() {
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/users/auth`, payload)
       .then(() => {
-        navigate("/help/newpassword");
+        navigate("/help/newpassword", { state: { username: payload.username } });
       })
       .catch((error) => {
         alert(error);

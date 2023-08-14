@@ -3,7 +3,8 @@ import * as Icon from "../../../../components/Icon";
 import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
-import React from "react";
+import React, { useState } from "react";
+import { useHashTag } from "../../../../hooks/useHashTag";
 
 interface PropsType {
   comment: T.CommentType;
@@ -29,6 +30,11 @@ function CommentContent({ comment }: PropsType) {
   const timeCalculator = useTimeCalculate();
   const diff_date = timeCalculator(createdAt);
 
+  const { extractHashTagsElement } = useHashTag();
+  const extractContent = extractHashTagsElement(content);
+
+  const [isSettingClick, setIsSettingClick] = useState(false);
+  // console.log(extractContent);
   return (
     <S.ProfileWrapper id={commentId}>
       <S.ProfileImgBox id={userId}>
@@ -37,7 +43,15 @@ function CommentContent({ comment }: PropsType) {
       {/* 유저 이름 댓글 내용 */}
       <S.TextWrapper>
         <S.UserName to="/home">{nickname}</S.UserName>
-        <S.CommentText>{content}</S.CommentText>
+        <S.CommentText>
+          {extractContent.map((content) => {
+            if (content.type === "tag") {
+              return <a>{content.text}&nbsp;</a>;
+            } else {
+              return <span>{content.text}&nbsp;</span>;
+            }
+          })}
+        </S.CommentText>
         <S.CommentInfoWrapper>
           <S.UploadText>{`${diff_date}`}</S.UploadText>
           {commentId !== "feed_desc" && (
@@ -46,10 +60,12 @@ function CommentContent({ comment }: PropsType) {
               <S.InfoText>답글 달기</S.InfoText>
             </React.Fragment>
           )}
-
-          <S.SettingBox>
-            <Icon.Horizontal size={16} />
-          </S.SettingBox>
+          <S.SettingWrapper>
+            <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
+              <Icon.Horizontal size={16} />
+            </S.SettingBox>
+            {isSettingClick && <S.Delete>삭제</S.Delete>}
+          </S.SettingWrapper>
         </S.CommentInfoWrapper>
       </S.TextWrapper>
       {/* 좋아요 */}

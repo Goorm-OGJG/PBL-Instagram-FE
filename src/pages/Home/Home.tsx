@@ -7,12 +7,18 @@ import Stories from "./components/Stories/Stories";
 import Feeds from "./components/Feeds/Feeds";
 import FeedModal from "./components/FeedModal/FeedModal";
 import { useRecoilValue } from "recoil";
-import { isModalOpenState, whichAddModalOpenState } from "../../recoil/homeState";
+import {
+  isLikeModalOpenState,
+  isModalOpenState,
+  whichAddModalOpenState,
+} from "../../recoil/homeState";
 import AddModal from "../../components/AddModal/AddModal";
+import LikeModal from "./components/LikeModal/LikeModal";
 
 function Home() {
   const isModalOpen = useRecoilValue(isModalOpenState);
   const whichModalOpen = useRecoilValue(whichAddModalOpenState);
+  const isLikeModalOpen = useRecoilValue(isLikeModalOpenState);
   return (
     <React.Fragment>
       <Sidebar />
@@ -31,6 +37,7 @@ function Home() {
       {isModalOpen && <FeedModal />}
       {whichModalOpen === "feed" && <AddModal type="feed" />}
       {whichModalOpen === "story" && <AddModal type="story" />}
+      {isLikeModalOpen && <LikeModal />}
     </React.Fragment>
   );
 }

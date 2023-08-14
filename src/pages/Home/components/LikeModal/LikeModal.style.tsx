@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import * as FONT from "../../../constants/font";
-import * as COLOR from "../../../constants/color";
+import * as FONT from "../../../../constants/font";
+import * as COLOR from "../../../../constants/color";
 import { Link } from "react-router-dom";
 
 export const Overlay = styled.div`
@@ -61,6 +61,7 @@ export const FollowModalTitle = styled.div`
   padding: 0 auto;
   font-size: ${FONT.M};
   font-weight: ${FONT.Bold};
+  color: ${COLOR.Gray1};
 `;
 export const FollowModalExitBtn = styled.button`
   align-items: center;
@@ -80,24 +81,7 @@ export const FollowModalBody = styled.div`
   flex-direction: column;
   height: 90%;
   overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 10px;
-    height: 8px;
-    
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 12px;
-    background: ${COLOR.Gray3};
-  }
-  &::-webkit-scrollbar-track {
-    width: 10px;
-    background: ${COLOR.Gray4};
-    border-right:1px solid ${COLOR.Gray3};
-    border-left:1px solid ${COLOR.Gray3};
-
-  }
 `;
-
 
 export const FollowModalBox = styled.div`
   display: flex;
@@ -145,24 +129,6 @@ export const Nickname = styled(Link)`
     color: ${COLOR.Gray2};
   }
 `;
-export const FollowBtn = styled.button`
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: 100px;
-  border: none;
-  border-radius: 8px;
-  font-size: ${FONT.XS};
-  font-weight: ${FONT.Medium};
-  color: ${COLOR.Blue2};
-  background-color: transparent;
-  line-height: 18px;
-  height: 32px;
-  cursor: pointer;
-  &:hover {
-    color: ${COLOR.Blue1};
-  }
-`;
 
 export const FollowDeleteBox = styled.div`
   display: flex;
@@ -190,4 +156,8 @@ export const DeleteBtn = styled.button`
   height: 32px;
   padding: 0 16px;
   cursor: pointer;
+`;
+
+export const FollowBtn = styled(DeleteBtn)`
+  background-color: ${COLOR.Blue2};
 `;

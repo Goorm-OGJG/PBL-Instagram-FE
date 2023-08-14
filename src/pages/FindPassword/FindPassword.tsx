@@ -2,11 +2,12 @@ import { useState } from "react";
 import { InstaTextBlack, Lock } from "../../components/Icon";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./FindPassword.style";
+import * as T from "../../types/request/user.request";
 import Timer from "./components/Timer/Timer";
 import { useUserAPI } from "../../api/useUserAPI";
 function FindPassword() {
   const { requestIsEqualCertNumber, requestCertNumber } = useUserAPI();
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [validate, setValidate] = useState("");
 
   const [isTimerStart, setIsTimerStart] = useState(false);
@@ -20,7 +21,7 @@ function FindPassword() {
   };
 
   const handleUserName = (text: string) => {
-    setUserName(text);
+    setUsername(text);
   };
 
   const handleValidate = (text: string) => {
@@ -33,16 +34,16 @@ function FindPassword() {
     restartTimer();
     alert("인증번호 요청");
 
-    const payload = {
-      userName,
-      type: getUserNameType(userName),
+    const payload: T.CertNumberPayloadType = {
+      username,
+      type: getUserNameType(username),
     };
     requestCertNumber(payload);
   };
 
-  function getUserNameType(userName: string) {
+  function getUserNameType(username: string) {
     const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-    return emailPattern.test(userName) ? "email" : "nickname";
+    return emailPattern.test(username) ? "email" : "nickname";
   }
 
   const handleSubmit = () => {
@@ -52,17 +53,17 @@ function FindPassword() {
     }
     if (!isTimerEnd) {
       alert("인증번호 일치 여부 요청");
-      const payload = {
-        userName,
-        type: getUserNameType(userName),
+      const payload: T.IsEqualCertNumberPayloadType = {
+        username,
+        type: getUserNameType(username),
         validate,
       };
       requestIsEqualCertNumber(payload);
     }
   };
 
-  const ValidateSubmitButtonAction = userName;
-  const SubmitButtonAction = userName && validate;
+  const ValidateSubmitButtonAction = username;
+  const SubmitButtonAction = username && validate;
 
   return (
     <S.Container>
@@ -86,7 +87,7 @@ function FindPassword() {
           <InputBox
             type={"text"}
             placeHolderText="이메일 또는 사용자 이름"
-            value={userName}
+            value={username}
             onChange={handleUserName}
           />
 

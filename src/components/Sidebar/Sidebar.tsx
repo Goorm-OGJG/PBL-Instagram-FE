@@ -83,7 +83,7 @@ function Sidebar() {
           <Icon.Menu size={24}></Icon.Menu>
         </S.IconBox>
       </S.SideBox>
-      <Searchbar isSearch={isSearch} />
+      <Searchbar isSearch={isSearch} setIsSearch={setIsSearch} />
       {isMenu && <SideMenu type="menu" setState={setIsMenu} />}
       {isAdd && <SideMenu type="add" setState={setIsAdd} />}
     </S.Nav>

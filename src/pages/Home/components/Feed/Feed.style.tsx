@@ -22,6 +22,7 @@ export const InfoBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 `;
 
 export const ProfileBox = styled.div`

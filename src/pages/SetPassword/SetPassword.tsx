@@ -1,10 +1,13 @@
 import { useState } from "react";
 import InputBox from "../../components/InputBox/InputBox";
 import * as S from "./SetPassword.style";
+import * as T from "../../types/request/user.request";
 import { useUserAPI } from "../../api/useUserAPI";
+import { useLocation } from "react-router";
 
 function SetPassword() {
   const { requestSetPassword } = useUserAPI();
+  const location = useLocation();
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
@@ -22,11 +25,10 @@ function SetPassword() {
   const handleSubmit = () => {
     const validatePattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!$@%])[a-zA-Z0-9!$@%]{6,}$/;
     if (validatePattern.test(password)) {
-      const userName = "userName";
-      const payload = {
-        userName,
+      const payload: T.SetPasswordPayloadType = {
+        username: location.state?.username,
         password,
-        type: getUserNameType(userName),
+        type: getUserNameType(location.state?.username),
       };
       requestSetPassword(payload);
     } else {
@@ -34,9 +36,9 @@ function SetPassword() {
     }
   };
 
-  function getUserNameType(userName: string) {
+  function getUserNameType(username: string) {
     const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-    return emailPattern.test(userName) ? "email" : "nickname";
+    return emailPattern.test(username) ? "email" : "nickname";
   }
 
   return (

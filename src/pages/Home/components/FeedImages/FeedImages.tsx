@@ -16,17 +16,23 @@ function FeedImages({ feedMedia }: PropsType) {
     const current = imgRef.current!;
     switch (direction) {
       case "left":
-        current.scrollBy(-470, 0);
-        if (imgPos > 0) {
-          setImgPos(imgPos - 1);
+        if (current.scrollLeft % 470 === 0) {
+          current.scrollBy(-470, 0);
+          if (imgPos > 0) {
+            setImgPos(imgPos - 1);
+          }
         }
+
         break;
       case "right":
-        current.scrollBy(470, 0);
-        if (imgPos < imgLength - 1) {
-          // 이미지 길이로 교체 예정
-          setImgPos(imgPos + 1);
+        if (current.scrollLeft % 470 === 0) {
+          current.scrollBy(470, 0);
+          if (imgPos < imgLength - 1) {
+            // 이미지 길이로 교체 예정
+            setImgPos(imgPos + 1);
+          }
         }
+
         break;
     }
   };
