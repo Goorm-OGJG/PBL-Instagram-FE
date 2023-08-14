@@ -1,37 +1,39 @@
 import * as S from "./EditImgModal.style";
-import { useEffect,  useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   EditImgFileState,
   EditImgModalState,
   EditImgState,
+  EditProfileState,
 } from "../../../recoil/editProfileState";
+import { EditProfileResponseType } from "../../../types/client/editProfile.client";
 
-interface Account {
-  userid: number;
-  nickname: string;
-  userImg: string;
-  userIntro: string;
-  isRecommended: boolean;
-  isSecret: boolean;
-}
-const editProfileData: Account = {
-  userid: 1,
-  nickname: "JamesJoe",
-  userImg:
-    "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-  userIntro: "asdasdadasdasd",
-  isRecommended: true,
-  isSecret: true,
-};
+// interface Account {
+//   userid: number;
+//   nickname: string;
+//   userImg: string;
+//   userIntro: string;
+//   isRecommended: boolean;
+//   isSecret: boolean;
+// }
+// const editProfileData: Account = {
+//   userid: 1,
+//   nickname: "JamesJoe",
+//   userImg:
+//     "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
+//   userIntro: "asdasdadasdasd",
+//   isRecommended: true,
+//   isSecret: true,
+// };
 
 function EditImgModal() {
 
   const setProfileImg = useSetRecoilState<string>(EditImgState);
   const setIsEditImgModal = useSetRecoilState<boolean>(EditImgModalState);
-  const [file, setFile] = useRecoilState<File[]>(EditImgFileState);
+  const setFile = useSetRecoilState<File[]>(EditImgFileState);
   //🔥 API
-  //  const [editProfileData,setEditProfileData] = useRecoilState<EditProfileResponseType>(EditProfileState);
+   const editProfileData = useRecoilValue<EditProfileResponseType>(EditProfileState);
   useEffect(() => {
     if (editProfileData.userImg !== null) {
       setProfileImg(editProfileData.userImg);

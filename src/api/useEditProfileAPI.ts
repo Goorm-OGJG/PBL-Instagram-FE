@@ -35,7 +35,7 @@ export default function useEditProfileAPI() {
   };
 
   // 프로필 이미지 수정 보내기 
-  const requestPutImgProfile = (requestData:T.EditProfileType) => {
+  const requestPutImgProfile = (requestData:string) => {
     axios
       .put(`${editProfleURL}`,requestData)
       .then((response) => {

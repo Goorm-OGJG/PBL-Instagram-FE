@@ -1,36 +1,36 @@
 import * as S from "./EditProfile.style";
 import * as FONT from "../../constants/font";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Toggle from "./components/Toggle";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState,useRecoilValue } from "recoil";
 import { ToggleState } from "../../recoil/profileState";
 import { useFileManage } from "../../hooks/useFileManage";
 import EditImgModal from "./components/EditImgModal";
 import { EditImgModalState,EditImgFileState, EditImgState } from "../../recoil/editProfileState";
 //🔥 API 
-// import { EditProfileResponseType } from "../../types/client/editProfile.client";
-// import { EditProfileState } from "../../recoil/profileState";
-// import useEditProfileAPI from "../../api/useEditProfileAPI";
-// import { EditProfileType } from "../../types/client/editProfile.client";
+import { EditProfileResponseType } from "../../types/client/editProfile.client";
+import { EditProfileState } from "../../recoil/profileState";
+import useEditProfileAPI from "../../api/useEditProfileAPI";
 
-interface Account {
-  userid: number;
-  nickname: string;
-  userImg: string;
-  userIntro: string;
-  isRecommended: boolean;
-  isSecret: boolean;
-}
-const editProfileData: Account = {
-  userid: 1,
-  nickname: "JamesJoe",
-  userImg:
-    "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-  userIntro: "asdasdadasdasd",
-  isRecommended: true,
-  isSecret: true,
-};
+
+// interface Account {
+//   userid: number;
+//   nickname: string;
+//   userImg: string;
+//   userIntro: string;
+//   isRecommended: boolean;
+//   isSecret: boolean;
+// }
+// const editProfileData: Account = {
+//   userid: 1,
+//   nickname: "JamesJoe",
+//   userImg:
+//     "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
+//   userIntro: "asdasdadasdasd",
+//   isRecommended: true,
+//   isSecret: true,
+// };
 
 function EditProfile() {
   const localIdString = localStorage.getItem("userId");
@@ -38,17 +38,18 @@ function EditProfile() {
   
   const navigate = useNavigate();
   const { nickname } = useParams();
-  const profileImgRef = useRef<HTMLInputElement | null>(null);
 
-  //🔥 API const {requestEditProfile, requestPutProfile, requestPutImgProfile} = useEditProfileAPI();
+  //🔥 API 
+  const {requestEditProfile, requestPutProfile, requestPutImgProfile} = useEditProfileAPI();
+  const [editProfileData,setEditProfileData] = useRecoilState<EditProfileResponseType>(EditProfileState);
   const [text, setText] = useState(editProfileData.userIntro);
   const [isChecked, setIsChecked] = useState(editProfileData.isRecommended);
   const [isOn, setIsOn] = useRecoilState<boolean>(ToggleState);
   const [countText, setCountText] = useState(0);
-  const [profileImg, setProfileImg] =useRecoilState<string>(EditImgState);
+  const profileImg =useRecoilValue<string>(EditImgState);
   const [isEditImgModal, setIsEditImgModal] = useRecoilState<boolean>(EditImgModalState);
-  const [file,setFile] = useRecoilState<File[]>(EditImgFileState);
- //🔥 API const [editProfileData,setEditProfileData] = useRecoilState<EditProfileResponseType>(EditProfileState);
+  const file = useRecoilValue<File[]>(EditImgFileState);
+ //🔥 API 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       // 폼 제출 기본 동작 막기
@@ -61,33 +62,36 @@ function EditProfile() {
   const handleSubmit = async () => {
     // 이미지 s3업로드
     //🔥 API
-    // const editporfileImg = file[0]
-    // const eiditImg = await handleUpload([editporfileImg]);
+    const editporfileImg = file[0];
+    const eiditImg = await handleUpload([editporfileImg]);
     // console.log(eiditImg[0]);
 
     // 이미지 return URL 백엔드에 전송
     //🔥 API
-    // requestPutImgProfile(eiditImg[0]); 
-
+    
+    if (eiditImg !== undefined){
+    requestPutImgProfile(eiditImg[0]); 
+    };
     // 텍스트 수정후 백엔드에 전송
     //🔥 API
-    // const requestData = {
-    //   userIntro : text,
-    //   isRecommended: isChecked,
-    //   isSecret: isOn,
-    // };
-    // if (localId !== null) {
-    //   // requestPutProfile(requestData);
-    //   alert(`수정완료 되었습니다.`);
-    //   navigate(`/accounts/${nickname}/`);
-    // };
+    const requestData = {
+      userIntro : text,
+      isRecommended: isChecked,
+      isSecret: isOn,
+    };
+    if (localId !== null) {
+      requestPutProfile(requestData);
+      alert(`수정완료 되었습니다.`);
+      navigate(`/accounts/${nickname}/`);
+    };
     
     
   };
   useEffect(() => {
-    //🔥 API   if (localId !== null){
-    //   requestEditProfile(localId,setEditProfileData);
-    //  };
+    //🔥 API   
+    if (localId !== null){
+      requestEditProfile(localId,setEditProfileData);
+     };
     const textlength = text.length;
     setCountText(textlength);
     if (editProfileData) {
@@ -117,7 +121,7 @@ function EditProfile() {
           <S.InputBox>
             <S.IntroInput
               value={text}
-              onChange={(e) => {
+              onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                 setText(e.target.value);
                 setCountText(e.target.value.length);
               }}
