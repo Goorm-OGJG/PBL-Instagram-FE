@@ -1,4 +1,3 @@
-import * as FONT from "../../constants/font";
 import * as S from "./Profile.style";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ProfileHeader from "./components/ProfileHeader";
@@ -14,7 +13,7 @@ import { ProfileResponseType } from "../../types/client/profile.client";
 import useProfileAPI from "../../api/useProfileAPI";
 import { useRef, useState, useEffect } from "react";
 import { isModalOpenState } from "../../recoil/homeState";
-import FeedModal from '../Home/components/FeedModal/FeedModal';
+import FeedModal from "../Home/components/FeedModal/FeedModal";
 
 interface FeedList {
   feedId: number;
@@ -289,7 +288,7 @@ function Profile() {
                     </S.FeedHoverMultiItem>
                   )}
                 </S.FeedHoverMutiple>
-                <S.FeedHover fontSize={FONT.M} fontWeight={FONT.Bold}>
+                <S.FeedHover>
                   {overlay && ImgId === feed.feedId && (
                     <>
                       {" "}

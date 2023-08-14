@@ -1,9 +1,8 @@
 import * as S from "./EditProfile.style";
-import * as FONT from "../../constants/font";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Toggle from "./components/Toggle";
-import { useRecoilState,useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { ToggleState } from "../../recoil/profileState";
 import { useFileManage } from "../../hooks/useFileManage";
 import EditImgModal from "./components/EditImgModal";
@@ -103,7 +102,7 @@ function EditProfile() {
     <>
     <S.EditProfileWrapper>
       <S.EditHeader>프로필 편집</S.EditHeader>
-      <S.EditUserInfo fontSize={FONT.L}>
+      <S.EditUserInfo>
         <S.EditUserImgBox>
           <S.UserImg src={profileImg} alt="profileImg" />
         </S.EditUserImgBox>
