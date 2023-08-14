@@ -2,12 +2,6 @@ import styled from "styled-components";
 import * as FONT from "../../../constants/font";
 import * as COLOR from "../../../constants/color";
 
-interface Props {
-  fontSize?: string;
-  fontWeight?: string;
-  backGround?: string;
-  fontColor?: string;
-}
 
 export const Overlay = styled.div`
   position: fixed;
@@ -22,7 +16,7 @@ export const Overlay = styled.div`
   z-index: 99;
 `;
 
-export const PublicModalWrapper = styled.div<Props>`
+export const PublicModalWrapper = styled.div`
   display: flex;
   width: 420px;
   height: 380px;
@@ -45,7 +39,7 @@ export const PublicModalWrapper = styled.div<Props>`
   z-index: 100;
 `;
 
-export const PublicModalTitle = styled.div<Props>`
+export const PublicModalTitle = styled.div`
   display: flex;
   justify-content: center;
   line-height: 25px;

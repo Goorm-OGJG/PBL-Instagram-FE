@@ -121,7 +121,7 @@ function EditProfile() {
           <S.InputBox>
             <S.IntroInput
               value={text}
-              onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+              onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => {
                 setText(e.target.value);
                 setCountText(e.target.value.length);
               }}

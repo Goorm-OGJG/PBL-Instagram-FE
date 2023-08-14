@@ -25,7 +25,6 @@ export const ToggleCircle = styled.div<Props>`
   width: 30px;
   height: 30px;
   border-radius: 999em;
-
   text-align: center;
   align-items: center;
   justify-content: center;
