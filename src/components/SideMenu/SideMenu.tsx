@@ -3,6 +3,7 @@ import * as S from "./SideMenu.style";
 import { useSetRecoilState } from "recoil";
 import { whichAddModalOpenState } from "../../recoil/homeState";
 import { useNavigate } from "react-router";
+import { useUserAPI } from "../../api/useUserAPI";
 
 interface Props {
   type: string;
@@ -13,9 +14,10 @@ function SideMenu({ type, setState }: Props) {
   const setWhichAddModalOpen = useSetRecoilState(whichAddModalOpenState);
   const navigate = useNavigate();
   const nickname = "tmp_username";
-
+  const { requestLogout } = useUserAPI();
   const logoutHandler = () => {
     alert("로그아웃 요청");
+    requestLogout();
   };
   return (
     <S.Div type={type}>
