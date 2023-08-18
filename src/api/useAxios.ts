@@ -15,7 +15,7 @@ export function useAxios() {
       const accessToken = localStorage.getItem("accessToken");
 
       if (accessToken) {
-        config.headers.Authorization = accessToken;
+        config.headers.authorization = accessToken;
       }
       return config;
     },
@@ -33,8 +33,8 @@ export function useAxios() {
         await axios
           .post(`${import.meta.env.VITE_API_URL}/api/users/token`)
           .then((response) => {
-            localStorage.setItem("accessToken", response.headers.Authorization);
-            originalRequest.headers.Authorization = response.headers.Authorization;
+            localStorage.setItem("accessToken", response.headers.authorization);
+            originalRequest.headers.authorization = response.headers.authorization;
             return instance(originalRequest);
           })
           .catch((error) => {
