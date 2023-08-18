@@ -22,9 +22,9 @@ export function useUserAPI() {
       });
   };
 
-  async function requestIsExistEmail(payload: T.IsExistEmailPayloadType) {
-    return axios.get(`${import.meta.env.VITE_API_URL}/api/users/${payload.email}`);
-  }
+  // async function requestIsExistEmail(payload: T.IsExistEmailPayloadType) {
+  //   return axios.get(`${import.meta.env.VITE_API_URL}/api/users/${payload.email}`);
+  // }
 
   async function requestSignUp(payload: T.SignUpPayloadType) {
     try {
@@ -85,6 +85,7 @@ export function useUserAPI() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("nickname");
     localStorage.removeItem("userImg");
+    localStorage.removeItem("userId");
     navigate("/login");
   }
 
