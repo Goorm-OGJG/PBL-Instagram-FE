@@ -28,7 +28,7 @@ export function useUserAPI() {
 
   async function requestSignUp(payload: T.SignUpPayloadType) {
     try {
-      await requestIsExistEmail({ email: payload.email });
+      // await requestIsExistEmail({ email: payload.email });
       await axios.post(`${import.meta.env.VITE_API_URL}/api/users/signup`, payload);
       alert("회원가입 되었습니다.");
       navigate("/login");
