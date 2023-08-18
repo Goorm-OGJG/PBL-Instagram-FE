@@ -10,9 +10,11 @@ export function useUserAPI() {
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/users/login`, payload)
       .then((response) => {
-        localStorage.setItem("accessToken", response.headers.Authorization);
+        console.log(response);
+        localStorage.setItem("accessToken", response.headers.authorization);
         localStorage.setItem("nickname", response.data.nickname);
         localStorage.setItem("userImg", response.data.userImg);
+        localStorage.setItem("userId", response.data.id);
         navigate("/home");
       })
       .catch((error) => {
@@ -70,16 +72,20 @@ export function useUserAPI() {
   }
 
   function requestLogout() {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/api/users/logout`)
-      .then(() => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("nickname");
-        localStorage.removeItem("userImg");
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    // axios
+    //   .get(`${import.meta.env.VITE_API_URL}/api/users/logout`)
+    //   .then(() => {
+    //     localStorage.removeItem("accessToken");
+    //     localStorage.removeItem("nickname");
+    //     localStorage.removeItem("userImg");
+    //   })
+    //   .catch((error) => {
+    //     alert(error);
+    //   });
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("nickname");
+    localStorage.removeItem("userImg");
+    navigate("/login");
   }
 
   return {
