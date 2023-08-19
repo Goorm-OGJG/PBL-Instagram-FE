@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import * as S from "./StoryIcon.style";
 import * as Icon from "../../../../components/Icon";
-import { useRecoilState } from "recoil";
-import { isPlayState } from "../../../../recoil/storyState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  isPlayState,
+  isSettingState,
+  storyDataState,
+} from "../../../../recoil/storyState";
+import { useStoryAPI } from "../../../../api/useStoryAPI";
+import { useParams } from "react-router";
 
 interface Props {
   type: string;
@@ -12,6 +18,15 @@ interface Props {
 function StoryIcon({ type, onClick, likeStatus }: Props) {
   const [state, setState] = useState<boolean>(false);
   const [isPlay, setIsPlay] = useRecoilState(isPlayState);
+  const setIsSetting = useSetRecoilState(isSettingState);
+  const { requestPostStoryLike, requestDeleteStoryLike } = useStoryAPI();
+  const { storyId } = useParams();
+  const setStoryData = useSetRecoilState(storyDataState);
+  // console.log(storyId);
+
+  const settingHandelr = () => {
+    setIsSetting((prev) => !prev);
+  };
   const playHandler = () => {
     setIsPlay(!isPlay);
   };
@@ -20,18 +35,21 @@ function StoryIcon({ type, onClick, likeStatus }: Props) {
     setState(!state);
   };
 
-  const likeHandler = () => {
-    if (likeStatus) {
+  const likeHandler = async () => {
+    if (!likeStatus) {
       alert("좋아요 취소 요청");
+      requestDeleteStoryLike(storyId as string, setStoryData);
     } else {
       alert("좋아요 요청");
+      requestPostStoryLike(storyId as string, setStoryData);
+      // requestStoryList(setStoryData);
     }
   };
 
   return (
     <React.Fragment>
       {type === "settings" && (
-        <S.IconWrapper>
+        <S.IconWrapper onClick={settingHandelr}>
           <Icon.HorizontalBold />
         </S.IconWrapper>
       )}
@@ -76,7 +94,7 @@ function StoryIcon({ type, onClick, likeStatus }: Props) {
           <S.LikeBox likeStatus={likeStatus as boolean}>
             <Icon.Heart size={30} />
           </S.LikeBox>
-          <S.LikeFillBox likeStatus={likeStatus as boolean}>
+          <S.LikeFillBox likeStatus={!likeStatus as boolean}>
             <Icon.HeartFill size={30} />
           </S.LikeFillBox>
         </S.LikeWrapper>

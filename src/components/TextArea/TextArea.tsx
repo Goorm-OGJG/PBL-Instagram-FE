@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import * as S from "./TextArea.style";
+import { useRecoilState } from "recoil";
+import { feedValueState } from "../../recoil/homeState";
 function TextArea() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useRecoilState(feedValueState);
 
   const changeHandelr = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (value.length < 2201) {

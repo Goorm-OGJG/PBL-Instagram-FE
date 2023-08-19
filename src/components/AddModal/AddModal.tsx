@@ -2,10 +2,14 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as S from "./AddModal.style";
 import * as Icon from "../Icon";
 import TextArea from "../TextArea/TextArea";
-import { useRecoilState } from "recoil";
-import { whichAddModalOpenState } from "../../recoil/homeState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { feedValueState, whichAddModalOpenState } from "../../recoil/homeState";
 import { useDropzone } from "react-dropzone";
 import { useFileManage } from "../../hooks/useFileManage";
+import { useHashTag } from "../../hooks/useHashTag";
+import { FeedPayloadType } from "../../types/request/feed.request";
+import { useFeedAPI } from "../../api/useFeedAPI";
+import { useStoryAPI } from "../../api/useStoryAPI";
 
 interface Props {
   type: string;
@@ -25,6 +29,11 @@ function AddModal({ type }: Props) {
   const [files, setFiles] = useState<FileWithPreview[] | null>(null);
   const { handleUpload } = useFileManage();
 
+  const feedValue = useRecoilValue(feedValueState);
+  const { extractHashtags } = useHashTag();
+
+  const { requestFeed } = useFeedAPI();
+  const { requestPostStory } = useStoryAPI();
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // console.log(acceptedFiles);
     const filesWithPreview: FileWithPreview[] = acceptedFiles.map((file) =>
@@ -47,8 +56,15 @@ function AddModal({ type }: Props) {
       setStep(step + 1);
     } else if (step === 2) {
       // 업로드 테스트
-      const fileUrls = await handleUpload(files);
-      console.log(fileUrls);
+      const mediaUrls = (await handleUpload(files)) || [];
+      const content = feedValue;
+      const hashtags = extractHashtags(content);
+      const payload: FeedPayloadType = { content, hashtags, mediaUrls };
+      if (type === "feed") {
+        requestFeed(payload);
+      } else {
+        requestPostStory({ mediaList: mediaUrls });
+      }
       // 삭제 테스트
       // handleDelete(
       //   "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/videos/people_-_84973+(720p).mp4",

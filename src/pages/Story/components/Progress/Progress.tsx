@@ -1,7 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import * as S from "./Progress.style";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { nowStoryState, storyDataState } from "../../../../recoil/storyState";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  isSettingState,
+  nowStoryState,
+  storyDataState,
+} from "../../../../recoil/storyState";
 import { useNavigate } from "react-router";
 
 interface Props {
@@ -18,6 +22,7 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
   const data = useRecoilValue(storyDataState);
   const navigate = useNavigate();
   const [nowStory, setNowStory] = useRecoilState(nowStoryState);
+  const setIsSetting = useSetRecoilState(isSettingState);
 
   const countHandler = () => {
     const full = boxRef.current!.clientWidth;
@@ -27,6 +32,7 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
         if (nowStory < data.length - 1) {
           const next = nowStory + 1;
           setNowStory(next);
+          setIsSetting(false);
           navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
         } else {
           console.log("마지막 스토리 입니다.");

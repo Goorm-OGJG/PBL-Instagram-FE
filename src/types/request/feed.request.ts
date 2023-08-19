@@ -2,8 +2,8 @@
 
 export interface FeedPayloadType {
   content: string;
-  hashtag: string[];
-  mediaUrl: string[];
+  hashtags: string[];
+  mediaUrls: string[];
 }
 
 export interface CommentPayloadType {

@@ -5,7 +5,7 @@ import { useAxios } from "./useAxios";
 
 export function useFeedAPI() {
   const API_URL = import.meta.env.VITE_API_URL;
-  const feedURL = `${API_URL}/api/feed`;
+  const feedURL = `${API_URL}/api/feeds`;
   const axios = useAxios();
   // 피드 목록 불러오기
   const requestFeedList = (
@@ -16,7 +16,12 @@ export function useFeedAPI() {
     axios
       .get(`${feedURL}?page=${page}&size=${size}`)
       .then((response) => {
-        setData(response.data);
+        console.log(response);
+        if (!response.data.last) {
+          setData(response.data);
+        } else {
+          console.log("마지막 페이지입니다.");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -67,9 +72,9 @@ export function useFeedAPI() {
   };
 
   // 피드 작성
-  const requestFeed = (feedId: string, payload: T.FeedPayloadType) => {
+  const requestFeed = (payload: T.FeedPayloadType) => {
     axios
-      .post(`${feedURL}/${feedId}`, payload)
+      .post(`${feedURL}`, payload)
       .then((response) => {
         console.log("피드 작성 요청", response);
       })
