@@ -11,6 +11,7 @@ import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import FeedMenu from "../FeedMenu/FeedMenu";
 import { useNavigate } from "react-router";
+import { useFeedAPI } from "../../../../api/useFeedAPI";
 
 interface PropsType {
   data: T.FeedDataType;
@@ -27,7 +28,7 @@ function Feed({ data }: PropsType) {
     likeCount,
     likeStatus,
     collectionStatus,
-    feedMedia,
+    feedMedias,
   } = { ...data };
 
   const [isFeedMenuOpen, setIsFeedMenuOpen] = useState(false);
@@ -39,11 +40,14 @@ function Feed({ data }: PropsType) {
   const likeCalculate = useLikeCalculate();
   const likeNum = likeCalculate(likeCount);
   const setIsLikeModalOpen = useSetRecoilState(isLikeModalOpenState);
+
+  const { requestFeedLike, requestFeedCollection } = useFeedAPI();
   // 좋아요
   const likeHandler = () => {
     // setTmpHeart(true);
     // 좋아요 요청 보내기
     alert("좋아요 요청!");
+    requestFeedLike(feedId);
   };
 
   //좋아요 취소
@@ -62,6 +66,7 @@ function Feed({ data }: PropsType) {
 
   const bookmarkHandler = () => {
     alert("보관함 요청");
+    requestFeedCollection(feedId);
   };
 
   const bookmarkCancelHandler = () => {
@@ -88,7 +93,7 @@ function Feed({ data }: PropsType) {
           <Icon.HorizontalBold size={16} />
         </S.HorizontalIconBox>
       </S.InfoBox>
-      <FeedImages feedMedia={feedMedia} />
+      <FeedImages feedMedias={feedMedias} />
       <S.FeedIconWrapper>
         <S.FeedIconLeftBox>
           <S.IconBox type="heart" onClick={likeHandler}>

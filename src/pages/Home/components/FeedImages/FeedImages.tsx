@@ -4,12 +4,12 @@ import { useState, useRef } from "react";
 import * as T from "../../../../types/client/feed.client";
 
 interface PropsType {
-  feedMedia: T.MediaDataType[];
+  feedMedias: T.MediaDataType[];
 }
-function FeedImages({ feedMedia }: PropsType) {
+function FeedImages({ feedMedias }: PropsType) {
   const [imgPos, setImgPos] = useState<number>(0);
   const imgRef = useRef<HTMLDivElement | null>(null);
-  const imgLength = feedMedia.length;
+  const imgLength = feedMedias.length;
 
   // 이미지 스크롤 이동
   const arrowHandler = (direction: string) => {
@@ -50,14 +50,14 @@ function FeedImages({ feedMedia }: PropsType) {
 
       {/* 이미지 출력 공간 */}
       <S.ImgBox ref={imgRef}>
-        {feedMedia.map(({ mediaId, mediaType, mediaUrl }) => {
+        {feedMedias.map(({ mediaId, mediaType, mediaUrl }) => {
           if (mediaType === "video") {
             return (
               <S.FeedImgBox>
                 <S.FeedImg as="video" src={mediaUrl} id={mediaId} autoPlay muted loop />
               </S.FeedImgBox>
             );
-          } else if (mediaType === "image") {
+          } else if (mediaType === ".JPG") {
             return (
               <S.FeedImgBox>
                 <S.FeedImg src={mediaUrl} id={mediaId} />
@@ -68,7 +68,7 @@ function FeedImages({ feedMedia }: PropsType) {
       </S.ImgBox>
       {/* 밑의 점들 이미지 위치 표시 */}
       <S.ImgPosBox>
-        {feedMedia.map(() => {
+        {feedMedias.map(() => {
           if (imgLength > 1) {
             return <S.ImgPos imgPos={imgPos} />;
           }

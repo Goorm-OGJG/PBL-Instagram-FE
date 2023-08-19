@@ -12,15 +12,15 @@ export function useFeedAPI() {
     page: number,
     size: number,
     setData: React.Dispatch<React.SetStateAction<FeedDataType[] | []>>,
+    setLast: React.Dispatch<React.SetStateAction<boolean>>,
   ) => {
     axios
       .get(`${feedURL}?page=${page}&size=${size}`)
       .then((response) => {
         console.log(response);
-        if (!response.data.last) {
-          setData(response.data);
-        } else {
-          console.log("마지막 페이지입니다.");
+        setData((prev) => [...prev, ...response.data.contents]);
+        if (response.data.last) {
+          setLast(response.data.last);
         }
       })
       .catch((error) => {
@@ -99,9 +99,10 @@ export function useFeedAPI() {
   // 피드 보관함 추가
   const requestFeedCollection = (feedId: string) => {
     axios
-      .post(`${feedURL}/collection/${feedId}`)
+      .post(`${API_URL}/api/collections/${feedId}`)
       .then((response) => {
-        console.log("피드 보관함 추가 요청", response);
+        console.log("피드 보관함 추가 요청");
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -111,7 +112,7 @@ export function useFeedAPI() {
   // 피드 보관함 삭제
   const requestDeleteFeedCollection = (feedId: string) => {
     axios
-      .delete(`${feedURL}/collection/${feedId}`)
+      .delete(`${feedURL}/collections/${feedId}`)
       .then((response) => {
         console.log("피드 보관함 삭제 요청", response);
       })
@@ -125,14 +126,15 @@ export function useFeedAPI() {
     axios
       .post(`${feedURL}/${feedId}/like`)
       .then((response) => {
-        console.log("피드 보관함 추가 요청", response);
+        console.log("피드 보관함 추가 요청");
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  // 피드 보관함 삭제
+  // 피드 좋아요 삭제
   const requestDeleteFeedLike = (feedId: string) => {
     axios
       .delete(`${feedURL}/${feedId}/like`)

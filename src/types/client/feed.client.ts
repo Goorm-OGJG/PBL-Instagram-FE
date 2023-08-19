@@ -8,7 +8,7 @@ export interface FeedDataType {
   likeCount: number;
   likeStatus: boolean;
   collectionStatus: boolean;
-  feedMedia: MediaDataType[];
+  feedMedias: MediaDataType[];
 }
 
 export interface MediaDataType {

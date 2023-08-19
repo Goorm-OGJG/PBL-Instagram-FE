@@ -10,7 +10,7 @@ export function useStoryAPI() {
   const API_URL = `${import.meta.env.VITE_API_URL}/api`;
   const axios = useAxios();
 
-  const requestStoryList = (
+  const requestStoryList = async (
     // page: number,
     // size: number,
     setData: SetterOrUpdater<StoryType[]>,
@@ -19,7 +19,7 @@ export function useStoryAPI() {
       .get(`${API_URL}/story/stories`)
       .then((response) => {
         console.log("스토리 목록 가져오기");
-        // console.log(response);
+        console.log(response);
         setData(response.data.storyList);
       })
       .catch((error) => {
@@ -27,12 +27,16 @@ export function useStoryAPI() {
       });
   };
 
-  const requestPostStory = (payload: StoryPayloadType) => {
+  const requestPostStory = (
+    payload: StoryPayloadType,
+    setData: SetterOrUpdater<StoryType[]>,
+  ) => {
     axios
       .post(`${API_URL}/story`, payload)
       .then((response) => {
         console.log("스토리 작성 요청");
         console.log(response);
+        requestStoryList(setData);
       })
       .catch((error) => console.log(error));
   };
@@ -75,12 +79,13 @@ export function useStoryAPI() {
       .catch((error) => console.log(error));
   };
 
-  const requestStoryRead = (storyId: string) => {
+  const requestStoryRead = (storyId: string, setData: SetterOrUpdater<StoryType[]>) => {
     axios
       .post(`${API_URL}/story/${storyId}/read`)
       .then((response) => {
         console.log("스토리 읽음 요청");
         console.log(response);
+        requestStoryList(setData);
       })
       .catch((error) => console.log(error));
   };
