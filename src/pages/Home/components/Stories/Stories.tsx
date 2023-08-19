@@ -35,9 +35,8 @@ function Stories() {
 
   // data 관련 useEffect
   useEffect(() => {
-    requestStoryList(0, 0, setData);
-  });
-
+    requestStoryList(setData);
+  }, []);
   // event handler 관련 useEffect
   useEffect(() => {
     const refCurrent = ref.current!;
@@ -66,7 +65,7 @@ function Stories() {
       )}
       {/* 스토리 목록 출력 */}
       <S.StoriesWrapper ref={ref}>
-        {data &&
+        {data.length > 0 &&
           data.map((story, index) => (
             <Story key={story.storyId} story={story} index={index} />
           ))}

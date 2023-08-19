@@ -13,3 +13,8 @@ export const isLikeModalOpenState = atom<boolean>({
   key: "isLikeModalOpenState",
   default: false,
 });
+
+export const feedValueState = atom<string>({
+  key: "feedValueState",
+  default: "",
+});

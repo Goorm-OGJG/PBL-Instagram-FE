@@ -28,6 +28,7 @@ function StoryContent({ story, index }: Props) {
   const { createdAt, mediaList, nickname, profileImg } = story;
   const timeCalculate = useTimeCalculate();
   const diff_date = timeCalculate(createdAt);
+  console.log(createdAt);
   const data = useRecoilValue(storyDataState);
   const [nowStory, setNowStory] = useRecoilState(nowStoryState);
 
@@ -99,7 +100,7 @@ function StoryContent({ story, index }: Props) {
             </S.Progresses>
             <S.StoryInfo>
               <S.UserInfo>
-                <S.ProfileImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
+                <S.ProfileImg src={profileImg} />
                 <S.UserName to="/accounts/username">{nickname}</S.UserName>
                 <S.UploadTime>{diff_date}</S.UploadTime>
               </S.UserInfo>
