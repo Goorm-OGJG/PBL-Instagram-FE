@@ -9,6 +9,10 @@ function Sidebar() {
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [isAdd, setIsAdd] = useState<boolean>(false);
   const [isMenu, setIsMenu] = useState<boolean>(false);
+
+  const nickname = localStorage.getItem("nickname");
+  const userImg = localStorage.getItem("userImg");
+
   return (
     <S.Nav>
       <S.Wrapper>
@@ -64,9 +68,9 @@ function Sidebar() {
           </S.IconBox>
         </S.SideBox>
         {/* 프로필 */}
-        <S.SideLink to="/accounts/tmp_username">
+        <S.SideLink to={`/accounts/${nickname}`}>
           <S.IconBox>
-            <S.ProfileImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
+            <S.ProfileImg src={userImg as string} />
           </S.IconBox>
         </S.SideLink>
       </S.Wrapper>

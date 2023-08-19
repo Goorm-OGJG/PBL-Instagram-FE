@@ -2,7 +2,7 @@ import Feed from "../Feed/Feed";
 import * as S from "./Feeds.style";
 import * as T from "../../../../types/client/feed.client";
 import { useRef, useEffect, useState } from "react";
-// import { useFeedAPI } from "../../../../api/useFeedAPI";
+import { useFeedAPI } from "../../../../api/useFeedAPI";
 // import { useEffect, useState } from "react";
 // import { useFeedAPI } from "../../../../api/useFeedAPI";
 
@@ -59,7 +59,11 @@ function Feeds() {
   const [feeds, setFeeds] = useState<T.FeedDataType[]>(data);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
-  // const { requestFeedList } = useFeedAPI();
+
+  const { requestFeedList } = useFeedAPI();
+  useEffect(() => {
+    requestFeedList(page, 10, setFeeds);
+  }, []);
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -84,9 +88,9 @@ function Feeds() {
     setLoading(true);
 
     try {
-      // requestFeedList(page, 10, setFeeds);
+      requestFeedList(page, 10, setFeeds);
       console.log(page);
-      setFeeds((prev) => [...prev, ...data]);
+      // setFeeds((prev) => [...prev, ...data]);
       setPage(page + 1);
     } catch (error) {
       console.error("실패", error);

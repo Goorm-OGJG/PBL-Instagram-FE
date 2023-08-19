@@ -9,6 +9,7 @@ export interface StoryType {
   profileImg: string;
   createdAt: string;
   mediaList: StoryMediaDataType[];
+  readAll: boolean;
 }
 
 export interface StoryListResponseType {
