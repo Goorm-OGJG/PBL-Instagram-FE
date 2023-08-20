@@ -20,8 +20,6 @@ function Login() {
   };
 
   const handleLogin = () => {
-    alert("로그인 요청");
-
     const payload: T.LoginPayloadType = {
       username,
       password,
@@ -31,10 +29,16 @@ function Login() {
     requestLogin(payload);
   };
 
-  function getUserNameType(username: string) {
+  const getUserNameType = (username: string) => {
     const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return emailPattern.test(username) ? "email" : "nickname";
-  }
+  };
+
+  const enterToLogin = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
 
   return (
     <S.Container>
@@ -46,12 +50,14 @@ function Login() {
             placeHolderText="전화번호, 사용자 이름 또는 이메일"
             value={username}
             onChange={handleUserName}
+            onKeyUp={enterToLogin}
           />
           <InputBox
             type={"password"}
             placeHolderText="비밀번호"
             value={password}
             onChange={handlePassword}
+            onKeyUp={enterToLogin}
           />
         </S.InputBoxWrapper>
         <S.LoginButton onClick={handleLogin} disabled={!buttonAction}>
