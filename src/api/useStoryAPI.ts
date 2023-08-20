@@ -20,7 +20,9 @@ export function useStoryAPI() {
       .then((response) => {
         console.log("스토리 목록 가져오기");
         console.log(response);
-        setData(response.data.storyList);
+        if (response) {
+          setData(response.data.storyList);
+        }
       })
       .catch((error) => {
         console.log(error);

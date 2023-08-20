@@ -1,7 +1,6 @@
 import { css, keyframes, styled } from "styled-components";
 import * as COLOR from "../../../../constants/color";
 import * as FONT from "../../../../constants/font";
-import { Link } from "react-router-dom";
 
 interface StyleProps {
   pos: number;
@@ -125,7 +124,8 @@ export const ProfileImgBox = styled.div`
   width: fit-content;
   height: fit-content;
   padding: 4px;
-  background: linear-gradient(${COLOR.Main});
+  /* background: linear-gradient(${COLOR.Main}); */
+  background-color: ${COLOR.Gray1};
   border-radius: 50%;
   margin-right: 10px;
 `;
@@ -135,6 +135,7 @@ export const ProfileImg = styled.img`
   height: 34px;
   border-radius: 50%;
   border: 2px solid ${COLOR.White};
+  background-color: ${COLOR.Gray4};
 `;
 
 export const FeedHeader = styled.header`
@@ -148,9 +149,10 @@ export const FeedHeader = styled.header`
 export const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
-export const UserName = styled(Link)`
+export const UserName = styled.span`
   text-decoration: none;
   color: ${COLOR.Black};
   font-size: ${FONT.S};
@@ -288,7 +290,8 @@ export const Delete = styled.div`
   background-color: ${COLOR.White};
   font-size: ${FONT.XS};
   color: ${COLOR.Red1};
-  width: 40px;
+  /* width: 40px; */
+  padding: 10px;
   height: 20px;
   right: 20px;
   top: 40px;

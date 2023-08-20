@@ -19,7 +19,6 @@ interface PropsType {
 
 function Feed({ data }: PropsType) {
   const {
-    userId,
     userImg,
     nickname,
     feedId,
@@ -31,7 +30,7 @@ function Feed({ data }: PropsType) {
     feedMedias,
   } = { ...data };
 
-  const [isFeedMenuOpen, setIsFeedMenuOpen] = useState(false);
+  const [isFeedMenuOpen, setIsFeedMenuOpen] = useState(0);
   const navigate = useNavigate();
 
   const setIsModalOpen = useSetRecoilState(isModalOpenState);
@@ -40,56 +39,74 @@ function Feed({ data }: PropsType) {
   const likeCalculate = useLikeCalculate();
   const likeNum = likeCalculate(likeCount);
   const setIsLikeModalOpen = useSetRecoilState(isLikeModalOpenState);
-
-  const { requestFeedLike, requestFeedCollection } = useFeedAPI();
+  const [isLike, setIsLike] = useState(likeStatus);
+  const [isCollection, setIsCollection] = useState(collectionStatus);
+  const {
+    requestFeedLike,
+    requestFeedCollection,
+    requestDeleteFeedLike,
+    requestDeleteFeedCollection,
+  } = useFeedAPI();
   // 좋아요
   const likeHandler = () => {
-    // setTmpHeart(true);
-    // 좋아요 요청 보내기
-    alert("좋아요 요청!");
     requestFeedLike(feedId);
+    setIsLike(!isLike);
   };
 
   //좋아요 취소
   const likeCancelHandler = () => {
-    // setTmpHeart(false);
-    // 좋아요 취소 요청 보내기
-    alert("좋아요 취소 요청!");
+    requestDeleteFeedLike(feedId);
+    setIsLike(!isLike);
   };
   // console.log(content);
 
   // 댓글
   const commentHandler = () => {
-    // alert("피드 상세모달 열기");
-    setIsModalOpen(true);
+    setIsModalOpen(feedId);
   };
 
+  // 보관함
   const bookmarkHandler = () => {
-    alert("보관함 요청");
     requestFeedCollection(feedId);
+    setIsCollection(true);
   };
 
+  // 보관함 취소
   const bookmarkCancelHandler = () => {
-    alert("보관함 취소 요청");
+    requestDeleteFeedCollection(feedId);
+    setIsCollection(false);
   };
 
+  // 좋아요 모달 띄우기
   const likeModalHandler = () => {
-    // alert("좋아요 모달 띄우기");
-    setIsLikeModalOpen(true);
+    setIsLikeModalOpen({ id: feedId, type: "feed" });
+  };
+
+  const feedMenuHandler = () => {
+    if (isFeedMenuOpen !== 0) {
+      setIsFeedMenuOpen(0);
+    } else {
+      setIsFeedMenuOpen(feedId);
+    }
   };
 
   return (
-    <S.FeedWrapper id={feedId}>
+    <S.FeedWrapper>
       <S.InfoBox>
-        {isFeedMenuOpen && <FeedMenu />}
+        {isFeedMenuOpen !== 0 && (
+          <FeedMenu
+            isFeedMenuOpen={isFeedMenuOpen}
+            setIsFeedMenuOpen={setIsFeedMenuOpen}
+          />
+        )}
         <S.ProfileBox>
           <S.ProfileImg src={userImg} onClick={() => navigate(`/accounts/${nickname}`)} />
-          <S.UserName id={userId} onClick={() => navigate(`/accounts/${nickname}`)}>
+          <S.UserName onClick={() => navigate(`/accounts/${nickname}`)}>
             {nickname}
           </S.UserName>
           <S.UploadDate>{diff_date}</S.UploadDate>
         </S.ProfileBox>
-        <S.HorizontalIconBox onClick={() => setIsFeedMenuOpen(!isFeedMenuOpen)}>
+        <S.HorizontalIconBox onClick={feedMenuHandler}>
           <Icon.HorizontalBold size={16} />
         </S.HorizontalIconBox>
       </S.InfoBox>
@@ -99,7 +116,7 @@ function Feed({ data }: PropsType) {
           <S.IconBox type="heart" onClick={likeHandler}>
             <Icon.Heart size={28} />
           </S.IconBox>
-          <S.IconBox type="heart-fill" onClick={likeCancelHandler} isClick={likeStatus}>
+          <S.IconBox type="heart-fill" onClick={likeCancelHandler} isClick={isLike}>
             <Icon.HeartFill size={28} />
           </S.IconBox>
           <S.IconBox type="comment" onClick={commentHandler}>
@@ -113,7 +130,7 @@ function Feed({ data }: PropsType) {
           <S.IconBox
             type="bookmark-fill"
             onClick={bookmarkCancelHandler}
-            isClick={collectionStatus}
+            isClick={isCollection}
           >
             <Icon.BookmarkFill size={24} />
           </S.IconBox>
@@ -133,7 +150,7 @@ function Feed({ data }: PropsType) {
         </S.Div>
       </S.Span>
       <S.Div>
-        <S.Desc onClick={() => setIsModalOpen(true)}>댓글 123개 모두 보기</S.Desc>
+        <S.Desc onClick={() => setIsModalOpen(feedId)}>댓글 123개 모두 보기</S.Desc>
       </S.Div>
       <FeedInput />
     </S.FeedWrapper>

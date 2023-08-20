@@ -57,7 +57,7 @@ function FeedImages({ feedMedias }: PropsType) {
                 <S.FeedImg as="video" src={mediaUrl} id={mediaId} autoPlay muted loop />
               </S.FeedImgBox>
             );
-          } else if (mediaType === ".JPG") {
+          } else if (mediaType === "img") {
             return (
               <S.FeedImgBox>
                 <S.FeedImg src={mediaUrl} id={mediaId} />

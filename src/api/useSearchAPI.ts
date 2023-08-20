@@ -16,7 +16,9 @@ export function useSearchAPI() {
       .get(`${API_URL}/search?search=${search}&type=${type}&page=${page}&size=${size}`)
       .then((response) => {
         console.log(response);
-        setData(response.data.userList);
+        if (response && response.data) {
+          setData(response.data.userList);
+        }
       })
       .catch((error) => {
         console.error(error);

@@ -5,22 +5,24 @@ import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import React, { useState } from "react";
 import { useHashTag } from "../../../../hooks/useHashTag";
+import { useNavigate } from "react-router";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  commentState,
+  commentTypeState,
+  feedDetailState,
+  isLikeModalOpenState,
+  isModalOpenState,
+} from "../../../../recoil/homeState";
+import { useFeedAPI } from "../../../../api/useFeedAPI";
 
 interface PropsType {
   comment: T.CommentType;
 }
 
 function CommentContent({ comment }: PropsType) {
-  const {
-    commentId,
-    userId,
-    nickname,
-    userImg,
-    content,
-    createdAt,
-    likeCount,
-    likeStatus,
-  } = comment;
+  const { commentId, nickname, userImg, content, createdAt, likeCount, likeStatus } =
+    comment;
 
   // 좋아요 계산
   const likeCalculator = useLikeCalculate();
@@ -35,14 +37,57 @@ function CommentContent({ comment }: PropsType) {
 
   const [isSettingClick, setIsSettingClick] = useState(false);
   // console.log(extractContent);
+
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
+  const setIsLikeModalOpen = useSetRecoilState(isLikeModalOpenState);
+  const setData = useSetRecoilState(feedDetailState);
+
+  // 답글 관련
+  const [value, setValue] = useRecoilState(commentState);
+  const setCommentType = useRecoilValue(commentTypeState);
+
+  const { requestDeleteComment, requestCommentLike, requestDeleteCommentLike } =
+    useFeedAPI();
+  const profileClickHandler = () => {
+    navigate(`/accounts/${nickname}`);
+    setIsModalOpen(0);
+  };
+
+  const deleteHandler = () => {
+    alert("댓글 삭제 요청");
+    requestDeleteComment(commentId, isModalOpen, setData);
+  };
+
+  const likeHandler = () => {
+    alert("댓글 좋아요 요청");
+    requestCommentLike(commentId, isModalOpen, setData);
+  };
+
+  const likeCancelHandler = () => {
+    alert("댓글 좋아요 취소 요청");
+    requestDeleteCommentLike(commentId, isModalOpen, setData);
+  };
+
+  const likeModalhandler = () => {
+    // alert("댓글 좋아요 모달")
+    setIsLikeModalOpen({ id: commentId, type: "comment" });
+  };
+
+  // 답글 달기 버튼
+  const replyHandler = () => {
+    setValue(`${value}@${nickname}`);
+    setCommentType({ id: commentId, type: "innerComment", nickname: nickname });
+  };
+
   return (
-    <S.ProfileWrapper id={commentId}>
-      <S.ProfileImgBox id={userId}>
+    <S.ProfileWrapper>
+      <S.ProfileImgBox onClick={profileClickHandler}>
         <S.ProfileImg src={userImg} />
       </S.ProfileImgBox>
       {/* 유저 이름 댓글 내용 */}
       <S.TextWrapper>
-        <S.UserName to="/home">{nickname}</S.UserName>
+        <S.UserName onClick={profileClickHandler}>{nickname}</S.UserName>
         <S.CommentText>
           {extractContent.map((content) => {
             if (content.type === "tag") {
@@ -52,35 +97,35 @@ function CommentContent({ comment }: PropsType) {
             }
           })}
         </S.CommentText>
-        <S.CommentInfoWrapper>
-          <S.UploadText>{`${diff_date}`}</S.UploadText>
-          {commentId !== "feed_desc" && (
+        {commentId !== -1 && (
+          <S.CommentInfoWrapper>
+            <S.UploadText>{`${diff_date}`}</S.UploadText>
             <React.Fragment>
-              <S.InfoText>{`좋아요 ${likeNum}`}</S.InfoText>
-              <S.InfoText>답글 달기</S.InfoText>
+              <S.InfoText onClick={likeModalhandler}>{`좋아요 ${likeNum}`}</S.InfoText>
+              <S.InfoText onClick={replyHandler}>답글 달기</S.InfoText>
             </React.Fragment>
-          )}
-          <S.SettingWrapper>
-            <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
-              <Icon.Horizontal size={16} />
-            </S.SettingBox>
-            {isSettingClick && <S.Delete>삭제</S.Delete>}
-          </S.SettingWrapper>
-        </S.CommentInfoWrapper>
+            <S.SettingWrapper>
+              <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
+                <Icon.Horizontal size={16} />
+              </S.SettingBox>
+              {isSettingClick && <S.Delete onClick={deleteHandler}>삭제</S.Delete>}
+            </S.SettingWrapper>
+          </S.CommentInfoWrapper>
+        )}
       </S.TextWrapper>
       {/* 좋아요 */}
-      <React.Fragment>
-        {commentId !== "feed_desc" && (
+      {commentId !== -1 && (
+        <React.Fragment>
           <S.IconWrapper>
-            <S.IconBox isClick={likeStatus}>
+            <S.IconBox onClick={likeHandler} isClick={likeStatus}>
               <Icon.Heart size={14} />
             </S.IconBox>
-            <S.IconBoxFill isClick={likeStatus}>
+            <S.IconBoxFill onClick={likeCancelHandler} isClick={likeStatus}>
               <Icon.HeartFill size={14} />
             </S.IconBoxFill>
           </S.IconWrapper>
-        )}
-      </React.Fragment>
+        </React.Fragment>
+      )}
     </S.ProfileWrapper>
   );
 }

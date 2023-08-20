@@ -1,8 +1,17 @@
+import { useFeedAPI } from "../../../../api/useFeedAPI";
 import * as S from "./FeedMenu.style";
 
-function FeedMenu() {
+interface PropsTye {
+  isFeedMenuOpen: number;
+  setIsFeedMenuOpen: React.Dispatch<React.SetStateAction<number>>;
+}
+
+function FeedMenu({ isFeedMenuOpen, setIsFeedMenuOpen }: PropsTye) {
+  const { requestDeleteFeed } = useFeedAPI();
   const feedDeleteHandler = () => {
-    alert("피드 삭제 요청");
+    console.log(isFeedMenuOpen);
+    requestDeleteFeed(isFeedMenuOpen);
+    setIsFeedMenuOpen(0);
   };
 
   return (

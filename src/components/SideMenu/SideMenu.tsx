@@ -16,7 +16,7 @@ function SideMenu({ type, setState }: Props) {
   const nickname = "tmp_username";
   const { requestLogout } = useUserAPI();
   const logoutHandler = () => {
-    alert("로그아웃 요청");
+    // alert("로그아웃 요청");
     requestLogout();
   };
   return (
