@@ -30,7 +30,7 @@ export function useAxios() {
       const originalRequest = error.config;
 
       if (error.response.status === 401) {
-        await instance
+        return await instance
           .post(`${import.meta.env.VITE_API_URL}/api/users/token`)
           .then((response) => {
             localStorage.setItem("accessToken", response.headers.authorization);
