@@ -2,12 +2,14 @@ import * as S from "./Profile.style";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ProfileHeader from "./components/ProfileHeader";
 import * as Icon from "../../components/Icon";
-import { useRecoilState } from "recoil";
+import { useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   ItemState,
   OverlayState,
   ImgIdState,
   ProfileState,
+  UserIdState,
 } from "../../recoil/profileState";
 import { ProfileResponseType } from "../../types/client/profile.client";
 import useProfileAPI from "../../api/useProfileAPI";
@@ -33,162 +35,163 @@ interface StorageList {
 //   type: string;
 //   setState: React.Dispatch<React.SetStateAction<boolean>>;
 // }
-const feedList: FeedList[] = [
-  {
-    feedId: 1,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: false,
-    likeCount: 20,
-    commentCount: 11,
-  },
-  {
-    feedId: 2,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: false,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 3,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: false,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 4,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 5,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 6,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 7,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 8,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 9,
-    mediaUrl:
-      "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-];
-const storageList: StorageList[] = [
-  {
-    feedId: 1,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: false,
-    likeCount: 20,
-    commentCount: 11,
-  },
-  {
-    feedId: 2,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 3,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 4,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 5,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: false,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 6,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 7,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: false,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 8,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-  {
-    feedId: 9,
-    mediaUrl:
-      "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-    isMediaOne: true,
-    likeCount: 10,
-    commentCount: 11,
-  },
-];
+// const feedList: FeedList[] = [
+//   {
+//     feedId: 1,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: false,
+//     likeCount: 20,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 2,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: false,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 3,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: false,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 4,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 5,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 6,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 7,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 8,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 9,
+//     mediaUrl:
+//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+// ];
+// const storageList: StorageList[] = [
+//   {
+//     feedId: 1,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: false,
+//     likeCount: 20,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 2,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 3,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 4,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 5,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: false,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 6,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 7,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: false,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 8,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+//   {
+//     feedId: 9,
+//     mediaUrl:
+//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+//     isMediaOne: true,
+//     likeCount: 10,
+//     commentCount: 11,
+//   },
+// ];
 
 function Profile() {
   const localIdString = localStorage.getItem("userId");
-  let localId: number|null =null;
-// localStorage 값
-  if (localIdString !== null ){
-    localId =  parseInt(localIdString);
-  };
+  let localId: number | null = null;
+  // localStorage 값
+  if (localIdString !== null) {
+    localId = parseInt(localIdString);
+  }
+  console.log("localId", localId);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const handleFeedListClick = () => {
@@ -201,6 +204,7 @@ function Profile() {
     const newData = storageList;
     setFeeds(newData);
   };
+
   const { requestProfileInfo, requestProfileFeed, requestSavedFeed } = useProfileAPI();
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -209,19 +213,21 @@ function Profile() {
   const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
   const [isModalOpen, setIsModalOpen] = useRecoilState<boolean>(isModalOpenState);
-  const [profileInfo,setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState);
+  const [profileInfo, setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState);
+  const userId = useRecoilValue<number>(UserIdState);
+  console.log("유저", userId);
   const isSecret = profileInfo.secretStatus;
   const loadMoreFeeds = async () => {
     setLoading(true);
     try {
       {
-        if (!item && localId !== null) {
+        if (!item && userId !== null && feeds.length > 0) {
           //🔥 API
-          requestProfileFeed(localId,page,9,setFeeds);
+          requestProfileFeed(userId, page, 9, setFeeds);
           setFeeds((prev) => [...prev, ...feedList]);
-        } else if(item && localId !== null) {
+        } else if (item && userId !== null && feeds.length > 0) {
           //🔥 API
-          requestSavedFeed(page,9,setFeeds);
+          requestSavedFeed(page, 9, setFeeds);
           setFeeds((prev) => [...prev, ...storageList]);
         }
       }
@@ -233,8 +239,8 @@ function Profile() {
   };
 
   useEffect(() => {
-    if (localId !== null) {
-      requestProfileInfo(localId, setProfileInfo);
+    if (userId !== null) {
+      requestProfileInfo(userId, setProfileInfo);
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -246,83 +252,100 @@ function Profile() {
     });
     if (observerRef.current) {
       observer.observe(observerRef.current);
-
     }
     return () => {
       if (observerRef.current) {
         observer.unobserve(observerRef.current);
       }
     };
-  }, [loading, feeds, item]);
+  }, [loading, feeds, item, userId]);
 
   return (
     <>
-      <Sidebar/>
+      <Sidebar />
       <ProfileHeader />
 
       <S.ProfileWrapper>
         {/* 🔥 isSecret에 ! 느낌표 처리 할 것*/}
-        {!isSecret ? 
-        <>
-        <S.ProfileNavbar>
-          <S.ProfileItem isActive={!item} onClick={handleFeedListClick}>
-            <Icon.Grid /> <S.ProfileText>게시물 </S.ProfileText>
-          </S.ProfileItem>
-          {/*  🔥  */}
-          {localId === profileInfo.userId &&
-          <S.ProfileItem isActive={item} onClick={handleSavedListClick}>
-            <Icon.Bookmark /> <S.ProfileText>저장됨 </S.ProfileText>
-          </S.ProfileItem>
-          } 
-          
-        </S.ProfileNavbar>
-        <S.FeedContainer>
-          {/* {(!item ? feedList : storageList) */}
-          {feeds.map((feed) => {
-            return (
-              <S.FeedBox key={feed.feedId} onClick={()=>{setIsModalOpen(true);}}>
-                <S.FeedHoverMutiple>
-                  {!feed.isMediaOne && (
-                    <S.FeedHoverMultiItem>
-                      <Icon.BoxMultiple size={20} />
-                    </S.FeedHoverMultiItem>
-                  )}
-                </S.FeedHoverMutiple>
-                <S.FeedHover>
-                  {overlay && ImgId === feed.feedId && (
-                    <>
-                      {" "}
-                      <S.FeedHoverItem>
-                        <Icon.HeartFill size={20} /> {feed.likeCount}
-                      </S.FeedHoverItem>{" "}
-                      <S.FeedHoverItem>
-                        <Icon.CommentFill size={16} /> {feed.commentCount}
-                      </S.FeedHoverItem>
-                    </>
-                  )}
-                </S.FeedHover>
-                <S.FeedImg
-                  src={feed.mediaUrl}
-                  alt="dd"
-                  onMouseEnter={() => {
-                    setOverlay(true);
-                    setImgId(feed.feedId);
-                  }}
-                  onMouseLeave={() => {
-                    setOverlay(false);
-                    setImgId(100000000000);
-                  }}
-                />
-              </S.FeedBox>
-            );
-          })}
-      <S.Observer ref={observerRef} />
-        </S.FeedContainer>
-        </>
-         : <S.SecretContainer><S.SecretBox><S.SecretScript>비공개 계정입니다.</S.SecretScript><S.SecretScript>사진 및 동영상을 보려면 팔로우하세요.</S.SecretScript></S.SecretBox></S.SecretContainer>} 
+        {!isSecret ? (
+          <>
+            <S.ProfileNavbar>
+              <S.ProfileItem
+                isactive={!item ? "true" : "false"}
+                onClick={handleFeedListClick}
+              >
+                <Icon.Grid /> <S.ProfileText>게시물 </S.ProfileText>
+              </S.ProfileItem>
+              {/*  🔥  */}
+              {localId === profileInfo.userId && (
+                <S.ProfileItem
+                  isactive={item ? "true" : "false"}
+                  onClick={handleSavedListClick}
+                >
+                  <Icon.Bookmark /> <S.ProfileText>저장됨 </S.ProfileText>
+                </S.ProfileItem>
+              )}
+            </S.ProfileNavbar>
+            <S.FeedContainer>
+              {/* {(!item ? feedList : storageList) */}
+              {feeds.length > 0 &&
+                feeds.map((feed) => {
+                  return (
+                    <S.FeedBox
+                      key={feed.feedId}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      <S.FeedHoverMutiple>
+                        {!feed.isMediaOne && (
+                          <S.FeedHoverMultiItem>
+                            <Icon.BoxMultiple size={20} />
+                          </S.FeedHoverMultiItem>
+                        )}
+                      </S.FeedHoverMutiple>
+                      <S.FeedHover>
+                        {overlay && ImgId === feed.feedId && (
+                          <>
+                            {" "}
+                            <S.FeedHoverItem>
+                              <Icon.HeartFill size={20} /> {feed.likeCount}
+                            </S.FeedHoverItem>{" "}
+                            <S.FeedHoverItem>
+                              <Icon.CommentFill size={16} /> {feed.commentCount}
+                            </S.FeedHoverItem>
+                          </>
+                        )}
+                      </S.FeedHover>
+                      <S.FeedImg
+                        src={feed.mediaUrl}
+                        alt="dd"
+                        onMouseEnter={() => {
+                          setOverlay(true);
+                          setImgId(feed.feedId);
+                        }}
+                        onMouseLeave={() => {
+                          setOverlay(false);
+                          setImgId(100000000000);
+                        }}
+                      />
+                    </S.FeedBox>
+                  );
+                })}
+              <S.Observer ref={observerRef} />
+            </S.FeedContainer>
+          </>
+        ) : (
+          <S.SecretContainer>
+            <S.SecretBox>
+              <S.SecretScript>비공개 계정입니다.</S.SecretScript>
+              <S.SecretScript>사진 및 동영상을 보려면 팔로우하세요.</S.SecretScript>
+            </S.SecretBox>
+          </S.SecretContainer>
+        )}
         {/*   */}
       </S.ProfileWrapper>
-      {isModalOpen && <FeedModal/>}
+      {isModalOpen && <FeedModal />}
     </>
   );
 }

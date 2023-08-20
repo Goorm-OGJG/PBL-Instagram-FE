@@ -3,15 +3,24 @@ import * as Icon from "../Icon";
 import * as S from "./Sidebar.style";
 import Searchbar from "../Searchbar/Searchbar";
 import SideMenu from "../SideMenu/SideMenu";
+import { useSetRecoilState } from "recoil";
+import { UserIdState } from "../../recoil/profileState";
 
 function Sidebar() {
   const [isHome, setIsHome] = useState<boolean>(true);
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [isAdd, setIsAdd] = useState<boolean>(false);
   const [isMenu, setIsMenu] = useState<boolean>(false);
+  const setUserId = useSetRecoilState(UserIdState);
 
   const nickname = localStorage.getItem("nickname");
   const userImg = localStorage.getItem("userImg");
+  const localIdString = localStorage.getItem("userId");
+  let localId: number | null = null;
+  // localStorage 값
+  if (localIdString !== null) {
+    localId = parseInt(localIdString);
+  }
 
   return (
     <S.Nav>
@@ -68,7 +77,14 @@ function Sidebar() {
           </S.IconBox>
         </S.SideBox>
         {/* 프로필 */}
-        <S.SideLink to={`/accounts/${nickname}`}>
+        <S.SideLink
+          to={`/accounts/${nickname}`}
+          onClick={() => {
+            if (localId !== null) {
+              setUserId(localId);
+            }
+          }}
+        >
           <S.IconBox>
             <S.ProfileImg src={userImg as string} />
           </S.IconBox>

@@ -1,5 +1,5 @@
-import { ProfileResponseType } from './../types/client/profile.client';
-import {EditProfileResponseType} from'./../types/client/editProfile.client';
+import { ProfileResponseType } from "./../types/client/profile.client";
+import { EditProfileResponseType } from "./../types/client/editProfile.client";
 import { atom } from "recoil";
 
 // 피드 or 보관함 둘중에 선택
@@ -18,6 +18,10 @@ export const ImgIdState = atom<number>({
   default: 10000000000,
 });
 
+export const UserIdState = atom<number>({
+  key: "userId",
+  default: 10000000000,
+});
 
 export const ProfileState = atom<ProfileResponseType>({
   key: "profileInfo",
@@ -26,12 +30,12 @@ export const ProfileState = atom<ProfileResponseType>({
     nickname: "",
     profileImg: "",
     userIntro: "",
-    followerCount: 0,
+    followCount: 0,
     followingCount: 0,
     feedCount: 0,
     followingStatus: false,
     secretStatus: false,
-  }
+  },
 });
 export const ToggleState = atom<boolean>({
   key: "toggleState",
@@ -46,6 +50,5 @@ export const EditProfileState = atom<EditProfileResponseType>({
     userIntro: "",
     isRecommended: false,
     isSecret: false,
-  }
+  },
 });
-
