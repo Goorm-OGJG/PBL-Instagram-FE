@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as S from "./AddModal.style";
 import * as Icon from "../Icon";
 import TextArea from "../TextArea/TextArea";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { feedValueState, whichAddModalOpenState } from "../../recoil/homeState";
 import { useDropzone } from "react-dropzone";
 import { useFileManage } from "../../hooks/useFileManage";
@@ -10,6 +10,7 @@ import { useHashTag } from "../../hooks/useHashTag";
 import { FeedPayloadType } from "../../types/request/feed.request";
 import { useFeedAPI } from "../../api/useFeedAPI";
 import { useStoryAPI } from "../../api/useStoryAPI";
+import { storyDataState } from "../../recoil/storyState";
 
 interface Props {
   type: string;
@@ -32,8 +33,16 @@ function AddModal({ type }: Props) {
   const feedValue = useRecoilValue(feedValueState);
   const { extractHashtags } = useHashTag();
 
+  // api 관련
   const { requestFeed } = useFeedAPI();
   const { requestPostStory } = useStoryAPI();
+  // const setWhichAddModalOpen = useSetRecoilState(whichAddModalOpen);
+
+  const setStory = useSetRecoilState(storyDataState);
+
+  const nickname = localStorage.getItem("nickname");
+  const userImg = localStorage.getItem("userImg") as string;
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // console.log(acceptedFiles);
     const filesWithPreview: FileWithPreview[] = acceptedFiles.map((file) =>
@@ -63,12 +72,9 @@ function AddModal({ type }: Props) {
       if (type === "feed") {
         requestFeed(payload);
       } else {
-        requestPostStory({ mediaList: mediaUrls });
+        requestPostStory({ mediaList: mediaUrls }, setStory);
       }
-      // 삭제 테스트
-      // handleDelete(
-      //   "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/videos/people_-_84973+(720p).mp4",
-      // );
+      setWhichAddModalOpen("");
     }
   };
   // 스크롤 여러번 누를 시 이상하게 됨
@@ -138,9 +144,6 @@ function AddModal({ type }: Props) {
                       return <S.Img as="video" src={file.preview} />;
                     } else return <S.Img src={file.preview} />;
                   })}
-                  {/* <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" /> */}
                 </S.Images>
                 {files && files.length > 0 && pos > 0 && (
                   <S.ArrowBox onClick={leftHandler}>
@@ -159,8 +162,8 @@ function AddModal({ type }: Props) {
                 <S.SecondRightWrapper>
                   {/* 유저 정보 및 글 정보 */}
                   <S.UserInfo>
-                    <S.UserProfile src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                    <S.UserName>username</S.UserName>
+                    <S.UserProfile src={userImg} />
+                    <S.UserName>{nickname}</S.UserName>
                   </S.UserInfo>
                   <TextArea />
                 </S.SecondRightWrapper>

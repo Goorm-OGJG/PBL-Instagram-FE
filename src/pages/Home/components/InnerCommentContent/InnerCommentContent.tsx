@@ -1,6 +1,5 @@
-import * as S from "./CommentContent.style";
+import * as S from "./InnerCommentContent.style";
 import * as Icon from "../../../../components/Icon";
-import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import React, { useState } from "react";
@@ -8,22 +7,29 @@ import { useHashTag } from "../../../../hooks/useHashTag";
 import { useNavigate } from "react-router";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
+  InnerCommentType,
   commentState,
   commentTypeState,
-  feedDetailState,
   isLikeModalOpenState,
   isModalOpenState,
 } from "../../../../recoil/homeState";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
 
 interface PropsType {
-  comment: T.CommentType;
+  innerComment: InnerCommentType;
+  setInnerComments: React.Dispatch<React.SetStateAction<InnerCommentType[]>>;
+  commentId: number;
 }
 
-function CommentContent({ comment }: PropsType) {
-  const { commentId, nickname, userImg, content, createdAt, likeCount, likeStatus } =
-    comment;
-
+function InnerCommentContent({ innerComment, setInnerComments, commentId }: PropsType) {
+  const {
+    innerCommentId,
+    content,
+    likeStatus,
+    likeCount,
+    createdAt,
+    innerCommentWriter: { nickname, userImg },
+  } = innerComment;
   // 좋아요 계산
   const likeCalculator = useLikeCalculate();
   const likeNum = likeCalculator(likeCount);
@@ -39,42 +45,43 @@ function CommentContent({ comment }: PropsType) {
   // console.log(extractContent);
 
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
+  const setIsModalOpen = useSetRecoilState(isModalOpenState);
   const setIsLikeModalOpen = useSetRecoilState(isLikeModalOpenState);
-  const setData = useSetRecoilState(feedDetailState);
 
-  // 답글 관련
-  const [value, setValue] = useRecoilState(commentState);
   const setCommentType = useSetRecoilState(commentTypeState);
+  const [value, setValue] = useRecoilState(commentState);
 
-  const { requestDeleteComment, requestCommentLike, requestDeleteCommentLike } =
-    useFeedAPI();
+  const {
+    requestDeleteInnerComment,
+    requestInnerCommentLike,
+    requestDeleteInnerCommentLike,
+  } = useFeedAPI();
+
   const profileClickHandler = () => {
     navigate(`/accounts/${nickname}`);
     setIsModalOpen(0);
   };
 
   const deleteHandler = () => {
-    alert("댓글 삭제 요청");
-    requestDeleteComment(commentId, isModalOpen, setData);
+    // alert("대댓글 삭제 요청");
+    requestDeleteInnerComment(innerCommentId, setInnerComments, commentId);
   };
 
   const likeHandler = () => {
-    alert("댓글 좋아요 요청");
-    requestCommentLike(commentId, isModalOpen, setData);
+    // alert("대댓글 좋아요 요청");
+    requestInnerCommentLike(innerCommentId, setInnerComments, commentId);
   };
 
   const likeCancelHandler = () => {
-    alert("댓글 좋아요 취소 요청");
-    requestDeleteCommentLike(commentId, isModalOpen, setData);
+    // alert("대댓글 좋아요 취소 요청");
+    requestDeleteInnerCommentLike(innerCommentId, setInnerComments, commentId);
   };
 
   const likeModalhandler = () => {
     // alert("댓글 좋아요 모달")
-    setIsLikeModalOpen({ id: commentId, type: "comment" });
+    setIsLikeModalOpen({ id: innerCommentId, type: "innerComment" });
   };
 
-  // 답글 달기 버튼
   const replyHandler = () => {
     setValue(`${value}@${nickname}`);
     setCommentType({ id: commentId, type: "innerComment", nickname: nickname });
@@ -97,37 +104,33 @@ function CommentContent({ comment }: PropsType) {
             }
           })}
         </S.CommentText>
-        {commentId !== -1 && (
-          <S.CommentInfoWrapper>
-            <S.UploadText>{`${diff_date}`}</S.UploadText>
-            <React.Fragment>
-              <S.InfoText onClick={likeModalhandler}>{`좋아요 ${likeNum}`}</S.InfoText>
-              <S.InfoText onClick={replyHandler}>답글 달기</S.InfoText>
-            </React.Fragment>
-            <S.SettingWrapper>
-              <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
-                <Icon.Horizontal size={16} />
-              </S.SettingBox>
-              {isSettingClick && <S.Delete onClick={deleteHandler}>삭제</S.Delete>}
-            </S.SettingWrapper>
-          </S.CommentInfoWrapper>
-        )}
+        <S.CommentInfoWrapper>
+          <S.UploadText>{`${diff_date}`}</S.UploadText>
+          <React.Fragment>
+            <S.InfoText onClick={likeModalhandler}>{`좋아요 ${likeNum}`}</S.InfoText>
+            <S.InfoText onClick={replyHandler}>답글 달기</S.InfoText>
+          </React.Fragment>
+          <S.SettingWrapper>
+            <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
+              <Icon.Horizontal size={16} />
+            </S.SettingBox>
+            {isSettingClick && <S.Delete onClick={deleteHandler}>삭제</S.Delete>}
+          </S.SettingWrapper>
+        </S.CommentInfoWrapper>
       </S.TextWrapper>
       {/* 좋아요 */}
-      {commentId !== -1 && (
-        <React.Fragment>
-          <S.IconWrapper>
-            <S.IconBox onClick={likeHandler} isClick={likeStatus}>
-              <Icon.Heart size={14} />
-            </S.IconBox>
-            <S.IconBoxFill onClick={likeCancelHandler} isClick={likeStatus}>
-              <Icon.HeartFill size={14} />
-            </S.IconBoxFill>
-          </S.IconWrapper>
-        </React.Fragment>
-      )}
+      <React.Fragment>
+        <S.IconWrapper>
+          <S.IconBox onClick={likeHandler} isClick={likeStatus}>
+            <Icon.Heart size={14} />
+          </S.IconBox>
+          <S.IconBoxFill onClick={likeCancelHandler} isClick={likeStatus}>
+            <Icon.HeartFill size={14} />
+          </S.IconBoxFill>
+        </S.IconWrapper>
+      </React.Fragment>
     </S.ProfileWrapper>
   );
 }
 
-export default CommentContent;
+export default InnerCommentContent;
