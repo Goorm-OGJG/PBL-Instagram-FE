@@ -62,6 +62,12 @@ function FindPassword() {
     }
   };
 
+  const enterToSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   const ValidateSubmitButtonAction = username;
   const SubmitButtonAction = username && validate;
 
@@ -89,6 +95,7 @@ function FindPassword() {
             placeHolderText="이메일 또는 사용자 이름"
             value={username}
             onChange={handleUserName}
+            onKeyUp={enterToSubmit}
           />
 
           {isTimerStart && (
@@ -103,6 +110,7 @@ function FindPassword() {
             placeHolderText="인증번호"
             value={validate}
             onChange={handleValidate}
+            onKeyUp={enterToSubmit}
           />
         </S.InputBoxWrapper>
 
