@@ -4,7 +4,7 @@ import * as Icon from "../../../components/Icon";
 import useFollowAPI from "../../../api/useFollowAPI";
 import { useState, useEffect } from "react";
 import * as T from "../../../types/client/follow.client";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { ProfileState, UserIdState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
 
@@ -62,7 +62,6 @@ export default function FollowerModal({
   const localId = localIdString !== null ? parseInt(localIdString) : null;
   const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState);
   //🔥 API
-  const [followId, setFollowId] = useState<number>(0);
   const [followerData, setFollowerData] = useState<T.FollowerResponseType[]>([]);
   const [followData, setFollowData] = useState<T.FollowResponseType[]>([]);
   const [userId, setUserId] = useRecoilState<number>(UserIdState);
@@ -186,7 +185,6 @@ export default function FollowerModal({
                       <S.DeleteBtn
                         //🔥 API
                         onClick={() => {
-                          setFollowId(data.userId);
                           handleDeleteFollower(data.followId, setFollowerData);
                         }}
                       >
@@ -224,7 +222,6 @@ export default function FollowerModal({
                       <S.DeleteBtn
                         // 🔥 API
                         onClick={() => {
-                          setFollowId(data.userId);
                           handleDeleteFollow(data.followId, setFollowData);
                         }}
                       >

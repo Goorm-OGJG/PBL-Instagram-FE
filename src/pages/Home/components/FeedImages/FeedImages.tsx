@@ -54,13 +54,13 @@ function FeedImages({ feedMedias }: PropsType) {
           if (mediaType === "video") {
             return (
               <S.FeedImgBox>
-                <S.FeedImg as="video" src={mediaUrl} id={mediaId} autoPlay muted loop />
+                <S.FeedImg as="video" src={mediaUrl} key={mediaId} autoPlay muted loop />
               </S.FeedImgBox>
             );
           } else if (mediaType === "img") {
             return (
               <S.FeedImgBox>
-                <S.FeedImg src={mediaUrl} id={mediaId} />
+                <S.FeedImg src={mediaUrl} key={mediaId} />
               </S.FeedImgBox>
             );
           }
