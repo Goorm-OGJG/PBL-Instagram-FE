@@ -22,11 +22,10 @@ export default function useEditProfileAPI() {
   };
 
   // 프로필 수정 보내기
-  const requestPutProfile = (requestData:T.EditProfileType) => {
+  const requestPutProfile = (requestData: T.EditProfileType) => {
     axios
-      .put(`${editProfleURL}`,requestData)
-      .then((response) => {
-        console.log(response.data);
+      .put(`${editProfleURL}`, requestData)
+      .then(() => {
         alert("수정이 완료 되었습니다.");
       })
       .catch((error) => {
@@ -34,12 +33,11 @@ export default function useEditProfileAPI() {
       });
   };
 
-  // 프로필 이미지 수정 보내기 
-  const requestPutImgProfile = (requestData:string) => {
+  // 프로필 이미지 수정 보내기
+  const requestPutImgProfile = (requestData: T.EditImgType) => {
     axios
-      .put(`${editProfleURL}`,requestData)
-      .then((response) => {
-        console.log(response.data);
+      .put(`${editProfleURL}/img`, requestData)
+      .then(() => {
         alert("수정이 완료 되었습니다.");
       })
       .catch((error) => {

@@ -4,7 +4,7 @@ import * as Icon from "../../../components/Icon";
 import useFollowAPI from "../../../api/useFollowAPI";
 import { useState, useEffect } from "react";
 import * as T from "../../../types/client/follow.client";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { ProfileState, UserIdState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
 
@@ -65,8 +65,8 @@ export default function FollowerModal({
   const [followId, setFollowId] = useState<number>(0);
   const [followerData, setFollowerData] = useState<T.FollowerResponseType[]>([]);
   const [followData, setFollowData] = useState<T.FollowResponseType[]>([]);
+  const [userId, setUserId] = useRecoilState<number>(UserIdState);
 
-  const setUserId = useSetRecoilState(UserIdState);
   const {
     requestFollowerList,
     requestDeleteFollower,
@@ -86,9 +86,14 @@ export default function FollowerModal({
       setFollowModal(false);
     }
   };
-  const handleFollowPost = () => {
+  const handleFollowPost = async (followId: number) => {
     //🔥 API
-    requestPostFollowing(followId);
+    try {
+      await requestPostFollowing(followId);
+      requestFollowerList(userId, setFollowerData);
+    } catch (error) {
+      console.error("Error deleting follower:", error);
+    }
   };
   //🔥 API
   const handleDeleteFollower = async (
@@ -97,7 +102,7 @@ export default function FollowerModal({
   ) => {
     try {
       await requestDeleteFollower(followId);
-      requestFollowerList(setFollowerData);
+      requestFollowerList(userId, setFollowerData);
     } catch (error) {
       console.error("Error deleting follower:", error);
     }
@@ -108,20 +113,19 @@ export default function FollowerModal({
   ) => {
     try {
       await requestDeleteFollowing(followId);
-      requestFollowingList(setFollowData);
+      requestFollowingList(userId, setFollowData);
     } catch (error) {
       console.error("Error deleting follower:", error);
     }
   };
   useEffect(() => {
     if (followerModal) {
-      requestFollowerList(setFollowerData);
-      console.log("팔로워 데이터", followerData);
+      requestFollowerList(userId, setFollowerData);
     } else {
-      requestFollowingList(setFollowData);
+      requestFollowingList(userId, setFollowData);
     }
   }, []);
-  // console.log("팔로우 데이터", followData);
+
   return (
     <S.Overlay
       onClick={() => {
@@ -163,13 +167,13 @@ export default function FollowerModal({
                     >
                       {data.nickname}
                     </S.Nickname>{" "}
-                    {!data.followStatus && (
+                    {!data.followingStatus && (
                       <>
                         {" "}
                         ·{" "}
                         <S.FollowBtn
                           onClick={() => {
-                            handleFollowPost();
+                            handleFollowPost(data.userId);
                           }}
                         >
                           팔로우

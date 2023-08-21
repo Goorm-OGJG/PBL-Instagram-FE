@@ -19,7 +19,6 @@ export function useFeedAPI() {
     axios
       .get(`${feedURL}?page=${page}&size=${size}`)
       .then((response) => {
-        console.log(response);
         if (response) {
           setData((prev) => [...prev, ...response.data.contents]);
         }
@@ -40,8 +39,6 @@ export function useFeedAPI() {
     axios
       .get(`${feedURL}/${feedId}`)
       .then((response) => {
-        console.log("피드 모달 상세 데이터 요청 불러오기");
-        console.log(response);
         if (response) {
           if (setData) {
             setData(response.data);
@@ -61,7 +58,6 @@ export function useFeedAPI() {
     axios
       .get(`${API_URL}/api/feed/${feedId}/likeUser`)
       .then((response) => {
-        console.log(response.data);
         if (response) {
           setData(response.data);
         }
@@ -79,7 +75,6 @@ export function useFeedAPI() {
     axios
       .get(`${API_URL}/api/comment/${commentId}/likesUser`)
       .then((response) => {
-        console.log(response.data);
         if (response) {
           setData(response.data);
         }
@@ -97,7 +92,6 @@ export function useFeedAPI() {
     axios
       .get(`${API_URL}/api/innerComment/${innerCommentId}/likesUser`)
       .then((response) => {
-        console.log(response.data);
         if (response) {
           setData(response.data);
         }
@@ -115,9 +109,6 @@ export function useFeedAPI() {
     axios
       .get(`${API_URL}/api/comments/${commentId}/inner-comments`)
       .then((response) => {
-        console.log(response.data);
-        console.log("대댓글 데이터 요청 불러오기");
-
         if (response) {
           setData(response.data.innerComments);
         }
@@ -139,7 +130,6 @@ export function useFeedAPI() {
           axios
             .get(`${feedURL}?page=${0}&size=${1}`)
             .then((response) => {
-              console.log(response);
               if (response) {
                 setData((prev) => [...response.data.contents, ...prev]);
               }
@@ -160,7 +150,6 @@ export function useFeedAPI() {
     axios
       .delete(`${feedURL}/${feedId}`)
       .then((response) => {
-        console.log("피드 삭제 요청", response);
         if (response) {
           if (response.status === 200) {
             window.location.reload();
@@ -180,8 +169,6 @@ export function useFeedAPI() {
     axios
       .post(`${API_URL}/api/collections/${feedId}`)
       .then((response) => {
-        console.log("피드 보관함 추가 요청");
-        console.log(response);
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
@@ -196,8 +183,7 @@ export function useFeedAPI() {
   ) => {
     axios
       .delete(`${API_URL}/api/collections/${feedId}`)
-      .then((response) => {
-        console.log("피드 보관함 삭제 요청", response);
+      .then(() => {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
@@ -209,9 +195,7 @@ export function useFeedAPI() {
   const requestFeedLike = (feedId: number, setData?: SetterOrUpdater<FeedDetailType>) => {
     axios
       .post(`${API_URL}/api/feed/${feedId}/like`)
-      .then((response) => {
-        console.log("피드 보관함 추가 요청");
-        console.log(response);
+      .then(() => {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
@@ -242,8 +226,7 @@ export function useFeedAPI() {
   ) => {
     axios
       .post(`${feedURL}/${feedId}/comments`, payload)
-      .then((response) => {
-        console.log("피드 댓글 작성 요청", response);
+      .then(() => {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
@@ -258,8 +241,7 @@ export function useFeedAPI() {
   ) => {
     axios
       .delete(`${API_URL}/api/comments/${commentId}`)
-      .then((response) => {
-        console.log("피드 댓글 삭제 요청", response);
+      .then(() => {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
@@ -275,8 +257,7 @@ export function useFeedAPI() {
   ) => {
     axios
       .post(`${API_URL}/api/comment/${commentId}/like`)
-      .then((response) => {
-        console.log("피드 댓글 좋아요 요청", response);
+      .then(() => {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
@@ -291,8 +272,7 @@ export function useFeedAPI() {
   ) => {
     axios
       .delete(`${API_URL}/api/comment/${commentId}/like`)
-      .then((response) => {
-        console.log("피드 댓글 좋아요 취소 요청", response);
+      .then(() => {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
@@ -304,9 +284,7 @@ export function useFeedAPI() {
   const requestPostInnerComment = (commentId: number, content: string) => {
     axios
       .post(`${API_URL}/api/comments/${commentId}/inner-comment`, { content })
-      .then((response) => {
-        console.log("피드 대댓글 작성 요청");
-        console.log(response);
+      .then(() => {
         // requestInnerComment(commentId, setData, setCommentId);
       })
       .catch((error) => {
@@ -321,9 +299,7 @@ export function useFeedAPI() {
   ) => {
     axios
       .delete(`${API_URL}/api/inner-comments/${innerCommentId}`)
-      .then((response) => {
-        // console.log("피드 대댓글 삭제 요청");
-        console.log(response);
+      .then(() => {
         requestInnerComment(commentId, setData);
       })
       .catch((error) => {
@@ -339,7 +315,6 @@ export function useFeedAPI() {
     axios
       .post(`${API_URL}/api/inner-comment/${innerCommentId}/like`)
       .then(() => {
-        console.log("피드 대댓글 좋아요 요청");
         requestInnerComment(commentId, setData);
       })
       .catch((error) => {
@@ -355,7 +330,6 @@ export function useFeedAPI() {
     axios
       .delete(`${API_URL}/api/inner-comment/${innerCommentId}/like`)
       .then(() => {
-        console.log("피드 대댓글 좋아요 삭제 요청");
         requestInnerComment(commentId, setData);
       })
       .catch((error) => {

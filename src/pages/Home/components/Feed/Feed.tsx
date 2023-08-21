@@ -30,7 +30,6 @@ function Feed({ data }: PropsType) {
     feedMedias,
     commentCount,
   } = { ...data };
-  // console.log(data);
   const [isFeedMenuOpen, setIsFeedMenuOpen] = useState(0);
   const navigate = useNavigate();
 
@@ -59,7 +58,6 @@ function Feed({ data }: PropsType) {
     requestDeleteFeedLike(feedId);
     setIsLike(!isLike);
   };
-  // console.log(content);
 
   // 댓글
   const commentHandler = () => {

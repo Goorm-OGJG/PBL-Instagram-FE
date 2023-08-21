@@ -24,165 +24,6 @@ interface FeedList {
   likeCount: number;
   commentCount: number;
 }
-interface StorageList {
-  feedId: number;
-  mediaUrl: string;
-  isMediaOne: boolean;
-  likeCount: number;
-  commentCount: number;
-}
-// interface Props {
-//   type: string;
-//   setState: React.Dispatch<React.SetStateAction<boolean>>;
-// }
-// const feedList: FeedList[] = [
-//   {
-//     feedId: 1,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: false,
-//     likeCount: 20,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 2,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: false,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 3,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: false,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 4,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 5,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 6,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 7,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 8,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 9,
-//     mediaUrl:
-//       "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-// ];
-// const storageList: StorageList[] = [
-//   {
-//     feedId: 1,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: false,
-//     likeCount: 20,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 2,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 3,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 4,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 5,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: false,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 6,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 7,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: false,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 8,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-//   {
-//     feedId: 9,
-//     mediaUrl:
-//       "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
-//     isMediaOne: true,
-//     likeCount: 10,
-//     commentCount: 11,
-//   },
-// ];
 
 function Profile() {
   const localIdString = localStorage.getItem("userId");
@@ -191,19 +32,8 @@ function Profile() {
   if (localIdString !== null) {
     localId = parseInt(localIdString);
   }
-  console.log("localId", localId);
+  const { nickname } = useParams();
   const observerRef = useRef<HTMLDivElement | null>(null);
-
-  const handleFeedListClick = () => {
-    setItem(false);
-    const newData = feedList;
-    setFeeds(newData);
-  };
-  const handleSavedListClick = () => {
-    setItem(true);
-    const newData = storageList;
-    setFeeds(newData);
-  };
 
   const { requestProfileInfo, requestProfileFeed, requestSavedFeed } = useProfileAPI();
   const [page, setPage] = useState(0);
@@ -212,11 +42,22 @@ function Profile() {
   const [feeds, setFeeds] = useState<FeedList[]>([]);
   const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
-  const [isModalOpen, setIsModalOpen] = useRecoilState<boolean>(isModalOpenState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
   const [profileInfo, setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState);
   const userId = useRecoilValue<number>(UserIdState);
-  console.log("유저", userId);
   const isSecret = profileInfo.secretStatus;
+
+  const handleFeedListClick = () => {
+    setItem(false);
+    const newData = feeds;
+    setFeeds(newData);
+  };
+  const handleSavedListClick = () => {
+    setItem(true);
+    const newData = feeds;
+    setFeeds(newData);
+  };
+
   const loadMoreFeeds = async () => {
     setLoading(true);
     try {
@@ -224,25 +65,21 @@ function Profile() {
         if (!item && userId !== null && feeds.length > 0) {
           //🔥 API
           requestProfileFeed(userId, page, 9, setFeeds);
-          setFeeds((prev) => [...prev, ...feedList]);
+          setFeeds((prev) => [...prev, ...feeds]);
+          setPage(page + 1);
         } else if (item && userId !== null && feeds.length > 0) {
           //🔥 API
           requestSavedFeed(page, 9, setFeeds);
-          setFeeds((prev) => [...prev, ...storageList]);
+          setFeeds((prev) => [...prev, ...feeds]);
+          setPage(page + 1);
         }
       }
-      setPage(page + 1);
     } catch (error) {
       console.log(error);
     }
     setLoading(false);
   };
-
   useEffect(() => {
-    if (userId !== null) {
-      requestProfileInfo(userId, setProfileInfo);
-    }
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !loading) {
@@ -258,7 +95,19 @@ function Profile() {
         observer.unobserve(observerRef.current);
       }
     };
-  }, [loading, feeds, item, userId]);
+  }, []);
+
+  useEffect(() => {
+    if (nickname !== undefined) {
+      requestProfileInfo(nickname, setProfileInfo);
+    }
+    if (userId !== null && !item) {
+      requestProfileFeed(userId, page, 9, setFeeds);
+    }
+    if (userId !== null && item) {
+      requestSavedFeed(page, 9, setFeeds);
+    }
+  }, [nickname, item]);
 
   return (
     <>
@@ -294,7 +143,7 @@ function Profile() {
                     <S.FeedBox
                       key={feed.feedId}
                       onClick={() => {
-                        setIsModalOpen(true);
+                        setIsModalOpen(feed.feedId);
                       }}
                     >
                       <S.FeedHoverMutiple>

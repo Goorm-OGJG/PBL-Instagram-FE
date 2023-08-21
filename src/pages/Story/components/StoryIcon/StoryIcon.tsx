@@ -22,7 +22,6 @@ function StoryIcon({ type, onClick, likeStatus }: Props) {
   const { requestPostStoryLike, requestDeleteStoryLike } = useStoryAPI();
   const { storyId } = useParams();
   const setStoryData = useSetRecoilState(storyDataState);
-  // console.log(storyId);
 
   const settingHandelr = () => {
     setIsSetting((prev) => !prev);

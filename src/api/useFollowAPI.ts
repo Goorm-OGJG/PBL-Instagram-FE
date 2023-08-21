@@ -8,13 +8,13 @@ export default function useFollowAPI() {
 
   // 팔로워 목록 가져오기
   const requestFollowerList = (
+    followId: number,
     setFollowerData: React.Dispatch<React.SetStateAction<T.FollowerResponseType[]>>,
   ) => {
     axios
-      .get(`${followerURL}/follower`)
-      .then((response) => {
+      .get(`${followerURL}/follower/${followId}`)
+      .then(() => {
         setFollowerData(response.data);
-        console.log("팔로워 목록", response.data);
       })
       .catch((error) => {
         alert(error);
@@ -25,22 +25,20 @@ export default function useFollowAPI() {
   const requestDeleteFollower = async (followId: number) => {
     await axios
       .delete(`${followerURL}/${followId}`)
-      .then((response) => {
-        console.log(response.data);
-      })
+      .then(() => {})
       .catch((error) => {
         alert(error);
       });
   };
 
   const requestFollowingList = (
+    followId: number,
     setFollowData: React.Dispatch<React.SetStateAction<T.FollowResponseType[]>>,
   ) => {
     axios
-      .get(`${followerURL}/following`)
+      .get(`${followerURL}/following/${followId}`)
       .then((response) => {
         setFollowData(response.data);
-        console.log("팔로우 목록", response.data);
       })
       .catch((error) => {
         alert(error);
@@ -51,20 +49,16 @@ export default function useFollowAPI() {
   const requestDeleteFollowing = async (followId: number) => {
     await axios
       .delete(`${followerURL}/${followId}`)
-      .then((response) => {
-        console.log(response.data);
-      })
+      .then(() => {})
       .catch((error) => {
         alert(error);
       });
   };
   //  팔로우 요청
-  const requestPostFollowing = (followId: number) => {
-    axios
+  const requestPostFollowing = async (followId: number) => {
+    await axios
       .post(`${followerURL}/${followId}`)
-      .then((response) => {
-        console.log(response.data);
-      })
+      .then(() => {})
       .catch((error) => {
         alert(error);
       });

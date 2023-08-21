@@ -42,10 +42,8 @@ function ProfileHeader() {
   const [followerModal, setFollowerModal] = useState<boolean>(false);
   const [followModal, setFollowModal] = useState<boolean>(false);
   const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState); // 받아온 프로필 정보 데이터
-
   const profileUserId = profileInfo.userId;
 
-  console.log("nickname", profileInfo);
   const isSecret = profileInfo.secretStatus;
   // 🔥
   const { requestPostFollowing, requestDeleteFollower } = useFollowAPI();
@@ -53,18 +51,17 @@ function ProfileHeader() {
   const handleCompareNickName = () => {
     if (localId === profileUserId) {
       navigate(`/accounts/${profileInfo.nickname}/edit`);
-    } else if (!profileInfo.followingStatus && localId !== profileUserId) {
+    } else if (!profileInfo.followStatus && localId !== profileUserId) {
       requestPostFollowing(profileUserId);
-    } else if (localId !== profileUserId && profileInfo.followingStatus === true) {
+    } else if (localId !== profileUserId && profileInfo.followStatus === true) {
       requestDeleteFollower(profileUserId);
-      console.log("팔로우 취소 delete");
     }
   };
 
   const ButtonText =
     localId !== null && localId === profileUserId
       ? "프로필 편집"
-      : profileInfo.followingStatus === false
+      : profileInfo.followStatus === false
       ? "팔로우 하기"
       : "팔로우 취소";
 
@@ -116,7 +113,6 @@ function ProfileHeader() {
             <S.UserFollower
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
-                console.log();
                 if (!isSecret) {
                   setFollowModal((prev) => !prev);
                 }

@@ -6,7 +6,7 @@ export interface ProfileResponseType {
   followCount: number;
   followingCount: number;
   feedCount: number;
-  followingStatus: boolean;
+  followStatus: boolean;
   secretStatus: boolean;
 }
 

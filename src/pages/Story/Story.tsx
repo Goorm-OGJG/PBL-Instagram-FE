@@ -7,7 +7,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 function Story() {
   const data = useRecoilValue(storyDataState);
-  // console.log(data);
   const setNowStory = useSetRecoilState(nowStoryState);
   return (
     <React.Fragment>

@@ -22,7 +22,6 @@ function FeedInput({ feedId }: PropsType) {
   const rowsHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const key = e.key;
 
-    console.log(key);
     if (e.shiftKey && key === "Enter" && rows < 4) {
       setRows(rows + 1);
     } else if (key === "Backspace") {

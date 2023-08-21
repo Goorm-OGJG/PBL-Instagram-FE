@@ -33,7 +33,6 @@ export const useFileManage = () => {
 
       try {
         const stored = await s3.upload(params).promise();
-        // console.log(stored);
         result.push(stored.Location);
       } catch (err) {
         console.log(err);
@@ -50,7 +49,6 @@ export const useFileManage = () => {
     const filePath = decodedString.endsWith("mp4") ? "videos" : "images";
     const fileKey = `${filePath}/${decodedString}`;
 
-    // console.log(fileKey);
     const params = {
       Bucket: import.meta.env.VITE_AWS_BUCKET,
       Key: fileKey,
