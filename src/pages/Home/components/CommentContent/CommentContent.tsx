@@ -6,7 +6,7 @@ import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import React, { useState } from "react";
 import { useHashTag } from "../../../../hooks/useHashTag";
 import { useNavigate } from "react-router";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   commentState,
   commentTypeState,
@@ -45,7 +45,7 @@ function CommentContent({ comment }: PropsType) {
 
   // 답글 관련
   const [value, setValue] = useRecoilState(commentState);
-  const setCommentType = useRecoilValue(commentTypeState);
+  const setCommentType = useSetRecoilState(commentTypeState);
 
   const { requestDeleteComment, requestCommentLike, requestDeleteCommentLike } =
     useFeedAPI();

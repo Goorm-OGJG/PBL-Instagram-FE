@@ -15,7 +15,8 @@ export default function LikeModal() {
     }
   };
 
-  const { requestLikeList, requestCommentLikeList } = useFeedAPI();
+  const { requestLikeList, requestCommentLikeList, requestInnerCommentLikeList } =
+    useFeedAPI();
   const [datas, setData] = useState<LikeUserType[]>([]);
 
   useEffect(() => {
@@ -23,6 +24,8 @@ export default function LikeModal() {
       requestLikeList(isLikeModalOpen.id, setData);
     } else if (isLikeModalOpen.type === "comment") {
       requestCommentLikeList(isLikeModalOpen.id, setData);
+    } else if (isLikeModalOpen.type === "innerComment") {
+      requestInnerCommentLikeList(isLikeModalOpen.id, setData);
     }
   }, []);
   return (

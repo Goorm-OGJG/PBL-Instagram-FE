@@ -28,8 +28,9 @@ function Feed({ data }: PropsType) {
     likeStatus,
     collectionStatus,
     feedMedias,
+    commentCount,
   } = { ...data };
-
+  // console.log(data);
   const [isFeedMenuOpen, setIsFeedMenuOpen] = useState(0);
   const navigate = useNavigate();
 
@@ -150,9 +151,11 @@ function Feed({ data }: PropsType) {
         </S.Div>
       </S.Span>
       <S.Div>
-        <S.Desc onClick={() => setIsModalOpen(feedId)}>댓글 123개 모두 보기</S.Desc>
+        <S.Desc onClick={() => setIsModalOpen(feedId)}>{`댓글 ${likeCalculate(
+          commentCount,
+        )} 모두 보기`}</S.Desc>
       </S.Div>
-      <FeedInput />
+      <FeedInput feedId={feedId} />
     </S.FeedWrapper>
   );
 }

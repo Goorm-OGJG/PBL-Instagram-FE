@@ -1,15 +1,18 @@
 import React, { useRef, useState } from "react";
 import * as S from "./FeedInput.style";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { feedDetailState, isModalOpenState } from "../../../../recoil/homeState";
+import { useSetRecoilState } from "recoil";
+import { feedDetailState } from "../../../../recoil/homeState";
 
-function FeedInput() {
+interface PropsType {
+  feedId: number;
+}
+
+function FeedInput({ feedId }: PropsType) {
   const ref = useRef<HTMLTextAreaElement | null>(null);
   const [value, setValue] = useState<string>("");
   const [rows, setRows] = useState<number>(1);
   const { requestComment } = useFeedAPI();
-  const isModalOpen = useRecoilValue(isModalOpenState);
   const setData = useSetRecoilState(feedDetailState);
   const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
@@ -43,8 +46,9 @@ function FeedInput() {
   //댓글 게시
   const commentHandler = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    alert("댓글 게시 요청");
-    requestComment(isModalOpen, { content: value }, setData);
+    // alert("댓글 게시 요청");
+    requestComment(feedId, { content: value }, setData);
+    setValue("");
   };
 
   return (

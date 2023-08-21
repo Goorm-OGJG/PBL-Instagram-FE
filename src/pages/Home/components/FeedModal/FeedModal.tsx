@@ -5,11 +5,9 @@ import Comment from "../Comment/Comment";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  commentIdState,
   commentState,
   commentTypeState,
   feedDetailState,
-  innerCommentsState,
   isLikeModalOpenState,
   isModalOpenState,
 } from "../../../../recoil/homeState";
@@ -44,8 +42,6 @@ function FeedModal() {
   // 댓글 입력 값
   const [value, setValue] = useRecoilState(commentState);
   const [commentType, setCommentType] = useRecoilState(commentTypeState);
-  const setInnerComments = useSetRecoilState(innerCommentsState);
-  const setCommentId = useSetRecoilState(commentIdState);
 
   const {
     userId,
@@ -146,7 +142,9 @@ function FeedModal() {
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     if (!value.includes(`@${commentType.nickname}`)) {
-      setCommentType({ id: -1, type: "comment", nickname: "" });
+      setCommentType((prev) => ({ ...prev, type: "comment" }));
+    } else {
+      setCommentType((prev) => ({ ...prev, type: "innerComment" }));
     }
   };
 

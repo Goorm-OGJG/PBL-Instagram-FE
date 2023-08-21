@@ -5,11 +5,11 @@ import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import React, { useState } from "react";
 import { useHashTag } from "../../../../hooks/useHashTag";
 import { useNavigate } from "react-router";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   InnerCommentType,
-  commentIdState,
-  innerCommentsState,
+  commentState,
+  commentTypeState,
   isLikeModalOpenState,
   isModalOpenState,
 } from "../../../../recoil/homeState";
@@ -17,9 +17,11 @@ import { useFeedAPI } from "../../../../api/useFeedAPI";
 
 interface PropsType {
   innerComment: InnerCommentType;
+  setInnerComments: React.Dispatch<React.SetStateAction<InnerCommentType[]>>;
+  commentId: number;
 }
 
-function InnerCommentContent({ innerComment }: PropsType) {
+function InnerCommentContent({ innerComment, setInnerComments, commentId }: PropsType) {
   const {
     innerCommentId,
     content,
@@ -40,14 +42,14 @@ function InnerCommentContent({ innerComment }: PropsType) {
   const extractContent = extractHashTagsElement(content);
 
   const [isSettingClick, setIsSettingClick] = useState(false);
-  console.log(extractContent);
+  // console.log(extractContent);
 
   const navigate = useNavigate();
   const setIsModalOpen = useSetRecoilState(isModalOpenState);
   const setIsLikeModalOpen = useSetRecoilState(isLikeModalOpenState);
 
-  const setInnerComments = useSetRecoilState(innerCommentsState);
-  const commentId = useRecoilValue(commentIdState);
+  const setCommentType = useSetRecoilState(commentTypeState);
+  const [value, setValue] = useRecoilState(commentState);
 
   const {
     requestDeleteInnerComment,
@@ -80,6 +82,11 @@ function InnerCommentContent({ innerComment }: PropsType) {
     setIsLikeModalOpen({ id: innerCommentId, type: "innerComment" });
   };
 
+  const replyHandler = () => {
+    setValue(`${value}@${nickname}`);
+    setCommentType({ id: commentId, type: "innerComment", nickname: nickname });
+  };
+
   return (
     <S.ProfileWrapper>
       <S.ProfileImgBox onClick={profileClickHandler}>
@@ -101,7 +108,7 @@ function InnerCommentContent({ innerComment }: PropsType) {
           <S.UploadText>{`${diff_date}`}</S.UploadText>
           <React.Fragment>
             <S.InfoText onClick={likeModalhandler}>{`좋아요 ${likeNum}`}</S.InfoText>
-            <S.InfoText>답글 달기</S.InfoText>
+            <S.InfoText onClick={replyHandler}>답글 달기</S.InfoText>
           </React.Fragment>
           <S.SettingWrapper>
             <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>

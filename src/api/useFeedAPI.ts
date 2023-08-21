@@ -89,11 +89,28 @@ export function useFeedAPI() {
       });
   };
 
+  // 피드 대댓글 좋아요 목록
+  const requestInnerCommentLikeList = (
+    innerCommentId: number,
+    setData: React.Dispatch<React.SetStateAction<LikeUserType[]>>,
+  ) => {
+    axios
+      .get(`${API_URL}/api/innerComment/${innerCommentId}/likesUser`)
+      .then((response) => {
+        console.log(response.data);
+        if (response) {
+          setData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   // 대댓글 불러오기
   const requestInnerComment = (
     commentId: number,
     setData: React.Dispatch<React.SetStateAction<InnerCommentType[]>>,
-    setCommentId?: React.Dispatch<React.SetStateAction<number>>,
   ) => {
     axios
       .get(`${API_URL}/api/comments/${commentId}/inner-comments`)
@@ -103,9 +120,6 @@ export function useFeedAPI() {
 
         if (response) {
           setData(response.data.innerComments);
-          if (setCommentId) {
-            setCommentId(response.data.commentId);
-          }
         }
       })
       .catch((error) => {
@@ -356,5 +370,6 @@ export function useFeedAPI() {
     requestInnerCommentLike,
     requestDeleteInnerCommentLike,
     requestCommentLikeList,
+    requestInnerCommentLikeList,
   };
 }

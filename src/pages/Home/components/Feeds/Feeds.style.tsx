@@ -7,7 +7,5 @@ export const Wrapper = styled.div`
 `;
 
 export const Observer = styled.div`
-  opacity: 1;
-  background-color: white;
-  height: 30px;
+  opacity: 0;
 `;

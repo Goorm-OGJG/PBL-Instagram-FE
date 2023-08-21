@@ -40,6 +40,9 @@ function AddModal({ type }: Props) {
 
   const setStory = useSetRecoilState(storyDataState);
 
+  const nickname = localStorage.getItem("nickname");
+  const userImg = localStorage.getItem("userImg") as string;
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // console.log(acceptedFiles);
     const filesWithPreview: FileWithPreview[] = acceptedFiles.map((file) =>
@@ -141,9 +144,6 @@ function AddModal({ type }: Props) {
                       return <S.Img as="video" src={file.preview} />;
                     } else return <S.Img src={file.preview} />;
                   })}
-                  {/* <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" /> */}
                 </S.Images>
                 {files && files.length > 0 && pos > 0 && (
                   <S.ArrowBox onClick={leftHandler}>
@@ -162,8 +162,8 @@ function AddModal({ type }: Props) {
                 <S.SecondRightWrapper>
                   {/* 유저 정보 및 글 정보 */}
                   <S.UserInfo>
-                    <S.UserProfile src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                    <S.UserName>username</S.UserName>
+                    <S.UserProfile src={userImg} />
+                    <S.UserName>{nickname}</S.UserName>
                   </S.UserInfo>
                   <TextArea />
                 </S.SecondRightWrapper>

@@ -3,26 +3,24 @@ import * as S from "./Comment.style";
 import * as T from "../../../../types/client/feed.client";
 import React from "react";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
-import { commentIdState, innerCommentsState } from "../../../../recoil/homeState";
+import { InnerCommentType } from "../../../../recoil/homeState";
 import InnerCommentContent from "../InnerCommentContent/InnerCommentContent";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useState } from "react";
 
 interface PropsType {
   comment: T.CommentType;
 }
 
 function Comment({ comment }: PropsType) {
-  const [innerComments, setInnerComments] = useRecoilState(innerCommentsState);
-  const setCommentId = useSetRecoilState(commentIdState);
+  const [innerComments, setInnerComments] = useState<InnerCommentType[]>([]);
   const { requestInnerComment } = useFeedAPI();
   const showInnerCommentHandler = () => {
     if (innerComments.length === 0) {
-      requestInnerComment(comment.commentId, setInnerComments, setCommentId);
+      requestInnerComment(comment.commentId, setInnerComments);
     } else {
       setInnerComments([]);
     }
   };
-  console.log(innerComments);
   return (
     <S.Wrapper>
       {/* 댓글 */}
@@ -43,6 +41,8 @@ function Comment({ comment }: PropsType) {
               innerComments.map((innerComment) => (
                 <InnerCommentContent
                   innerComment={innerComment}
+                  setInnerComments={setInnerComments}
+                  commentId={comment.commentId}
                   key={innerComment.innerCommentId}
                 />
               ))}

@@ -20,11 +20,14 @@ export const useFileManage = () => {
     // S3 객체 생성
     const s3 = new AWS.S3();
     for (const selectedFile of selectedFiles) {
+      const fileNameSplit = selectedFile.name.split(".");
+      fileNameSplit[0] = fileNameSplit[0] + String(new Date());
+      const fileName = fileNameSplit.join(".");
       const params: AWS.S3.PutObjectRequest = {
         Bucket: import.meta.env.VITE_AWS_BUCKET,
         Key: selectedFile.name.endsWith(".mp4")
-          ? `videos/${selectedFile.name}`
-          : `images/${selectedFile.name}`,
+          ? `videos/${fileName}`
+          : `images/${fileName}`,
         Body: selectedFile,
       };
 

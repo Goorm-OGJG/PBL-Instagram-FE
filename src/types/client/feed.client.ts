@@ -9,6 +9,7 @@ export interface FeedDataType {
   likeStatus: boolean;
   collectionStatus: boolean;
   feedMedias: MediaDataType[];
+  commentCount: number;
 }
 
 export interface MediaDataType {
@@ -43,8 +44,18 @@ export interface CommentType extends UserType {
   likeStatus: boolean;
 }
 
-export interface FeedDetailType extends FeedDataType {
+export interface FeedDetailType {
   comments: CommentType[];
+  userId: number;
+  userImg: string;
+  nickname: string;
+  feedId: number;
+  createdAt: string;
+  content: string;
+  likeCount: number;
+  likeStatus: boolean;
+  collectionStatus: boolean;
+  feedMedias: MediaDataType[];
 }
 
 export interface LikeUserType {
