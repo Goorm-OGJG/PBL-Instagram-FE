@@ -36,6 +36,12 @@ function SetPassword() {
     }
   };
 
+  const enterToSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   function getUserNameType(username: string) {
     const emailPattern = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     return emailPattern.test(username) ? "email" : "nickname";
@@ -62,6 +68,7 @@ function SetPassword() {
             placeHolderText="새 비밀번호"
             value={password}
             onChange={handlePassword}
+            onKeyUp={enterToSubmit}
           />
           {!ValidateEqualPassword && (
             <S.AlertEqaulPassword>비밀번호가 일치하지 않습니다.</S.AlertEqaulPassword>
@@ -71,6 +78,7 @@ function SetPassword() {
             placeHolderText="새 비밀번호 다시 입력"
             value={checkPassword}
             onChange={handleCheckPassword}
+            onKeyUp={enterToSubmit}
           />
         </S.InputBoxWrapper>
         <S.SubmitButton onClick={handleSubmit} disabled={!buttonAction}>

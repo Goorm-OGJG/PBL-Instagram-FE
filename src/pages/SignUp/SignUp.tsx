@@ -74,6 +74,12 @@ function SignUp() {
     requestSignUp(payload);
   };
 
+  const enterToSignUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSignUp();
+    }
+  };
+
   return (
     <S.Container>
       <S.SignUpForm>
@@ -86,30 +92,35 @@ function SignUp() {
             placeHolderText="이메일 주소"
             value={email}
             onChange={handleEmail}
+            onKeyUp={enterToSignUp}
           />
           <InputBox
             type={"text"}
             placeHolderText="성명"
             value={username}
             onChange={handleUserName}
+            onKeyUp={enterToSignUp}
           />
           <InputBox
             type={"text"}
             placeHolderText="사용자 이름"
             value={nickname}
             onChange={handleNickname}
+            onKeyUp={enterToSignUp}
           />
           <InputBox
             type={"password"}
             placeHolderText="비밀번호"
             value={password}
             onChange={handlePassword}
+            onKeyUp={enterToSignUp}
           />
           <InputBox
             type={"password"}
             placeHolderText="비밀번호 확인"
             value={checkPassword}
             onChange={handleCheckPassword}
+            onKeyUp={enterToSignUp}
           />
         </S.InputBoxWrapper>
 

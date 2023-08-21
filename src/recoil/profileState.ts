@@ -28,12 +28,12 @@ export const ProfileState = atom<ProfileResponseType>({
   default: {
     userId: 0,
     nickname: "",
-    profileImg: "",
+    userImg: "",
     userIntro: "",
     followCount: 0,
     followingCount: 0,
     feedCount: 0,
-    followingStatus: false,
+    followStatus: false,
     secretStatus: false,
   },
 });
