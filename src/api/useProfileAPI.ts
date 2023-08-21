@@ -8,11 +8,11 @@ export default function useProfileAPI() {
 
   // 프로필 가져오기
   const requestProfileInfo = (
-    userId: number,
+    nickname: string,
     setPofileInfo: React.Dispatch<React.SetStateAction<T.ProfileResponseType>>,
   ) => {
     axios
-      .get(`${profileURL}/${userId}`)
+      .get(`${profileURL}/${nickname}`)
       .then((response) => {
         setPofileInfo(response.data);
       })
@@ -22,26 +22,38 @@ export default function useProfileAPI() {
   };
 
   // 프로필 피드 목록 가져오기
-  const requestProfileFeed = (userId:number,page: number, size: number, setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>) => {
+  const requestProfileFeed = (
+    userId: number,
+    page: number,
+    size: number,
+    setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>,
+  ) => {
     axios
       .get(`${profileURL}/${userId}/feeds?page=${page}&size=${size}`)
       .then((response) => {
-        setFeeds(response.data);})
+        setFeeds(response.data.feedList);
+      })
       .catch((error) => {
-        console.log(error);});
+        console.log(error);
+      });
   };
 
   // 프로필 피드 목록 가져오기
-  const requestSavedFeed = (page: number, size: number, setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>) => {
+  const requestSavedFeed = (
+    page: number,
+    size: number,
+    setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>,
+  ) => {
     axios
-      .get(`${profileURL}/collected-feed?page=${page}&size=${size}`)
+      .get(`${profileURL}/collected-feeds?page=${page}&size=${size}`)
       .then((response) => {
-        setFeeds(response.data);})
+        setFeeds(response.data.feedList);
+      })
       .catch((error) => {
-        console.log(error);});
+        console.log(error);
+      });
   };
 
-  
   return {
     requestProfileInfo,
     requestProfileFeed,

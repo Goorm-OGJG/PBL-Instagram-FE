@@ -1,7 +1,9 @@
 import * as T from "../types/request/feed.request";
 import React from "react";
-import { FeedDataType } from "../types/client/feed.client";
+import { FeedDataType, FeedDetailType, LikeUserType } from "../types/client/feed.client";
 import { useAxios } from "./useAxios";
+import { SetterOrUpdater } from "recoil";
+import { InnerCommentType } from "../recoil/homeState";
 
 export function useFeedAPI() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -12,226 +14,326 @@ export function useFeedAPI() {
     page: number,
     size: number,
     setData: React.Dispatch<React.SetStateAction<FeedDataType[] | []>>,
+    setLast: React.Dispatch<React.SetStateAction<boolean>>,
   ) => {
     axios
       .get(`${feedURL}?page=${page}&size=${size}`)
       .then((response) => {
-        console.log(response);
-        if (!response.data.last) {
-          setData(response.data);
-        } else {
-          console.log("마지막 페이지입니다.");
+        if (response) {
+          setData((prev) => [...prev, ...response.data.contents]);
+        }
+        if (response.data.last) {
+          setLast(response.data.last);
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 상세정보 불러오기
-  const requestFeedDetail = (feedId: string) => {
+  const requestFeedDetail = (
+    feedId: number,
+    setData?: React.Dispatch<React.SetStateAction<FeedDetailType>>,
+  ) => {
     axios
       .get(`${feedURL}/${feedId}`)
       .then((response) => {
-        console.log(response.data);
-        console.log("피드 모달 상세 데이터 요청 불러오기");
+        if (response) {
+          if (setData) {
+            setData(response.data);
+          }
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 좋아요한 목록 불러오기
-  const requestLikeList = (feedId: string) => {
+  const requestLikeList = (
+    feedId: number,
+    setData: React.Dispatch<React.SetStateAction<LikeUserType[]>>,
+  ) => {
     axios
-      .get(`${feedURL}/${feedId}/currentLike`)
+      .get(`${API_URL}/api/feed/${feedId}/likeUser`)
       .then((response) => {
-        console.log(response.data);
+        if (response) {
+          setData(response.data);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+      });
+  };
+
+  // 피드 댓글 좋아요 목록
+  const requestCommentLikeList = (
+    commentId: number,
+    setData: React.Dispatch<React.SetStateAction<LikeUserType[]>>,
+  ) => {
+    axios
+      .get(`${API_URL}/api/comment/${commentId}/likesUser`)
+      .then((response) => {
+        if (response) {
+          setData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // 피드 대댓글 좋아요 목록
+  const requestInnerCommentLikeList = (
+    innerCommentId: number,
+    setData: React.Dispatch<React.SetStateAction<LikeUserType[]>>,
+  ) => {
+    axios
+      .get(`${API_URL}/api/innerComment/${innerCommentId}/likesUser`)
+      .then((response) => {
+        if (response) {
+          setData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
 
   // 대댓글 불러오기
   const requestInnerComment = (
-    feedId: string,
-    commentId: string,
-    page: number,
-    size: number,
+    commentId: number,
+    setData: React.Dispatch<React.SetStateAction<InnerCommentType[]>>,
   ) => {
     axios
-      .get(`${feedURL}/${feedId}/comment/${commentId}?page=${page}&size=${size}`)
+      .get(`${API_URL}/api/comments/${commentId}/inner-comments`)
       .then((response) => {
-        console.log(response.data);
-        console.log("대댓글 데이터 요청 불러오기");
+        if (response) {
+          setData(response.data.innerComments);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 작성
-  const requestFeed = (payload: T.FeedPayloadType) => {
+  const requestFeed = (
+    payload: T.FeedPayloadType,
+    setData: React.Dispatch<React.SetStateAction<FeedDataType[] | []>>,
+  ) => {
     axios
       .post(`${feedURL}`, payload)
       .then((response) => {
-        console.log("피드 작성 요청", response);
+        if (response) {
+          axios
+            .get(`${feedURL}?page=${0}&size=${1}`)
+            .then((response) => {
+              if (response) {
+                setData((prev) => [...response.data.contents, ...prev]);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 수정 -> 안할 수도 있음
   // 피드 삭제
-  const requestDeleteFeed = (feedId: string) => {
+  const requestDeleteFeed = (feedId: number) => {
     axios
       .delete(`${feedURL}/${feedId}`)
       .then((response) => {
-        console.log("피드 삭제 요청", response);
+        if (response) {
+          if (response.status === 200) {
+            window.location.reload();
+          }
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 보관함 추가
-  const requestFeedCollection = (feedId: string) => {
+  const requestFeedCollection = (
+    feedId: number,
+    setData?: SetterOrUpdater<FeedDetailType>,
+  ) => {
     axios
-      .post(`${feedURL}/collection/${feedId}`)
-      .then((response) => {
-        console.log("피드 보관함 추가 요청", response);
+      .post(`${API_URL}/api/collections/${feedId}`)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 보관함 삭제
-  const requestDeleteFeedCollection = (feedId: string) => {
+  const requestDeleteFeedCollection = (
+    feedId: number,
+    setData?: SetterOrUpdater<FeedDetailType>,
+  ) => {
     axios
-      .delete(`${feedURL}/collection/${feedId}`)
-      .then((response) => {
-        console.log("피드 보관함 삭제 요청", response);
+      .delete(`${API_URL}/api/collections/${feedId}`)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 좋아요
-  const requestFeedLike = (feedId: string) => {
+  const requestFeedLike = (feedId: number, setData?: SetterOrUpdater<FeedDetailType>) => {
     axios
-      .post(`${feedURL}/${feedId}/like`)
-      .then((response) => {
-        console.log("피드 보관함 추가 요청", response);
+      .post(`${API_URL}/api/feed/${feedId}/like`)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
-  // 피드 보관함 삭제
-  const requestDeleteFeedLike = (feedId: string) => {
+  // 피드 좋아요 삭제
+  const requestDeleteFeedLike = (
+    feedId: number,
+    setData?: SetterOrUpdater<FeedDetailType>,
+  ) => {
     axios
-      .delete(`${feedURL}/${feedId}/like`)
-      .then((response) => {
-        console.log("피드 보관함 삭제 요청", response);
+      .delete(`${API_URL}/api/feed/${feedId}/like`)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 댓글 작성
-  const requestComment = (feedId: string, payload: T.CommentPayloadType) => {
+  const requestComment = (
+    feedId: number,
+    payload: T.CommentPayloadType,
+    setData: React.Dispatch<React.SetStateAction<FeedDetailType>>,
+  ) => {
     axios
-      .post(`${feedURL}/${feedId}/comment`, payload)
-      .then((response) => {
-        console.log("피드 댓글 작성 요청", response);
+      .post(`${feedURL}/${feedId}/comments`, payload)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 댓글 삭제
-  const requestDeleteComment = (feedId: string, commentId: string) => {
+  const requestDeleteComment = (
+    commentId: number,
+    feedId: number,
+    setData: React.Dispatch<React.SetStateAction<FeedDetailType>>,
+  ) => {
     axios
-      .delete(`${feedURL}/${feedId}/comment/${commentId}`)
-      .then((response) => {
-        console.log("피드 댓글 삭제 요청", response);
+      .delete(`${API_URL}/api/comments/${commentId}`)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 댓글 좋아요
-  const requestCommentLike = (commentId: string) => {
+  const requestCommentLike = (
+    commentId: number,
+    feedId: number,
+    setData: React.Dispatch<React.SetStateAction<FeedDetailType>>,
+  ) => {
     axios
-      .post(`${API_URL}/api/comment/${commentId}/likes`)
-      .then((response) => {
-        console.log("피드 댓글 좋아요 요청", response);
+      .post(`${API_URL}/api/comment/${commentId}/like`)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 댓글 좋아요 삭제
-  const requestDeleteCommentLike = (commentId: string) => {
+  const requestDeleteCommentLike = (
+    commentId: number,
+    feedId: number,
+    setData: React.Dispatch<React.SetStateAction<FeedDetailType>>,
+  ) => {
     axios
-      .delete(`${API_URL}/api/comment/${commentId}/likes`)
-      .then((response) => {
-        console.log("피드 댓글 좋아요 취소 요청", response);
+      .delete(`${API_URL}/api/comment/${commentId}/like`)
+      .then(() => {
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   // 피드 대댓글 작성
-  const requestPostInnerComment = (payload: T.InnerCommentPayloadType) => {
+  const requestPostInnerComment = (commentId: number, content: string) => {
     axios
-      .post(`${API_URL}/api/comment/${payload.commentId}/innerComment`, payload)
-      .then((response) => {
-        console.log("피드 대댓글 작성 요청", response);
+      .post(`${API_URL}/api/comments/${commentId}/inner-comment`, { content })
+      .then(() => {
+        // requestInnerComment(commentId, setData, setCommentId);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 대댓글 삭제
-  const requestDeleteInnerComment = (commentId: string, innerCommentId: string) => {
+  const requestDeleteInnerComment = (
+    innerCommentId: number,
+    setData: React.Dispatch<React.SetStateAction<InnerCommentType[]>>,
+    commentId: number,
+  ) => {
     axios
-      .delete(`${API_URL}/api/comment/${commentId}/innerComment/${innerCommentId}`)
-      .then((response) => {
-        console.log("피드 대댓글 삭제 요청", response);
+      .delete(`${API_URL}/api/inner-comments/${innerCommentId}`)
+      .then(() => {
+        requestInnerComment(commentId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 대댓글 좋아요
-  const requestInnerCommentLike = (innerCommentId: string) => {
+  const requestInnerCommentLike = (
+    innerCommentId: number,
+    setData: React.Dispatch<React.SetStateAction<InnerCommentType[]>>,
+    commentId: number,
+  ) => {
     axios
-      .post(`${API_URL}/api/innerComment/${innerCommentId}/likes`)
-      .then((response) => {
-        console.log("피드 대댓글 좋아요 요청", response);
+      .post(`${API_URL}/api/inner-comment/${innerCommentId}/like`)
+      .then(() => {
+        requestInnerComment(commentId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
-  const requestDeleteInnerCommentLike = (innerCommentId: string) => {
+  const requestDeleteInnerCommentLike = (
+    innerCommentId: number,
+    setData: React.Dispatch<React.SetStateAction<InnerCommentType[]>>,
+    commentId: number,
+  ) => {
     axios
-      .delete(`${API_URL}/api/innerComment/${innerCommentId}/likes`)
-      .then((response) => {
-        console.log("피드 대댓글 삭제 요청", response);
+      .delete(`${API_URL}/api/inner-comment/${innerCommentId}/like`)
+      .then(() => {
+        requestInnerComment(commentId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -256,5 +358,7 @@ export function useFeedAPI() {
     requestDeleteInnerComment,
     requestInnerCommentLike,
     requestDeleteInnerCommentLike,
+    requestCommentLikeList,
+    requestInnerCommentLikeList,
   };
 }

@@ -4,8 +4,8 @@ import * as Icon from "../../../components/Icon";
 import useFollowAPI from "../../../api/useFollowAPI";
 import { useState, useEffect } from "react";
 import * as T from "../../../types/client/follow.client";
-import { useRecoilValue } from "recoil";
-import { ProfileState } from "../../../recoil/profileState";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { ProfileState, UserIdState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
 
 interface FollowPropsType {
@@ -63,13 +63,17 @@ export default function FollowerModal({
   const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState);
   //🔥 API
   const [followId, setFollowId] = useState<number>(0);
-  const [followerData,setFollowerData] = useState<T.FollowerResponseType[]>([]);
+  const [followerData, setFollowerData] = useState<T.FollowerResponseType[]>([]);
   const [followData, setFollowData] = useState<T.FollowResponseType[]>([]);
-  const { requestFollowerList,
+  const [userId, setUserId] = useRecoilState<number>(UserIdState);
+
+  const {
+    requestFollowerList,
     requestDeleteFollower,
     requestFollowingList,
     requestDeleteFollowing,
-  requestPostFollowing, } = useFollowAPI();
+    requestPostFollowing,
+  } = useFollowAPI();
   const handleModalContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // 이벤트 버블링을 방지하여 모달이 닫히지 않도록 함
     e.stopPropagation();
@@ -82,9 +86,14 @@ export default function FollowerModal({
       setFollowModal(false);
     }
   };
-  const handleFollowPost = () =>{
-    //🔥 API 
-    requestPostFollowing(followId);
+  const handleFollowPost = async (followId: number) => {
+    //🔥 API
+    try {
+      await requestPostFollowing(followId);
+      requestFollowerList(userId, setFollowerData);
+    } catch (error) {
+      console.error("Error deleting follower:", error);
+    }
   };
   //🔥 API
   const handleDeleteFollower = async (
@@ -93,7 +102,7 @@ export default function FollowerModal({
   ) => {
     try {
       await requestDeleteFollower(followId);
-      requestFollowerList(setFollowerData);
+      requestFollowerList(userId, setFollowerData);
     } catch (error) {
       console.error("Error deleting follower:", error);
     }
@@ -104,16 +113,16 @@ export default function FollowerModal({
   ) => {
     try {
       await requestDeleteFollowing(followId);
-      requestFollowingList(setFollowData);
+      requestFollowingList(userId, setFollowData);
     } catch (error) {
       console.error("Error deleting follower:", error);
     }
   };
   useEffect(() => {
     if (followerModal) {
-      requestFollowerList(setFollowerData);
+      requestFollowerList(userId, setFollowerData);
     } else {
-      requestFollowingList(setFollowData);
+      requestFollowingList(userId, setFollowData);
     }
   }, []);
 
@@ -141,33 +150,45 @@ export default function FollowerModal({
                 <S.FollowModalBox key={data.userId}>
                   <S.FollowProfileImgBox
                     to={`/accounts/${data.nickname}`}
-                    onClick={handleExitModal}
+                    onClick={() => {
+                      handleExitModal();
+                      setUserId(data.userId);
+                    }}
                   >
                     <S.ProfileImg src={data.profileImg} />
                   </S.FollowProfileImgBox>
                   <S.FollowProfileNicknameBox>
                     <S.Nickname
                       to={`/accounts/${data.nickname}`}
-                      onClick={handleExitModal}
+                      onClick={() => {
+                        handleExitModal();
+                        setUserId(data.userId);
+                      }}
                     >
                       {data.nickname}
                     </S.Nickname>{" "}
-                    {!data.followStatus && (
+                    {!data.followingStatus && (
                       <>
                         {" "}
-                        · <S.FollowBtn
-                        onClick={()=>{handleFollowPost();}}>팔로우</S.FollowBtn>
+                        ·{" "}
+                        <S.FollowBtn
+                          onClick={() => {
+                            handleFollowPost(data.userId);
+                          }}
+                        >
+                          팔로우
+                        </S.FollowBtn>
                       </>
                     )}
                   </S.FollowProfileNicknameBox>
                   {localId === profileInfo.userId && (
                     <S.FollowDeleteBox>
                       <S.DeleteBtn
-                      //🔥 API
-                       onClick={() => {
-                        setFollowId(data.userId);
-                        handleDeleteFollower(followId, setFollowerData);
-                      }}
+                        //🔥 API
+                        onClick={() => {
+                          setFollowId(data.userId);
+                          handleDeleteFollower(data.followId, setFollowerData);
+                        }}
                       >
                         삭제
                       </S.DeleteBtn>
@@ -178,24 +199,34 @@ export default function FollowerModal({
             : //   팔로우 모달일때
               followData.map((data) => (
                 <S.FollowModalBox key={data.userId}>
-                  <S.FollowProfileImgBox to={`/accounts/${data.nickname}`}
-                  onClick={handleExitModal}>
+                  <S.FollowProfileImgBox
+                    to={`/accounts/${data.nickname}`}
+                    onClick={() => {
+                      handleExitModal();
+                      setUserId(data.userId);
+                    }}
+                  >
                     <S.ProfileImg src={data.profileImg} />
                   </S.FollowProfileImgBox>
                   <S.FollowProfileNicknameBox>
-                    <S.Nickname to={`/accounts/${data.nickname}`}
-                    onClick={handleExitModal}>
+                    <S.Nickname
+                      to={`/accounts/${data.nickname}`}
+                      onClick={() => {
+                        setUserId(data.followId);
+                        handleExitModal();
+                      }}
+                    >
                       {data.nickname}
                     </S.Nickname>{" "}
                   </S.FollowProfileNicknameBox>
                   {localId === profileInfo.userId && (
                     <S.FollowDeleteBox>
                       <S.DeleteBtn
-                      // 🔥 API
-                      onClick={()=>{
-                        setFollowId(data.userId);
-                        handleDeleteFollow(followId,setFollowData);
-                      }}
+                        // 🔥 API
+                        onClick={() => {
+                          setFollowId(data.userId);
+                          handleDeleteFollow(data.followId, setFollowData);
+                        }}
                       >
                         삭제
                       </S.DeleteBtn>

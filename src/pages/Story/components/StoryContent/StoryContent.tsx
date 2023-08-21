@@ -11,7 +11,8 @@ import {
 import Progress from "../Progress/Progress";
 import * as T from "../../../../types/client/story.client";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useStoryAPI } from "../../../../api/useStoryAPI";
 
 interface Props {
   story: T.StoryType;
@@ -22,43 +23,42 @@ function StoryContent({ story, index }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [count, setCount] = useState(0);
   const isPlay = useRecoilValue(isPlayState);
-
   const navigate = useNavigate();
   // 업로드 시간 계산
   const { createdAt, mediaList, nickname, profileImg } = story;
   const timeCalculate = useTimeCalculate();
   const diff_date = timeCalculate(createdAt);
-  console.log(createdAt);
-  const data = useRecoilValue(storyDataState);
+
+  const [data, setData] = useRecoilState(storyDataState);
+  // api 관련
   const [nowStory, setNowStory] = useRecoilState(nowStoryState);
+  const { storyId } = useParams();
+  const { requestStoryRead } = useStoryAPI();
 
   const rightHadler = () => {
-    // console.log(count);
     if (count >= mediaList.length - 1) {
+      // alert("다음 스토리로 이동");
+      requestStoryRead(storyId as string, setData);
+
       if (nowStory < data.length - 1) {
         const next = nowStory + 1;
         setNowStory(next);
         navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
       } else {
-        console.log("마지막 스토리 입니다.");
         navigate("/home");
+        setNowStory(-1);
       }
-      // 추가 데이터 붙이기
     } else {
-      console.log("사진 넘기기");
       setCount(count + 1);
     }
   };
   const leftHandler = () => {
-    if (count <= 0) {
+    if (count == 0) {
       if (nowStory > 0) {
         const prev = nowStory - 1;
         setNowStory(prev);
         navigate(`/stories/${data[prev].nickname}/${data[prev].storyId}`);
-      } else {
-        console.log("이전 마지막 스토리 입니다.");
       }
-      console.log("이전 스토리로 이동");
     } else {
       setCount(count - 1);
     }
@@ -120,7 +120,6 @@ function StoryContent({ story, index }: Props) {
             ),
         )}
       </S.StoryImgs>
-      {/* <StoryIcon type="like" /> */}
     </S.StoryWrapper>
   );
 }

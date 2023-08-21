@@ -1,9 +1,10 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 import * as COLOR from "../../constants/color";
 import * as FONT from "../../constants/font";
 
 interface StyleProps {
   step?: number;
+  type?: string;
 }
 interface PosProps {
   pos: number;
@@ -31,7 +32,11 @@ export const Wrapper = styled.div<StyleProps>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* transition: 0.5s; */
+  ${(props) =>
+    props.type !== "feed" &&
+    css`
+      width: fit-content;
+    `}/* transition: 0.5s; */
 `;
 
 export const ModalHeader = styled.div`
@@ -128,10 +133,19 @@ export const SecondStepWrapper = styled(FirstStepWrapper)`
 `;
 
 // 2단계 이미지 동영상 들어가는 부분
-export const ImgWrapper = styled.div`
+export const ImgWrapper = styled.div<StyleProps>`
   /* width: 80%; */
-  flex: 1;
   position: relative;
+  ${(props) =>
+    props.type === "feed"
+      ? css`
+          width: 500px;
+          height: 500px;
+        `
+      : css`
+          width: 400px;
+          height: 800px;
+        `}
 `;
 
 export const Images = styled.div`
@@ -139,8 +153,6 @@ export const Images = styled.div`
   display: flex;
   scroll-behavior: smooth;
   overflow: hidden;
-  min-width: 300px;
-  min-height: 300px;
 `;
 
 export const ArrowBox = styled.div`
@@ -160,11 +172,12 @@ export const ArrowRightBox = styled(ArrowBox)`
 export const SecondRightWrapper = styled.div`
   width: 340px;
   display: flex;
+  flex: 1px;
   flex-direction: column;
   height: 100%;
 `;
 
-export const Img = styled.img`
+export const Img = styled.img<StyleProps>`
   max-width: 100%;
   object-fit: fill;
   -webkit-user-select: none;
@@ -172,6 +185,16 @@ export const Img = styled.img`
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
+  ${(props) =>
+    props.type === "feed"
+      ? css`
+          width: 500px;
+          height: 500px;
+        `
+      : css`
+          width: 400px;
+          height: 800px;
+        `}
 `;
 
 export const UserInfo = styled.div`

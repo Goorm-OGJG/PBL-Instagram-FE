@@ -2,14 +2,19 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as S from "./AddModal.style";
 import * as Icon from "../Icon";
 import TextArea from "../TextArea/TextArea";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { feedValueState, whichAddModalOpenState } from "../../recoil/homeState";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  feedValueState,
+  feedsState,
+  whichAddModalOpenState,
+} from "../../recoil/homeState";
 import { useDropzone } from "react-dropzone";
 import { useFileManage } from "../../hooks/useFileManage";
 import { useHashTag } from "../../hooks/useHashTag";
 import { FeedPayloadType } from "../../types/request/feed.request";
 import { useFeedAPI } from "../../api/useFeedAPI";
 import { useStoryAPI } from "../../api/useStoryAPI";
+import { nowStoryState, storyDataState } from "../../recoil/storyState";
 
 interface Props {
   type: string;
@@ -32,16 +37,25 @@ function AddModal({ type }: Props) {
   const feedValue = useRecoilValue(feedValueState);
   const { extractHashtags } = useHashTag();
 
+  // api 관련
   const { requestFeed } = useFeedAPI();
   const { requestPostStory } = useStoryAPI();
+  const setFeeds = useSetRecoilState(feedsState);
+  // const setWhichAddModalOpen = useSetRecoilState(whichAddModalOpen);
+
+  const setStory = useSetRecoilState(storyDataState);
+  const setNowStory = useSetRecoilState(nowStoryState);
+
+  const nickname = localStorage.getItem("nickname");
+  const userImg = localStorage.getItem("userImg") as string;
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    // console.log(acceptedFiles);
     const filesWithPreview: FileWithPreview[] = acceptedFiles.map((file) =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
       }),
     );
-    // console.log(filesWithPreview);
+
     setFiles(filesWithPreview);
     setStep(step + 1);
   }, []);
@@ -61,14 +75,12 @@ function AddModal({ type }: Props) {
       const hashtags = extractHashtags(content);
       const payload: FeedPayloadType = { content, hashtags, mediaUrls };
       if (type === "feed") {
-        requestFeed(payload);
+        requestFeed(payload, setFeeds);
       } else {
-        requestPostStory({ mediaList: mediaUrls });
+        requestPostStory({ mediaList: mediaUrls }, setStory);
+        setNowStory(-1);
       }
-      // 삭제 테스트
-      // handleDelete(
-      //   "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/videos/people_-_84973+(720p).mp4",
-      // );
+      setWhichAddModalOpen("");
     }
   };
   // 스크롤 여러번 누를 시 이상하게 됨
@@ -105,7 +117,7 @@ function AddModal({ type }: Props) {
 
   return (
     <S.Overlay>
-      <S.Wrapper step={step}>
+      <S.Wrapper step={step} type={whichAddModalOpen}>
         <S.ModalHeader>
           {step > 1 && <S.HeadText onClick={() => setStep(step - 1)}>뒤로</S.HeadText>}
           <S.ModalTitle>
@@ -131,16 +143,15 @@ function AddModal({ type }: Props) {
           {/* 2단계 */}
           {step === 2 && (
             <S.SecondStepWrapper>
-              <S.ImgWrapper>
+              <S.ImgWrapper type={whichAddModalOpen}>
                 <S.Images ref={imgboxRef}>
                   {files?.map((file) => {
                     if (file.type.includes("video")) {
-                      return <S.Img as="video" src={file.preview} />;
-                    } else return <S.Img src={file.preview} />;
+                      return (
+                        <S.Img as="video" src={file.preview} type={whichAddModalOpen} />
+                      );
+                    } else return <S.Img src={file.preview} type={whichAddModalOpen} />;
                   })}
-                  {/* <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                  <S.Img src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" /> */}
                 </S.Images>
                 {files && files.length > 0 && pos > 0 && (
                   <S.ArrowBox onClick={leftHandler}>
@@ -159,8 +170,8 @@ function AddModal({ type }: Props) {
                 <S.SecondRightWrapper>
                   {/* 유저 정보 및 글 정보 */}
                   <S.UserInfo>
-                    <S.UserProfile src="https://cdn.pixabay.com/photo/2019/12/07/14/57/rubber-4679464_1280.png" />
-                    <S.UserName>username</S.UserName>
+                    <S.UserProfile src={userImg} />
+                    <S.UserName>{nickname}</S.UserName>
                   </S.UserInfo>
                   <TextArea />
                 </S.SecondRightWrapper>

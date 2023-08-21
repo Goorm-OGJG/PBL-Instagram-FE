@@ -1,10 +1,9 @@
 import * as S from "./ProfileHeader.style";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import FollowerModal from "./FollowerModal";
 import { useRecoilValue } from "recoil";
-import {ProfileState } from "../../../recoil/profileState";
+import { ProfileState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
 import useFollowAPI from "../../../api/useFollowAPI";
 // import * as T from "../../../types/client/follower.client";
@@ -37,44 +36,42 @@ import useFollowAPI from "../../../api/useFollowAPI";
 // };
 
 function ProfileHeader() {
-  const localIdString = localStorage.getItem('userId');
+  const localIdString = localStorage.getItem("userId");
   const localId = localIdString !== null ? parseInt(localIdString) : null; // localStorage 값
-  const { nickname } = useParams();
   const navigate = useNavigate();
   const [followerModal, setFollowerModal] = useState<boolean>(false);
   const [followModal, setFollowModal] = useState<boolean>(false);
   const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState); // 받아온 프로필 정보 데이터
   const profileUserId = profileInfo.userId;
+
   const isSecret = profileInfo.secretStatus;
   // 🔥
-  const {requestPostFollowing,requestDeleteFollower} = useFollowAPI();
-  const [blueColor, setBlueColor] = useState<boolean>(false);
+  const { requestPostFollowing, requestDeleteFollower } = useFollowAPI();
+
   const handleCompareNickName = () => {
     if (localId === profileUserId) {
-      navigate(`/accounts/${nickname}/edit`);
-    } else if (
-        !profileInfo.followingStatus
-        && localId !== profileUserId 
-    ) {
-      setBlueColor(true);
+      navigate(`/accounts/${profileInfo.nickname}/edit`);
+    } else if (!profileInfo.followStatus && localId !== profileUserId) {
       requestPostFollowing(profileUserId);
-    } else if (
-      localId !== profileUserId &&
-      profileInfo.followingStatus === true
-    ) {
+    } else if (localId !== profileUserId && profileInfo.followStatus === true) {
       requestDeleteFollower(profileUserId);
-      console.log("팔로우 취소 delete");
     }
   };
-  
-  
+
+  const ButtonText =
+    localId !== null && localId === profileUserId
+      ? "프로필 편집"
+      : profileInfo.followStatus === false
+      ? "팔로우 하기"
+      : "팔로우 취소";
+
   return (
     <S.ProfileWrapper>
       <S.ProfileHeader>
         <S.UserImgBox>
           <S.UserImgInnerBox>
             <S.UserButton>
-              <S.UserImg src={profileInfo.profileImg} alt="profileImg" />
+              <S.UserImg src={profileInfo.userImg} alt="profileImg" />
               {/*🔥 profileInfo.profileImg */}
             </S.UserButton>
           </S.UserImgInnerBox>
@@ -82,21 +79,15 @@ function ProfileHeader() {
         <S.ProfileInfoBox>
           <S.InfoHeader>
             <S.UserNickName>
-              <S.NickName>{nickname}</S.NickName>
+              <S.NickName>{profileInfo.nickname}</S.NickName>
             </S.UserNickName>
-            <S.EditProfileBtn 
-              blueColor={blueColor}
+            <S.EditProfileBtn
+              bluecolor={ButtonText === "팔로우 하기" ? "true" : "false"}
               onClick={() => {
-                navigate(`/accounts/${nickname}/edit`);
-                // 🔥 
                 handleCompareNickName();
               }}
             >
-              {/* 프로필 편집 */}
-              {/* 🔥*/}
-               {localId !== null && localId === profileUserId?"프로필 편집"
-                : profileInfo.followingStatus === false
-                ? "팔로우 하기" : "팔로우 취소"} 
+              {ButtonText}
             </S.EditProfileBtn>
           </S.InfoHeader>
           <S.InfoFollowBox>
@@ -104,12 +95,12 @@ function ProfileHeader() {
             <S.UserFollowing
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
-                if (!isSecret){
-                setFollowerModal((prev) => !prev);
+                if (!isSecret) {
+                  setFollowerModal((prev) => !prev);
                 }
               }}
             >
-              팔로워 {profileInfo.followerCount}
+              팔로워 {profileInfo.followCount}
             </S.UserFollowing>
             {followerModal && (
               <FollowerModal
@@ -120,13 +111,12 @@ function ProfileHeader() {
               />
             )}
             <S.UserFollower
-              
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
-                if (!isSecret){
-                setFollowModal((prev) => !prev);
-              }
-            }}
+                if (!isSecret) {
+                  setFollowModal((prev) => !prev);
+                }
+              }}
             >
               {" "}
               팔로우 {profileInfo.followingCount}

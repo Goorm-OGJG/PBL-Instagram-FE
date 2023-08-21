@@ -1,15 +1,14 @@
-
 export interface ProfileResponseType {
-  userId : number
+  userId: number;
   nickname: string;
-  profileImg: string;
+  userImg: string;
   userIntro: string;
-  followerCount: number;
+  followCount: number;
   followingCount: number;
   feedCount: number;
-  followingStatus: boolean;
+  followStatus: boolean;
   secretStatus: boolean;
-};
+}
 
 export interface FeedDataType {
   feedId: number;

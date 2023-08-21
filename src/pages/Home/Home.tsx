@@ -37,7 +37,7 @@ function Home() {
       {isModalOpen && <FeedModal />}
       {whichModalOpen === "feed" && <AddModal type="feed" />}
       {whichModalOpen === "story" && <AddModal type="story" />}
-      {isLikeModalOpen && <LikeModal />}
+      {isLikeModalOpen.id !== 0 && <LikeModal />}
     </React.Fragment>
   );
 }

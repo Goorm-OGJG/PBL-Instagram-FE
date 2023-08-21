@@ -5,11 +5,14 @@ export interface EditProfileResponseType {
   userIntro: string;
   isRecommended: boolean;
   isSecret: boolean;
-};
-
+}
 
 export interface EditProfileType {
-    userIntro: string;
-    isRecommended: boolean;
-    isSecret: boolean;
-  };
+  userIntro: string;
+  isRecommended: boolean;
+  isSecret: boolean;
+}
+
+export interface EditImgType {
+  imgUrl: string;
+}

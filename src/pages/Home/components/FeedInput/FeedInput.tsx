@@ -1,10 +1,19 @@
 import React, { useRef, useState } from "react";
 import * as S from "./FeedInput.style";
+import { useFeedAPI } from "../../../../api/useFeedAPI";
+import { useSetRecoilState } from "recoil";
+import { feedDetailState } from "../../../../recoil/homeState";
 
-function FeedInput() {
+interface PropsType {
+  feedId: number;
+}
+
+function FeedInput({ feedId }: PropsType) {
   const ref = useRef<HTMLTextAreaElement | null>(null);
   const [value, setValue] = useState<string>("");
   const [rows, setRows] = useState<number>(1);
+  const { requestComment } = useFeedAPI();
+  const setData = useSetRecoilState(feedDetailState);
   const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
@@ -13,7 +22,6 @@ function FeedInput() {
   const rowsHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const key = e.key;
 
-    console.log(key);
     if (e.shiftKey && key === "Enter" && rows < 4) {
       setRows(rows + 1);
     } else if (key === "Backspace") {
@@ -37,7 +45,9 @@ function FeedInput() {
   //댓글 게시
   const commentHandler = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    alert("댓글 게시 요청");
+    // alert("댓글 게시 요청");
+    requestComment(feedId, { content: value }, setData);
+    setValue("");
   };
 
   return (

@@ -10,7 +10,7 @@ export function useStoryAPI() {
   const API_URL = `${import.meta.env.VITE_API_URL}/api`;
   const axios = useAxios();
 
-  const requestStoryList = (
+  const requestStoryList = async (
     // page: number,
     // size: number,
     setData: SetterOrUpdater<StoryType[]>,
@@ -18,33 +18,41 @@ export function useStoryAPI() {
     axios
       .get(`${API_URL}/story/stories`)
       .then((response) => {
-        console.log("스토리 목록 가져오기");
-        // console.log(response);
-        setData(response.data.storyList);
+        if (response) {
+          response.data.storyList.sort((a: StoryType, b: StoryType) => {
+            if (a.readAll === true && b.readAll === false) {
+              return -1; // a를 b보다 앞으로 배치
+            } else if (a.readAll === false && b.readAll === true) {
+              return 1; // a를 b보다 뒤로 배치
+            } else {
+              return 0; // 순서를 변경하지 않음
+            }
+          });
+          setData(response.data.storyList);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
-  const requestPostStory = (payload: StoryPayloadType) => {
+  const requestPostStory = (
+    payload: StoryPayloadType,
+    setData: SetterOrUpdater<StoryType[]>,
+  ) => {
     axios
       .post(`${API_URL}/story`, payload)
-      .then((response) => {
-        console.log("스토리 작성 요청");
-        console.log(response);
+      .then(() => {
+        requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const requestDeleteStory = (storyId: string) => {
     axios
       .delete(`${API_URL}/story/${storyId}`)
-      .then((response) => {
-        console.log("스토리 삭제 요청");
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
+      .then(() => {})
+      .catch((error) => console.error(error));
   };
 
   const requestPostStoryLike = (
@@ -53,12 +61,10 @@ export function useStoryAPI() {
   ) => {
     axios
       .post(`${API_URL}/story/${storyId}/like`)
-      .then((response) => {
-        console.log("스토리 좋아요 요청");
-        console.log(response.data);
+      .then(() => {
         requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const requestDeleteStoryLike = (
@@ -67,22 +73,19 @@ export function useStoryAPI() {
   ) => {
     axios
       .delete(`${API_URL}/story/${storyId}/like`)
-      .then((response) => {
-        console.log("스토리 좋아요 삭제 요청");
-        console.log(response);
+      .then(() => {
         requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
-  const requestStoryRead = (storyId: string) => {
+  const requestStoryRead = (storyId: string, setData: SetterOrUpdater<StoryType[]>) => {
     axios
       .post(`${API_URL}/story/${storyId}/read`)
-      .then((response) => {
-        console.log("스토리 읽음 요청");
-        console.log(response);
+      .then(() => {
+        requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
   return {
     requestStoryList,

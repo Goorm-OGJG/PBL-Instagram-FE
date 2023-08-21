@@ -20,17 +20,19 @@ export const useFileManage = () => {
     // S3 객체 생성
     const s3 = new AWS.S3();
     for (const selectedFile of selectedFiles) {
+      const fileNameSplit = selectedFile.name.split(".");
+      fileNameSplit[0] = fileNameSplit[0] + String(new Date());
+      const fileName = fileNameSplit.join(".");
       const params: AWS.S3.PutObjectRequest = {
         Bucket: import.meta.env.VITE_AWS_BUCKET,
         Key: selectedFile.name.endsWith(".mp4")
-          ? `videos/${selectedFile.name}`
-          : `images/${selectedFile.name}`,
+          ? `videos/${fileName}`
+          : `images/${fileName}`,
         Body: selectedFile,
       };
 
       try {
         const stored = await s3.upload(params).promise();
-        // console.log(stored);
         result.push(stored.Location);
       } catch (err) {
         console.log(err);
@@ -47,7 +49,6 @@ export const useFileManage = () => {
     const filePath = decodedString.endsWith("mp4") ? "videos" : "images";
     const fileKey = `${filePath}/${decodedString}`;
 
-    // console.log(fileKey);
     const params = {
       Bucket: import.meta.env.VITE_AWS_BUCKET,
       Key: fileKey,

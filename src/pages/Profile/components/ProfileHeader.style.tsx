@@ -7,7 +7,7 @@ interface Props {
   fontWeight?: string;
   backGround?: string;
   fontColor?: string;
-  blueColor?: boolean;
+  bluecolor?: string;
 }
 export const ProfileWrapper = styled.div`
   display: flex;
@@ -103,10 +103,10 @@ export const EditProfileBtn = styled.button<Props>`
   font-size: ${FONT.S};
   font-weight: ${FONT.Bold};
   color: ${COLOR.Gray1};
-  background: ${props => (props.blueColor ? COLOR.Blue2 : COLOR.Gray4)};
+  background: ${(props) => (props.bluecolor === "true" ? COLOR.Blue2 : COLOR.Gray4)};
 
   &:hover {
-    background: ${props => (props.blueColor ? '#1877F2' : '#1c1e21')}
+    background: ${(props) => (props.bluecolor === "true" ? "#1877F2" : "#1c1e21")};
   }
 `;
 export const InfoFollowBox = styled.div`

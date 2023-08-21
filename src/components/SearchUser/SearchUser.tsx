@@ -1,24 +1,23 @@
+import { SearchUserType } from "../../types/client/search.client";
 import * as S from "./SearchUser.style";
 
 interface Props {
   type?: string;
+  user: SearchUserType;
+  isUser: boolean;
 }
 
-function SearchUser({ type }: Props) {
+function SearchUser({ user, isUser }: Props) {
+  const { nickname, profileImg, userIntro, tagName, totalFeedCount } = user;
   return (
-    <S.UserBox to="./accounts/tmpusername">
-      {type === "tag" ? (
-        <S.Tag>#</S.Tag>
-      ) : (
-        <S.UserImg src="https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg" />
-      )}
-
+    <S.UserBox to={`./accounts/${nickname}`}>
+      {!isUser ? <S.Tag>#</S.Tag> : <S.UserImg src={profileImg} />}
       <S.TextBox>
-        <S.UserName>tmp-userName</S.UserName>
+        <S.UserName>{!isUser ? tagName : nickname}</S.UserName>
         <S.UserDescBox>
-          <S.UserDesc>임시 유저이름</S.UserDesc>
-          <S.MiddleDot>·</S.MiddleDot>
-          <S.UserDesc>임시 유저이름입니다</S.UserDesc>
+          <S.UserDesc>{!isUser ? `게시물 ${totalFeedCount}` : userIntro}</S.UserDesc>
+          {/* <S.MiddleDot>·</S.MiddleDot>
+          <S.UserDesc>임시 유저이름입니다</S.UserDesc> */}
         </S.UserDescBox>
       </S.TextBox>
     </S.UserBox>

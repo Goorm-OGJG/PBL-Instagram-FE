@@ -140,6 +140,7 @@ export const OtherProfileImg = styled.img`
   width: 74px;
   height: 74px;
   border-radius: 50%;
+  background-color: ${COLOR.Gray4};
 `;
 
 export const OtherName = styled(UserName)`

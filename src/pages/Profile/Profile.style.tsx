@@ -7,7 +7,7 @@ interface PropsType {
   fontWeight?: string;
   backGround?: string;
   fontColor?: string;
-  isActive?: boolean;
+  isactive?: string;
 }
 export const ProfileWrapper = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ export const ProfileItem = styled.button<PropsType>`
   font-weight: ${FONT.Bold};
   color: ${COLOR.Gray3};
   ${(PropsType) =>
-    PropsType.isActive &&
+    PropsType.isactive === "true" &&
     css`
       border-top: 1px solid ${COLOR.Gray1};
       color: ${COLOR.Gray1};
@@ -60,6 +60,7 @@ export const FeedContainer = styled.div`
 `;
 
 export const FeedBox = styled.div`
+  position: relative;
   color: white;
   width: 100%;
   height: 300px;
@@ -82,8 +83,7 @@ export const FeedImg = styled.img`
 export const FeedHoverMutiple = styled.div`
   position: absolute;
   display: flex;
-  width:300px;
-  justify-content:right;
+  right: 0;
   font-size: ${FONT.ML};
   font-weight: ${FONT.Bold};
   z-index: 10;
@@ -105,7 +105,7 @@ export const FeedHoverMultiItem = styled.div`
   justify-content: center;
   font-size: ${FONT.ML};
   font-weight: ${FONT.Bold};
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
 `;
 
 export const FeedHoverItem = styled.div`
@@ -116,36 +116,34 @@ export const FeedHoverItem = styled.div`
   font-weight: ${FONT.Bold};
 `;
 export const Observer = styled.div`
-  opacity:0;
+  opacity: 0;
 `;
 
 // 시크릿 모드
 export const SecretContainer = styled.div`
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   height: 150px;
-  width:100%;
+  width: 100%;
   padding: 40px;
-  border:1px solid ${COLOR.Gray4};
+  border: 1px solid ${COLOR.Gray4};
 `;
 export const SecretBox = styled.div`
-  display:flex;
-  flex-direction:column;
-  width:100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   justify-content: center;
-  text-align:center;
-  align-items:center;
-  font-size:${FONT.S};
-  font-weight:${FONT.Medium};
-  color:${COLOR.Gray1};
-  margin:0 auto;
-
+  text-align: center;
+  align-items: center;
+  font-size: ${FONT.S};
+  font-weight: ${FONT.Medium};
+  color: ${COLOR.Gray1};
+  margin: 0 auto;
 `;
 export const SecretScript = styled.div`
-
-  display:flex;
-  width:100%;
+  display: flex;
+  width: 100%;
   justify-content: center;
-  line-height:24px;
+  line-height: 24px;
   margin: 10px 0px;
 `;
