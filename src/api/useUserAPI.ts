@@ -10,12 +10,15 @@ export function useUserAPI() {
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/users/login`, payload)
       .then((response) => {
-        console.log(response);
-        localStorage.setItem("accessToken", response.headers.authorization);
-        localStorage.setItem("nickname", response.data.nickname);
-        localStorage.setItem("userImg", response.data.userImg);
-        localStorage.setItem("userId", response.data.id);
-        navigate("/home");
+        if (response) {
+          localStorage.setItem("accessToken", response.headers.authorization);
+          localStorage.setItem("nickname", response.data.nickname);
+          localStorage.setItem("userImg", response.data.userImg);
+          localStorage.setItem("userId", response.data.id);
+          navigate("/home");
+          return;
+        }
+        alert("올바르지 않은 계정 정보 입니다."); 
       })
       .catch((error) => {
         alert(error);
