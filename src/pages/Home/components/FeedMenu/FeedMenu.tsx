@@ -9,7 +9,6 @@ interface PropsTye {
 function FeedMenu({ isFeedMenuOpen, setIsFeedMenuOpen }: PropsTye) {
   const { requestDeleteFeed } = useFeedAPI();
   const feedDeleteHandler = () => {
-    console.log(isFeedMenuOpen);
     requestDeleteFeed(isFeedMenuOpen);
     setIsFeedMenuOpen(0);
   };

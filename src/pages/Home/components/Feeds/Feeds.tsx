@@ -43,7 +43,6 @@ function Feeds() {
 
     try {
       requestFeedList(page, 3, setFeeds, setLast);
-      console.log(page);
       // setFeeds((prev) => [...prev, ...data]);
       setPage(page + 1);
     } catch (error) {
@@ -51,7 +50,6 @@ function Feeds() {
     }
     setLoading(false);
   };
-  console.log(feeds);
   return (
     <S.Wrapper>
       {feeds.length > 0 &&

@@ -36,7 +36,6 @@ function CommentContent({ comment }: PropsType) {
   const extractContent = extractHashTagsElement(content);
 
   const [isSettingClick, setIsSettingClick] = useState(false);
-  // console.log(extractContent);
 
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);

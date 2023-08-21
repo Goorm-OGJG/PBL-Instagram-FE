@@ -15,7 +15,6 @@ export function useSearchAPI() {
     axios
       .get(`${API_URL}/search?search=${search}&type=${type}&page=${page}&size=${size}`)
       .then((response) => {
-        console.log(response);
         if (response && response.data) {
           setData(response.data.userList);
         }
@@ -36,7 +35,6 @@ export function useSearchAPI() {
     axios
       .get(`${API_URL}/search?search=${search}&type=${type}&page=${page}&size=${size}`)
       .then((response) => {
-        console.log(response);
         setData(response.data.userList);
         setIsUser(response.data.user);
       })

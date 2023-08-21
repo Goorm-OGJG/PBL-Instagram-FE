@@ -42,7 +42,6 @@ function InnerCommentContent({ innerComment, setInnerComments, commentId }: Prop
   const extractContent = extractHashTagsElement(content);
 
   const [isSettingClick, setIsSettingClick] = useState(false);
-  // console.log(extractContent);
 
   const navigate = useNavigate();
   const setIsModalOpen = useSetRecoilState(isModalOpenState);

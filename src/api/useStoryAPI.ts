@@ -18,8 +18,6 @@ export function useStoryAPI() {
     axios
       .get(`${API_URL}/story/stories`)
       .then((response) => {
-        // console.log("스토리 목록 가져오기");
-        // console.log(response);
         if (response) {
           response.data.storyList.sort((a: StoryType, b: StoryType) => {
             if (a.readAll === true && b.readAll === false) {
@@ -44,9 +42,7 @@ export function useStoryAPI() {
   ) => {
     axios
       .post(`${API_URL}/story`, payload)
-      .then((response) => {
-        console.log("스토리 작성 요청");
-        console.log(response);
+      .then(() => {
         requestStoryList(setData);
       })
       .catch((error) => console.log(error));
@@ -55,10 +51,7 @@ export function useStoryAPI() {
   const requestDeleteStory = (storyId: string) => {
     axios
       .delete(`${API_URL}/story/${storyId}`)
-      .then((response) => {
-        console.log("스토리 삭제 요청");
-        console.log(response);
-      })
+      .then(() => {})
       .catch((error) => console.log(error));
   };
 
@@ -68,9 +61,7 @@ export function useStoryAPI() {
   ) => {
     axios
       .post(`${API_URL}/story/${storyId}/like`)
-      .then((response) => {
-        console.log("스토리 좋아요 요청");
-        console.log(response.data);
+      .then(() => {
         requestStoryList(setData);
       })
       .catch((error) => console.log(error));
@@ -82,9 +73,7 @@ export function useStoryAPI() {
   ) => {
     axios
       .delete(`${API_URL}/story/${storyId}/like`)
-      .then((response) => {
-        console.log("스토리 좋아요 삭제 요청");
-        console.log(response);
+      .then(() => {
         requestStoryList(setData);
       })
       .catch((error) => console.log(error));
@@ -93,9 +82,7 @@ export function useStoryAPI() {
   const requestStoryRead = (storyId: string, setData: SetterOrUpdater<StoryType[]>) => {
     axios
       .post(`${API_URL}/story/${storyId}/read`)
-      .then((response) => {
-        console.log("스토리 읽음 요청");
-        console.log(response);
+      .then(() => {
         requestStoryList(setData);
       })
       .catch((error) => console.log(error));

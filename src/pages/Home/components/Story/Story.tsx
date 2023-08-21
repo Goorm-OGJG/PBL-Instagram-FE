@@ -17,7 +17,6 @@ function Story({ story, index }: PropsType) {
   const setNowStory = useSetRecoilState(nowStoryState);
   // const data = useRecoilValue(storyDataState);
   const clickHandler = () => {
-    console.log(index);
     setNowStory(index);
     navigate(`/stories/${story.nickname}/${story.storyId}`);
   };

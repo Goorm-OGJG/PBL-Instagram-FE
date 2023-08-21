@@ -50,13 +50,12 @@ function AddModal({ type }: Props) {
   const userImg = localStorage.getItem("userImg") as string;
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    // console.log(acceptedFiles);
     const filesWithPreview: FileWithPreview[] = acceptedFiles.map((file) =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
       }),
     );
-    // console.log(filesWithPreview);
+
     setFiles(filesWithPreview);
     setStep(step + 1);
   }, []);

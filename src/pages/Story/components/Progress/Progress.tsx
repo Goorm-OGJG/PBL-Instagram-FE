@@ -43,13 +43,11 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
           setIsSetting(false);
           navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
         } else {
-          // console.log("마지막 스토리 입니다.");
           navigate("/home");
           setNowStory(-1);
         }
         // 추가 데이터 붙이기
       } else {
-        // console.log("사진 넘기기");
         setCount(count + 1);
       }
     }

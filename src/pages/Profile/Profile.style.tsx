@@ -60,6 +60,7 @@ export const FeedContainer = styled.div`
 `;
 
 export const FeedBox = styled.div`
+  position: relative;
   color: white;
   width: 100%;
   height: 300px;
@@ -82,8 +83,7 @@ export const FeedImg = styled.img`
 export const FeedHoverMutiple = styled.div`
   position: absolute;
   display: flex;
-  width: 300px;
-  justify-content: right;
+  right: 0;
   font-size: ${FONT.ML};
   font-weight: ${FONT.Bold};
   z-index: 10;
