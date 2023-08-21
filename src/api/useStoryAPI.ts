@@ -32,7 +32,7 @@ export function useStoryAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -45,14 +45,14 @@ export function useStoryAPI() {
       .then(() => {
         requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const requestDeleteStory = (storyId: string) => {
     axios
       .delete(`${API_URL}/story/${storyId}`)
       .then(() => {})
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const requestPostStoryLike = (
@@ -64,7 +64,7 @@ export function useStoryAPI() {
       .then(() => {
         requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const requestDeleteStoryLike = (
@@ -76,7 +76,7 @@ export function useStoryAPI() {
       .then(() => {
         requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const requestStoryRead = (storyId: string, setData: SetterOrUpdater<StoryType[]>) => {
@@ -85,7 +85,7 @@ export function useStoryAPI() {
       .then(() => {
         requestStoryList(setData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
   return {
     requestStoryList,

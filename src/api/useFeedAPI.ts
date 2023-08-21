@@ -27,7 +27,7 @@ export function useFeedAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -46,7 +46,7 @@ export function useFeedAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -63,7 +63,7 @@ export function useFeedAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -80,7 +80,7 @@ export function useFeedAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -97,7 +97,7 @@ export function useFeedAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -114,7 +114,7 @@ export function useFeedAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -135,12 +135,12 @@ export function useFeedAPI() {
               }
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
             });
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -157,7 +157,7 @@ export function useFeedAPI() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -168,11 +168,11 @@ export function useFeedAPI() {
   ) => {
     axios
       .post(`${API_URL}/api/collections/${feedId}`)
-      .then((response) => {
+      .then(() => {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -187,7 +187,7 @@ export function useFeedAPI() {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -199,7 +199,7 @@ export function useFeedAPI() {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -214,7 +214,7 @@ export function useFeedAPI() {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -230,7 +230,7 @@ export function useFeedAPI() {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 댓글 삭제
@@ -245,7 +245,7 @@ export function useFeedAPI() {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -261,7 +261,7 @@ export function useFeedAPI() {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 댓글 좋아요 삭제
@@ -276,7 +276,7 @@ export function useFeedAPI() {
         requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -288,7 +288,7 @@ export function useFeedAPI() {
         // requestInnerComment(commentId, setData, setCommentId);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 대댓글 삭제
@@ -303,7 +303,7 @@ export function useFeedAPI() {
         requestInnerComment(commentId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   // 피드 대댓글 좋아요
@@ -318,7 +318,7 @@ export function useFeedAPI() {
         requestInnerComment(commentId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -333,7 +333,7 @@ export function useFeedAPI() {
         requestInnerComment(commentId, setData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
