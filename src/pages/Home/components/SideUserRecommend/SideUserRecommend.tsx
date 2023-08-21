@@ -16,7 +16,7 @@ function SideUserRecommend() {
   return (
     <S.Wrapper>
       {/* 내 프로필 */}
-      <UserProfile type="my" nickname={myName} profileImg={myProfileImg} />
+      <UserProfile nickname={myName} profileImg={myProfileImg} />
       {/* 다른 유저 추천 */}
       <S.UserProfileBox>
         <S.TextBox>
