@@ -38,7 +38,7 @@ function StoryContent({ story, index }: Props) {
   const rightHadler = () => {
     // console.log(count);
     if (count >= mediaList.length - 1) {
-      alert("다음 스토리로 이동");
+      // alert("다음 스토리로 이동");
       requestStoryRead(storyId as string, setData);
 
       if (nowStory < data.length - 1) {
@@ -46,24 +46,27 @@ function StoryContent({ story, index }: Props) {
         setNowStory(next);
         navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
       } else {
-        console.log("마지막 스토리 입니다.");
+        // console.log("마지막 스토리 입니다.");
         navigate("/home");
+        setNowStory(-1);
       }
     } else {
-      console.log("사진 넘기기");
+      // console.log("사진 넘기기");
       setCount(count + 1);
     }
   };
   const leftHandler = () => {
-    if (count <= 0) {
+    console.log(count, nowStory);
+    if (count == 0) {
       if (nowStory > 0) {
         const prev = nowStory - 1;
         setNowStory(prev);
         navigate(`/stories/${data[prev].nickname}/${data[prev].storyId}`);
-      } else {
-        console.log("이전 마지막 스토리 입니다.");
       }
-      console.log("이전 스토리로 이동");
+      //  else {
+      //   console.log("이전 마지막 스토리 입니다.");
+      // }
+      // console.log("이전 스토리로 이동");
     } else {
       setCount(count - 1);
     }

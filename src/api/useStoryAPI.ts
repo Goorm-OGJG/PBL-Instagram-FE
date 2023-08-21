@@ -18,9 +18,18 @@ export function useStoryAPI() {
     axios
       .get(`${API_URL}/story/stories`)
       .then((response) => {
-        console.log("스토리 목록 가져오기");
-        console.log(response);
+        // console.log("스토리 목록 가져오기");
+        // console.log(response);
         if (response) {
+          response.data.storyList.sort((a: StoryType, b: StoryType) => {
+            if (a.readAll === true && b.readAll === false) {
+              return -1; // a를 b보다 앞으로 배치
+            } else if (a.readAll === false && b.readAll === true) {
+              return 1; // a를 b보다 뒤로 배치
+            } else {
+              return 0; // 순서를 변경하지 않음
+            }
+          });
           setData(response.data.storyList);
         }
       })

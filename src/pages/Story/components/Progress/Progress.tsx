@@ -34,7 +34,7 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
     const now = progressRef.current!.clientWidth;
     if (now > full - 5) {
       if (count >= imgLength - 1) {
-        alert("다음 스토리로 이동");
+        // alert("다음 스토리로 이동");
         requestStoryRead(storyId as string, setData);
 
         if (nowStory < data.length - 1) {
@@ -43,8 +43,9 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
           setIsSetting(false);
           navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
         } else {
-          console.log("마지막 스토리 입니다.");
+          // console.log("마지막 스토리 입니다.");
           navigate("/home");
+          setNowStory(-1);
         }
         // 추가 데이터 붙이기
       } else {

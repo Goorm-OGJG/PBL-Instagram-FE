@@ -3,14 +3,18 @@ import * as S from "./AddModal.style";
 import * as Icon from "../Icon";
 import TextArea from "../TextArea/TextArea";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { feedValueState, whichAddModalOpenState } from "../../recoil/homeState";
+import {
+  feedValueState,
+  feedsState,
+  whichAddModalOpenState,
+} from "../../recoil/homeState";
 import { useDropzone } from "react-dropzone";
 import { useFileManage } from "../../hooks/useFileManage";
 import { useHashTag } from "../../hooks/useHashTag";
 import { FeedPayloadType } from "../../types/request/feed.request";
 import { useFeedAPI } from "../../api/useFeedAPI";
 import { useStoryAPI } from "../../api/useStoryAPI";
-import { storyDataState } from "../../recoil/storyState";
+import { nowStoryState, storyDataState } from "../../recoil/storyState";
 
 interface Props {
   type: string;
@@ -36,9 +40,11 @@ function AddModal({ type }: Props) {
   // api 관련
   const { requestFeed } = useFeedAPI();
   const { requestPostStory } = useStoryAPI();
+  const setFeeds = useSetRecoilState(feedsState);
   // const setWhichAddModalOpen = useSetRecoilState(whichAddModalOpen);
 
   const setStory = useSetRecoilState(storyDataState);
+  const setNowStory = useSetRecoilState(nowStoryState);
 
   const nickname = localStorage.getItem("nickname");
   const userImg = localStorage.getItem("userImg") as string;
@@ -70,9 +76,10 @@ function AddModal({ type }: Props) {
       const hashtags = extractHashtags(content);
       const payload: FeedPayloadType = { content, hashtags, mediaUrls };
       if (type === "feed") {
-        requestFeed(payload);
+        requestFeed(payload, setFeeds);
       } else {
         requestPostStory({ mediaList: mediaUrls }, setStory);
+        setNowStory(-1);
       }
       setWhichAddModalOpen("");
     }
@@ -111,7 +118,7 @@ function AddModal({ type }: Props) {
 
   return (
     <S.Overlay>
-      <S.Wrapper step={step}>
+      <S.Wrapper step={step} type={whichAddModalOpen}>
         <S.ModalHeader>
           {step > 1 && <S.HeadText onClick={() => setStep(step - 1)}>뒤로</S.HeadText>}
           <S.ModalTitle>
@@ -137,12 +144,14 @@ function AddModal({ type }: Props) {
           {/* 2단계 */}
           {step === 2 && (
             <S.SecondStepWrapper>
-              <S.ImgWrapper>
+              <S.ImgWrapper type={whichAddModalOpen}>
                 <S.Images ref={imgboxRef}>
                   {files?.map((file) => {
                     if (file.type.includes("video")) {
-                      return <S.Img as="video" src={file.preview} />;
-                    } else return <S.Img src={file.preview} />;
+                      return (
+                        <S.Img as="video" src={file.preview} type={whichAddModalOpen} />
+                      );
+                    } else return <S.Img src={file.preview} type={whichAddModalOpen} />;
                   })}
                 </S.Images>
                 {files && files.length > 0 && pos > 0 && (

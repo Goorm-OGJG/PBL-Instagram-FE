@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { FeedDetailType } from "../types/client/feed.client";
+import { FeedDataType, FeedDetailType } from "../types/client/feed.client";
 
 export interface LikeModalType {
   id: number;
@@ -56,6 +56,11 @@ export const commentTypeState = atom<commentType>({
 export const commentIdState = atom<number>({
   key: "commentIdState",
   default: 0,
+});
+
+export const feedsState = atom<FeedDataType[]>({
+  key: "feedsState",
+  default: [],
 });
 
 export interface commentType {
