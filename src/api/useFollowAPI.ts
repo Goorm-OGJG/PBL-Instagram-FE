@@ -13,7 +13,7 @@ export default function useFollowAPI() {
   ) => {
     axios
       .get(`${followerURL}/follower/${followId}`)
-      .then(() => {
+      .then((response) => {
         setFollowerData(response.data);
       })
       .catch((error) => {
