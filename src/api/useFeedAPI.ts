@@ -128,11 +128,26 @@ export function useFeedAPI() {
   };
 
   // 피드 작성
-  const requestFeed = (payload: T.FeedPayloadType) => {
+  const requestFeed = (
+    payload: T.FeedPayloadType,
+    setData: React.Dispatch<React.SetStateAction<FeedDataType[] | []>>,
+  ) => {
     axios
       .post(`${feedURL}`, payload)
       .then((response) => {
-        console.log("피드 작성 요청", response);
+        if (response) {
+          axios
+            .get(`${feedURL}?page=${0}&size=${1}`)
+            .then((response) => {
+              console.log(response);
+              if (response) {
+                setData((prev) => [...response.data.contents, ...prev]);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       })
       .catch((error) => {
         console.log(error);
