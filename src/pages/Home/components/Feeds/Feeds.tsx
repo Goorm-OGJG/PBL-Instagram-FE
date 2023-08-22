@@ -43,7 +43,6 @@ function Feeds() {
 
     try {
       requestFeedList(page, 3, setFeeds, setLast);
-      // setFeeds((prev) => [...prev, ...data]);
       setPage(page + 1);
     } catch (error) {
       console.error("실패", error);

@@ -54,22 +54,18 @@ function CommentContent({ comment }: PropsType) {
   };
 
   const deleteHandler = () => {
-    alert("댓글 삭제 요청");
     requestDeleteComment(commentId, isModalOpen, setData);
   };
 
   const likeHandler = () => {
-    alert("댓글 좋아요 요청");
     requestCommentLike(commentId, isModalOpen, setData);
   };
 
   const likeCancelHandler = () => {
-    alert("댓글 좋아요 취소 요청");
     requestDeleteCommentLike(commentId, isModalOpen, setData);
   };
 
   const likeModalhandler = () => {
-    // alert("댓글 좋아요 모달")
     setIsLikeModalOpen({ id: commentId, type: "comment" });
   };
 
@@ -78,7 +74,7 @@ function CommentContent({ comment }: PropsType) {
     setValue(`${value}@${nickname}`);
     setCommentType({ id: commentId, type: "innerComment", nickname: nickname });
   };
-
+  const myNickname = localStorage.getItem("nickname");
   return (
     <S.ProfileWrapper>
       <S.ProfileImgBox onClick={profileClickHandler}>
@@ -107,7 +103,9 @@ function CommentContent({ comment }: PropsType) {
               <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
                 <Icon.Horizontal size={16} />
               </S.SettingBox>
-              {isSettingClick && <S.Delete onClick={deleteHandler}>삭제</S.Delete>}
+              {nickname == myNickname && isSettingClick && (
+                <S.Delete onClick={deleteHandler}>삭제</S.Delete>
+              )}
             </S.SettingWrapper>
           </S.CommentInfoWrapper>
         )}

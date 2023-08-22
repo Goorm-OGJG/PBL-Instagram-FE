@@ -17,7 +17,7 @@ export const Overlay = styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10000;
+  z-index: 9999;
 `;
 
 export const Wrapper = styled.div<StyleProps>`

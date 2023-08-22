@@ -203,6 +203,30 @@ export function useFeedAPI() {
       });
   };
 
+  const requestFeedLikeHome = (
+    feedId: number,
+    length: number,
+    setData: SetterOrUpdater<FeedDataType[]>,
+  ) => {
+    axios
+      .post(`${API_URL}/api/feed/${feedId}/like`)
+      .then(() => {
+        axios
+          .get(`${feedURL}?page=0&size=${length}`)
+          .then((response) => {
+            if (response) {
+              setData([...response.data.contents]);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   // 피드 좋아요 삭제
   const requestDeleteFeedLike = (
     feedId: number,
@@ -212,6 +236,30 @@ export function useFeedAPI() {
       .delete(`${API_URL}/api/feed/${feedId}/like`)
       .then(() => {
         requestFeedDetail(feedId, setData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const requestDeleteFeedLikeHome = (
+    feedId: number,
+    length: number,
+    setData: SetterOrUpdater<FeedDataType[]>,
+  ) => {
+    axios
+      .delete(`${API_URL}/api/feed/${feedId}/like`)
+      .then(() => {
+        axios
+          .get(`${feedURL}?page=0&size=${length}`)
+          .then((response) => {
+            if (response) {
+              setData([...response.data.contents]);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       })
       .catch((error) => {
         console.error(error);
@@ -281,11 +329,17 @@ export function useFeedAPI() {
   };
 
   // 피드 대댓글 작성
-  const requestPostInnerComment = (commentId: number, content: string) => {
+  const requestPostInnerComment = (
+    commentId: number,
+    content: string,
+    feedId: number,
+    setData: SetterOrUpdater<FeedDetailType>,
+  ) => {
     axios
       .post(`${API_URL}/api/comments/${commentId}/inner-comment`, { content })
       .then(() => {
         // requestInnerComment(commentId, setData, setCommentId);
+        requestFeedDetail(feedId, setData);
       })
       .catch((error) => {
         console.error(error);
@@ -360,5 +414,7 @@ export function useFeedAPI() {
     requestDeleteInnerCommentLike,
     requestCommentLikeList,
     requestInnerCommentLikeList,
+    requestFeedLikeHome,
+    requestDeleteFeedLikeHome,
   };
 }
