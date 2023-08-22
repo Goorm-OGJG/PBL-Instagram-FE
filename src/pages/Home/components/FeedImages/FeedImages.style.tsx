@@ -35,10 +35,9 @@ export const Arrow = styled.div<ArrowProps>`
       right: 0;
     `}
   ${(props) =>
-    props.imgPos === 2 &&
     props.direction === "right" &&
     css`
-      display: none;
+      display: block;
     `};
 
   ${(props) =>
@@ -64,11 +63,9 @@ export const ImgBox = styled.div`
 
 export const FeedImgBox = styled.div`
   width: 470px;
-  height: 470px;
 `;
 export const FeedImg = styled.img`
   width: 470px;
-  height: 470px;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;

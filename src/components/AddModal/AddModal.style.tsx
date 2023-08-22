@@ -140,7 +140,6 @@ export const ImgWrapper = styled.div<StyleProps>`
     props.type === "feed"
       ? css`
           width: 500px;
-          height: 500px;
         `
       : css`
           width: 400px;
@@ -189,7 +188,6 @@ export const Img = styled.img<StyleProps>`
     props.type === "feed"
       ? css`
           width: 500px;
-          height: 500px;
         `
       : css`
           width: 400px;
