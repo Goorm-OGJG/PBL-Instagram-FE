@@ -4,8 +4,12 @@ import * as Icon from "../../../../components/Icon";
 // import { useState } from "react";
 import FeedInput from "../FeedInput/FeedInput";
 import FeedImages from "../FeedImages/FeedImages";
-import { useSetRecoilState } from "recoil";
-import { isLikeModalOpenState, isModalOpenState } from "../../../../recoil/homeState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  feedsState,
+  isLikeModalOpenState,
+  isModalOpenState,
+} from "../../../../recoil/homeState";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
@@ -42,20 +46,22 @@ function Feed({ data }: PropsType) {
   const [isLike, setIsLike] = useState(likeStatus);
   const [isCollection, setIsCollection] = useState(collectionStatus);
   const {
-    requestFeedLike,
+    requestFeedLikeHome,
     requestFeedCollection,
-    requestDeleteFeedLike,
+    requestDeleteFeedLikeHome,
     requestDeleteFeedCollection,
   } = useFeedAPI();
+
+  const [feeds, setFeeds] = useRecoilState(feedsState);
   // 좋아요
   const likeHandler = () => {
-    requestFeedLike(feedId);
+    requestFeedLikeHome(feedId, feeds.length, setFeeds);
     setIsLike(!isLike);
   };
 
   //좋아요 취소
   const likeCancelHandler = () => {
-    requestDeleteFeedLike(feedId);
+    requestDeleteFeedLikeHome(feedId, feeds.length, setFeeds);
     setIsLike(!isLike);
   };
 
@@ -96,6 +102,7 @@ function Feed({ data }: PropsType) {
           <FeedMenu
             isFeedMenuOpen={isFeedMenuOpen}
             setIsFeedMenuOpen={setIsFeedMenuOpen}
+            nickname={nickname}
           />
         )}
         <S.ProfileBox>

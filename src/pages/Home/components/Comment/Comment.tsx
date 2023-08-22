@@ -5,20 +5,30 @@ import React from "react";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
 import { InnerCommentType } from "../../../../recoil/homeState";
 import InnerCommentContent from "../InnerCommentContent/InnerCommentContent";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface PropsType {
   comment: T.CommentType;
+  innerPost: boolean;
+  setInnerPost: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Comment({ comment }: PropsType) {
+function Comment({ comment, innerPost, setInnerPost }: PropsType) {
   const [innerComments, setInnerComments] = useState<InnerCommentType[]>([]);
   const { requestInnerComment } = useFeedAPI();
+  const [showInner, setShowInner] = useState(false);
+  useEffect(() => {
+    requestInnerComment(comment.commentId, setInnerComments);
+    setInnerPost(false);
+  }, [innerPost]);
+
   const showInnerCommentHandler = () => {
     if (innerComments.length === 0) {
       requestInnerComment(comment.commentId, setInnerComments);
+      setShowInner(true);
     } else {
       setInnerComments([]);
+      setShowInner(false);
     }
   };
   return (
@@ -31,13 +41,11 @@ function Comment({ comment }: PropsType) {
             <S.ReplyHeader>
               <S.Line></S.Line>
               <S.ReplyText onClick={showInnerCommentHandler}>
-                {innerComments.length <= 0
-                  ? `답글 보기(${comment.innerCommentCount}개)`
-                  : "답글 접기"}
+                {!showInner ? `답글 보기(${comment.innerCommentCount}개)` : "답글 접기"}
               </S.ReplyText>
             </S.ReplyHeader>
             {/* 답글 */}
-            {innerComments.length > 0 &&
+            {showInner &&
               innerComments.map((innerComment) => (
                 <InnerCommentContent
                   innerComment={innerComment}
