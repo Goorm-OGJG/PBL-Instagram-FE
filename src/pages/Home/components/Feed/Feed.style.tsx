@@ -122,6 +122,7 @@ export const ImgBox = styled.div`
 export const FeedImg = styled.img`
   width: 100%;
   height: 470px;
+  z-index: -1;
 `;
 
 export const FeedIconWrapper = styled.div`
@@ -208,6 +209,12 @@ export const Span = styled.span`
   line-height: 18px;
   padding: 2px 0;
   font-size: ${FONT.S};
+  word-break: break-all;
+
+  & > a {
+    color: ${COLOR.Blue2};
+    cursor: pointer;
+  }
 `;
 
 export const LikeSpan = styled(Span)`

@@ -4,9 +4,10 @@ import * as FONT from "../../constants/font";
 
 export const AreaBox = styled.div`
   padding-right: 10px;
-  flex: 1;
   position: relative;
   margin-bottom: 15px;
+  height: 300px;
+  display: flex;
 `;
 export const TextAreaStyle = styled.textarea`
   resize: none;
@@ -16,6 +17,7 @@ export const TextAreaStyle = styled.textarea`
   font-size: ${FONT.M};
   border: none;
   outline: none;
+  flex: 1;
 
   &::placeholder {
     color: ${COLOR.Gray2};

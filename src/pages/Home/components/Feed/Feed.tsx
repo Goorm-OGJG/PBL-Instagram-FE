@@ -16,6 +16,7 @@ import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import FeedMenu from "../FeedMenu/FeedMenu";
 import { useNavigate } from "react-router";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
+import { useHashTag } from "../../../../hooks/useHashTag";
 
 interface PropsType {
   data: T.FeedDataType;
@@ -95,6 +96,9 @@ function Feed({ data }: PropsType) {
     }
   };
 
+  const { extractHashTagsElement } = useHashTag();
+  const extractContent = extractHashTagsElement(content);
+
   return (
     <S.FeedWrapper>
       <S.InfoBox>
@@ -152,7 +156,15 @@ function Feed({ data }: PropsType) {
       <S.Span>
         <S.Div>
           <S.UserName>{nickname}</S.UserName>
-          <S.Span>{content}</S.Span>
+          <S.Span>
+            {extractContent.map((content) => {
+              if (content.type === "tag") {
+                return <a>{content.text}&nbsp;</a>;
+              } else {
+                return <span>{content.text}&nbsp;</span>;
+              }
+            })}
+          </S.Span>
         </S.Div>
       </S.Span>
       <S.Div>
