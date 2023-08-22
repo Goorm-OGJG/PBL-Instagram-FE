@@ -245,7 +245,6 @@ export const CommentInput = styled.input`
   flex: 1;
   font-size: ${FONT.S};
   &::placeholder {
-    font-family: "Malgun Gothic", serif;
     color: ${COLOR.Gray3};
   }
 `;

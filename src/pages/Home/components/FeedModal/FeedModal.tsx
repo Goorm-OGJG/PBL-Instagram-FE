@@ -125,9 +125,9 @@ function FeedModal() {
     requestDeleteFeedLike(feedId, setData);
   };
 
-  const moreCommentHandler = () => {
-    alert("댓글 추가 요청");
-  };
+  // const moreCommentHandler = () => {
+  //   alert("댓글 추가 요청");
+  // };
 
   const bookmarkHandler = () => {
     requestFeedCollection(feedId, setData);
@@ -242,11 +242,11 @@ function FeedModal() {
               />
             ))}
             {/* 댓글 더보기 */}
-            <S.AddCircleBox>
+            {/* <S.AddCircleBox>
               <S.AddCircle onClick={moreCommentHandler}>
                 <Icon.AddCircle size={32} />
               </S.AddCircle>
-            </S.AddCircleBox>
+            </S.AddCircleBox> */}
           </S.Comments>
           {/* 좋아요 보관함 아이콘 */}
           <S.Icons>

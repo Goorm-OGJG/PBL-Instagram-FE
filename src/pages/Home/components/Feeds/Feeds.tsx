@@ -16,6 +16,9 @@ function Feeds() {
   const [loading, setLoading] = useState(false);
   const [last, setLast] = useState(false);
   const { requestFeedList } = useFeedAPI();
+  useEffect(() => {
+    setFeeds([]);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
