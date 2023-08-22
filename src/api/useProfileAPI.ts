@@ -7,11 +7,11 @@ export default function useProfileAPI() {
   const axios = useAxios();
 
   // 프로필 가져오기
-  const requestProfileInfo = (
+  const requestProfileInfo = async (
     nickname: string,
     setPofileInfo: React.Dispatch<React.SetStateAction<T.ProfileResponseType>>,
   ) => {
-    axios
+    await axios
       .get(`${profileURL}/${nickname}`)
       .then((response) => {
         setPofileInfo(response.data);
@@ -23,13 +23,13 @@ export default function useProfileAPI() {
 
   // 프로필 피드 목록 가져오기
   const requestProfileFeed = (
-    userId: number,
+    nickname: string,
     page: number,
     size: number,
     setFeeds: React.Dispatch<React.SetStateAction<T.FeedDataType[]>>,
   ) => {
     axios
-      .get(`${profileURL}/${userId}/feeds?page=${page}&size=${size}`)
+      .get(`${profileURL}/${nickname}/feeds?page=${page}&size=${size}`)
       .then((response) => {
         setFeeds(response.data.feedList);
       })

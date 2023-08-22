@@ -33,7 +33,7 @@ export const ProfileState = atom<ProfileResponseType>({
     followCount: 0,
     followingCount: 0,
     feedCount: 0,
-    followStatus: false,
+    followingStatus: false,
     secretStatus: false,
   },
 });
@@ -46,9 +46,9 @@ export const EditProfileState = atom<EditProfileResponseType>({
   default: {
     userId: 0,
     nickname: "",
-    userImg: "",
+    profileImg: "",
     userIntro: "",
-    isRecommended: false,
-    isSecret: false,
+    recommended: false,
+    secret: false,
   },
 });

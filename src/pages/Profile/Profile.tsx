@@ -14,9 +14,9 @@ import {
 import { ProfileResponseType } from "../../types/client/profile.client";
 import useProfileAPI from "../../api/useProfileAPI";
 import { useRef, useState, useEffect } from "react";
-import { isModalOpenState } from "../../recoil/homeState";
+import { isModalOpenState, whichAddModalOpenState } from "../../recoil/homeState";
 import FeedModal from "../Home/components/FeedModal/FeedModal";
-
+import AddModal from "../../components/AddModal/AddModal";
 interface FeedList {
   feedId: number;
   mediaUrl: string;
@@ -33,8 +33,9 @@ function Profile() {
     localId = parseInt(localIdString);
   }
   const { nickname } = useParams();
-  const observerRef = useRef<HTMLDivElement | null>(null);
 
+  const observerRef = useRef<HTMLDivElement | null>(null);
+  const whichModalOpen = useRecoilValue(whichAddModalOpenState);
   const { requestProfileInfo, requestProfileFeed, requestSavedFeed } = useProfileAPI();
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,6 @@ function Profile() {
   const [profileInfo, setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState);
   const userId = useRecoilValue<number>(UserIdState);
   const isSecret = profileInfo.secretStatus;
-
   const handleFeedListClick = () => {
     setItem(false);
     const newData = feeds;
@@ -62,12 +62,12 @@ function Profile() {
     setLoading(true);
     try {
       {
-        if (!item && userId !== null && feeds.length > 0) {
+        if (!item && feeds.length > 0) {
           //🔥 API
-          requestProfileFeed(userId, page, 9, setFeeds);
+          requestProfileFeed(nickname as string, page, 9, setFeeds);
           setFeeds((prev) => [...prev, ...feeds]);
           setPage(page + 1);
-        } else if (item && userId !== null && feeds.length > 0) {
+        } else if (item && feeds.length > 0) {
           //🔥 API
           requestSavedFeed(page, 9, setFeeds);
           setFeeds((prev) => [...prev, ...feeds]);
@@ -101,14 +101,14 @@ function Profile() {
     if (nickname !== undefined) {
       requestProfileInfo(nickname, setProfileInfo);
     }
-    if (userId !== null && !item) {
-      requestProfileFeed(userId, page, 9, setFeeds);
+    if (!item && nickname !== undefined) {
+      requestProfileFeed(nickname, page, 9, setFeeds);
+      // console.log("피드", feeds);
     }
     if (userId !== null && item) {
       requestSavedFeed(page, 9, setFeeds);
     }
   }, [nickname, item]);
-
   return (
     <>
       <Sidebar />
@@ -195,6 +195,8 @@ function Profile() {
         {/*   */}
       </S.ProfileWrapper>
       {isModalOpen && <FeedModal />}
+      {whichModalOpen === "feed" && <AddModal type="feed" />}
+      {whichModalOpen === "story" && <AddModal type="story" />}
     </>
   );
 }

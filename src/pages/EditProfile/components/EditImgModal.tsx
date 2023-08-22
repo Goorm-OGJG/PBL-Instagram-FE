@@ -28,15 +28,14 @@ import { EditProfileResponseType } from "../../../types/client/editProfile.clien
 // };
 
 function EditImgModal() {
-
   const setProfileImg = useSetRecoilState<string>(EditImgState);
   const setIsEditImgModal = useSetRecoilState<boolean>(EditImgModalState);
   const setFile = useSetRecoilState<File[]>(EditImgFileState);
   //🔥 API
-   const editProfileData = useRecoilValue<EditProfileResponseType>(EditProfileState);
+  const editProfileData = useRecoilValue<EditProfileResponseType>(EditProfileState);
   useEffect(() => {
-    if (editProfileData.userImg !== null) {
-      setProfileImg(editProfileData.userImg);
+    if (editProfileData.profileImg !== null) {
+      setProfileImg(editProfileData.profileImg);
     }
   }, []);
 
