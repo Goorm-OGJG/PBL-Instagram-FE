@@ -21,7 +21,7 @@ export const EditProfileState = atom<EditProfileResponseType>({
   default: {
     userId: 0,
     nickname: "",
-    userImg: "",
+    profileImg: "",
     userIntro: "",
     isRecommended: false,
     isSecret: false,

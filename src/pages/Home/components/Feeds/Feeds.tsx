@@ -16,6 +16,9 @@ function Feeds() {
   const [loading, setLoading] = useState(false);
   const [last, setLast] = useState(false);
   const { requestFeedList } = useFeedAPI();
+  useEffect(() => {
+    setFeeds([]);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -43,7 +46,6 @@ function Feeds() {
 
     try {
       requestFeedList(page, 3, setFeeds, setLast);
-      // setFeeds((prev) => [...prev, ...data]);
       setPage(page + 1);
     } catch (error) {
       console.error("실패", error);

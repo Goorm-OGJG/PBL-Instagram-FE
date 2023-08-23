@@ -62,22 +62,18 @@ function InnerCommentContent({ innerComment, setInnerComments, commentId }: Prop
   };
 
   const deleteHandler = () => {
-    // alert("대댓글 삭제 요청");
     requestDeleteInnerComment(innerCommentId, setInnerComments, commentId);
   };
 
   const likeHandler = () => {
-    // alert("대댓글 좋아요 요청");
     requestInnerCommentLike(innerCommentId, setInnerComments, commentId);
   };
 
   const likeCancelHandler = () => {
-    // alert("대댓글 좋아요 취소 요청");
     requestDeleteInnerCommentLike(innerCommentId, setInnerComments, commentId);
   };
 
   const likeModalhandler = () => {
-    // alert("댓글 좋아요 모달")
     setIsLikeModalOpen({ id: innerCommentId, type: "innerComment" });
   };
 
@@ -86,6 +82,7 @@ function InnerCommentContent({ innerComment, setInnerComments, commentId }: Prop
     setCommentType({ id: commentId, type: "innerComment", nickname: nickname });
   };
 
+  const myNickname = localStorage.getItem("nickname");
   return (
     <S.ProfileWrapper>
       <S.ProfileImgBox onClick={profileClickHandler}>
@@ -113,7 +110,9 @@ function InnerCommentContent({ innerComment, setInnerComments, commentId }: Prop
             <S.SettingBox onClick={() => setIsSettingClick(!isSettingClick)}>
               <Icon.Horizontal size={16} />
             </S.SettingBox>
-            {isSettingClick && <S.Delete onClick={deleteHandler}>삭제</S.Delete>}
+            {nickname == myNickname && isSettingClick && (
+              <S.Delete onClick={deleteHandler}>삭제</S.Delete>
+            )}
           </S.SettingWrapper>
         </S.CommentInfoWrapper>
       </S.TextWrapper>

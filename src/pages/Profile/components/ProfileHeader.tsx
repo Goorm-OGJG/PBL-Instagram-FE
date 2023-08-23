@@ -1,69 +1,52 @@
 import * as S from "./ProfileHeader.style";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
 import FollowerModal from "./FollowerModal";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { ProfileState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
+import useProfileAPI from "../../../api/useProfileAPI";
 import useFollowAPI from "../../../api/useFollowAPI";
-// import * as T from "../../../types/client/follower.client";
-
-// interface Account {
-//   id: number;
-//   nickname: string;
-//   profileImg: string;
-//   userIntro: string;
-//   followerCount: number;
-//   followingCount: number;
-//   feedCount: number;
-//   followingStatus: boolean;
-//   secretStatus: string;
-// }
-
-// const profileInfo : Account = {
-
-//     id: 1,
-//     nickname: "JamesJoe",
-//     profileImg:
-//       "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-//     userIntro: "asdasdasdasdasdadasdasdadsadasdasdasdsd",
-//     followerCount: 103,
-//     followingCount: 130,
-//     feedCount: 42,
-//     followingStatus: false,
-//     secretStatus: "비공개 상태",
-
-// };
 
 function ProfileHeader() {
   const localIdString = localStorage.getItem("userId");
+  const localNickname = localStorage.getItem("nickname");
   const localId = localIdString !== null ? parseInt(localIdString) : null; // localStorage 값
   const navigate = useNavigate();
+  const { nickname } = useParams();
   const [followerModal, setFollowerModal] = useState<boolean>(false);
   const [followModal, setFollowModal] = useState<boolean>(false);
-  const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState); // 받아온 프로필 정보 데이터
-  const profileUserId = profileInfo.userId;
+  const [profileInfo, setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState); // 받아온 프로필 정보 데이터
+  const [buttonText, setButtonText] = useState<string>("");
 
+  const profileUserId = profileInfo.userId;
   const isSecret = profileInfo.secretStatus;
   // 🔥
   const { requestPostFollowing, requestDeleteFollower } = useFollowAPI();
-
-  const handleCompareNickName = () => {
+  const { requestProfileInfo } = useProfileAPI();
+  const handleCompareNickName = async () => {
     if (localId === profileUserId) {
       navigate(`/accounts/${profileInfo.nickname}/edit`);
-    } else if (!profileInfo.followStatus && localId !== profileUserId) {
-      requestPostFollowing(profileUserId);
-    } else if (localId !== profileUserId && profileInfo.followStatus === true) {
-      requestDeleteFollower(profileUserId);
+    } else if (!profileInfo.followingStatus && localId !== profileUserId) {
+      await requestPostFollowing(profileUserId);
+      await requestProfileInfo(nickname as string, setProfileInfo);
+    } else if (localId !== profileUserId && profileInfo.followingStatus === true) {
+      await requestDeleteFollower(profileUserId);
+      await requestProfileInfo(nickname as string, setProfileInfo);
     }
   };
-
-  const ButtonText =
-    localId !== null && localId === profileUserId
-      ? "프로필 편집"
-      : profileInfo.followStatus === false
-      ? "팔로우 하기"
-      : "팔로우 취소";
+  const updateButton = () => {
+    const newButtonText =
+      nickname !== undefined && nickname === localNickname
+        ? "프로필 편집"
+        : profileInfo.followingStatus === false
+        ? "팔로우 하기"
+        : "팔로우 취소";
+    setButtonText(newButtonText);
+  };
+  useEffect(() => {
+    updateButton();
+  }, [profileInfo]);
 
   return (
     <S.ProfileWrapper>
@@ -82,12 +65,12 @@ function ProfileHeader() {
               <S.NickName>{profileInfo.nickname}</S.NickName>
             </S.UserNickName>
             <S.EditProfileBtn
-              bluecolor={ButtonText === "팔로우 하기" ? "true" : "false"}
+              bluecolor={buttonText === "팔로우 하기" ? "true" : "false"}
               onClick={() => {
                 handleCompareNickName();
               }}
             >
-              {ButtonText}
+              {buttonText}
             </S.EditProfileBtn>
           </S.InfoHeader>
           <S.InfoFollowBox>

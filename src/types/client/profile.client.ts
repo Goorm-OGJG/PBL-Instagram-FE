@@ -6,14 +6,14 @@ export interface ProfileResponseType {
   followCount: number;
   followingCount: number;
   feedCount: number;
-  followStatus: boolean;
+  followingStatus: boolean;
   secretStatus: boolean;
 }
 
 export interface FeedDataType {
   feedId: number;
   mediaUrl: string;
-  isMediaOne: boolean;
+  mediaOne: boolean;
   likeCount: number;
   commentCount: number;
 }

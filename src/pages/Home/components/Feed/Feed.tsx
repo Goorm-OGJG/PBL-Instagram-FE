@@ -4,14 +4,19 @@ import * as Icon from "../../../../components/Icon";
 // import { useState } from "react";
 import FeedInput from "../FeedInput/FeedInput";
 import FeedImages from "../FeedImages/FeedImages";
-import { useSetRecoilState } from "recoil";
-import { isLikeModalOpenState, isModalOpenState } from "../../../../recoil/homeState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  feedsState,
+  isLikeModalOpenState,
+  isModalOpenState,
+} from "../../../../recoil/homeState";
 import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import * as T from "../../../../types/client/feed.client";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import FeedMenu from "../FeedMenu/FeedMenu";
 import { useNavigate } from "react-router";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
+import { useHashTag } from "../../../../hooks/useHashTag";
 
 interface PropsType {
   data: T.FeedDataType;
@@ -42,20 +47,22 @@ function Feed({ data }: PropsType) {
   const [isLike, setIsLike] = useState(likeStatus);
   const [isCollection, setIsCollection] = useState(collectionStatus);
   const {
-    requestFeedLike,
+    requestFeedLikeHome,
     requestFeedCollection,
-    requestDeleteFeedLike,
+    requestDeleteFeedLikeHome,
     requestDeleteFeedCollection,
   } = useFeedAPI();
+
+  const [feeds, setFeeds] = useRecoilState(feedsState);
   // 좋아요
   const likeHandler = () => {
-    requestFeedLike(feedId);
+    requestFeedLikeHome(feedId, feeds.length, setFeeds);
     setIsLike(!isLike);
   };
 
   //좋아요 취소
   const likeCancelHandler = () => {
-    requestDeleteFeedLike(feedId);
+    requestDeleteFeedLikeHome(feedId, feeds.length, setFeeds);
     setIsLike(!isLike);
   };
 
@@ -89,6 +96,9 @@ function Feed({ data }: PropsType) {
     }
   };
 
+  const { extractHashTagsElement } = useHashTag();
+  const extractContent = extractHashTagsElement(content);
+
   return (
     <S.FeedWrapper>
       <S.InfoBox>
@@ -96,6 +106,7 @@ function Feed({ data }: PropsType) {
           <FeedMenu
             isFeedMenuOpen={isFeedMenuOpen}
             setIsFeedMenuOpen={setIsFeedMenuOpen}
+            nickname={nickname}
           />
         )}
         <S.ProfileBox>
@@ -145,7 +156,15 @@ function Feed({ data }: PropsType) {
       <S.Span>
         <S.Div>
           <S.UserName>{nickname}</S.UserName>
-          <S.Span>{content}</S.Span>
+          <S.Span>
+            {extractContent.map((content) => {
+              if (content.type === "tag") {
+                return <a>{content.text}&nbsp;</a>;
+              } else {
+                return <span>{content.text}&nbsp;</span>;
+              }
+            })}
+          </S.Span>
         </S.Div>
       </S.Span>
       <S.Div>

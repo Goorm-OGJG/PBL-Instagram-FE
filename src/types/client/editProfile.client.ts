@@ -1,16 +1,16 @@
 export interface EditProfileResponseType {
   userId: number;
   nickname: string;
-  userImg: string;
+  profileImg: string;
   userIntro: string;
-  isRecommended: boolean;
-  isSecret: boolean;
+  recommended: boolean;
+  secret: boolean;
 }
 
 export interface EditProfileType {
   userIntro: string;
-  isRecommended: boolean;
-  isSecret: boolean;
+  recommended: boolean;
+  secret: boolean;
 }
 
 export interface EditImgType {

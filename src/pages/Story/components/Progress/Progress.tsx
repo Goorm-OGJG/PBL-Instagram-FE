@@ -32,23 +32,25 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
   const countHandler = () => {
     const full = boxRef.current!.clientWidth;
     const now = progressRef.current!.clientWidth;
-    if (now > full - 5) {
-      if (count >= imgLength - 1) {
-        // alert("다음 스토리로 이동");
-        requestStoryRead(storyId as string, setData);
+    if (full > 50) {
+      if (now > full - 5) {
+        if (count >= imgLength - 1) {
+          // alert("다음 스토리로 이동");
+          requestStoryRead(storyId as string, setData);
 
-        if (nowStory < data.length - 1) {
-          const next = nowStory + 1;
-          setNowStory(next);
-          setIsSetting(false);
-          navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
+          if (nowStory < data.length - 1) {
+            const next = nowStory + 1;
+            setNowStory(next);
+            setIsSetting(false);
+            navigate(`/stories/${data[next].nickname}/${data[next].storyId}`);
+          } else {
+            navigate("/home");
+            setNowStory(-1);
+          }
+          // 추가 데이터 붙이기
         } else {
-          navigate("/home");
-          setNowStory(-1);
+          setCount(count + 1);
         }
-        // 추가 데이터 붙이기
-      } else {
-        setCount(count + 1);
       }
     }
   };

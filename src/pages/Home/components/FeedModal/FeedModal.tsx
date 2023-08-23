@@ -80,6 +80,8 @@ function FeedModal() {
 
   const setIsLikeModal = useSetRecoilState(isLikeModalOpenState);
 
+  const myNickname = localStorage.getItem("nickname");
+
   // 렌더링 시 요청 보내기
   useEffect(() => {
     requestFeedDetail(isModalOpen, setData);
@@ -97,16 +99,16 @@ function FeedModal() {
   const rightHandler = () => {
     const current = imgboxRef.current;
     if (pos < feedMedias.length - 1) {
-      current?.scrollBy(800, 0);
+      current?.scrollBy(500, 0);
       setPos(pos + 1);
     }
   };
 
   const leftHandler = () => {
     const current = imgboxRef.current;
-    current?.scrollBy(-800, 0);
+    current?.scrollBy(-500, 0);
     if (pos > 0) {
-      current?.scrollBy(-800, 0);
+      current?.scrollBy(-500, 0);
       setPos(pos - 1);
     }
   };
@@ -123,9 +125,9 @@ function FeedModal() {
     requestDeleteFeedLike(feedId, setData);
   };
 
-  const moreCommentHandler = () => {
-    alert("댓글 추가 요청");
-  };
+  // const moreCommentHandler = () => {
+  //   alert("댓글 추가 요청");
+  // };
 
   const bookmarkHandler = () => {
     requestFeedCollection(feedId, setData);
@@ -148,6 +150,8 @@ function FeedModal() {
     }
   };
 
+  const [innerPost, setInnerPost] = useState(false);
+
   const postHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const content = value;
@@ -155,7 +159,8 @@ function FeedModal() {
     if (commentType.type === "comment") {
       requestComment(feedId, { content }, setData);
     } else if (commentType.type === "innerComment") {
-      requestPostInnerComment(commentType.id, content);
+      requestPostInnerComment(commentType.id, content, feedId, setData);
+      setInnerPost(true);
     }
     setCommentType({ id: -1, type: "comment", nickname: "" });
     setValue("");
@@ -217,20 +222,31 @@ function FeedModal() {
             <S.IconBox onClick={() => setIsSettingClick(!isSettingClick)}>
               <Icon.Horizontal size={24} />
             </S.IconBox>
-            {isSettingClick && <S.Delete onClick={feedDeleteHandler}>피드 삭제</S.Delete>}
+            {nickname == myNickname && isSettingClick && (
+              <S.Delete onClick={feedDeleteHandler}>피드 삭제</S.Delete>
+            )}
           </S.FeedHeader>
           {/* 댓글 */}
           <S.Comments>
-            <Comment comment={feedDescription} />
+            <Comment
+              comment={feedDescription}
+              innerPost={innerPost}
+              setInnerPost={setInnerPost}
+            />
             {comments.map((comment) => (
-              <Comment comment={comment} key={comment.commentId} />
+              <Comment
+                comment={comment}
+                key={comment.commentId}
+                innerPost={innerPost}
+                setInnerPost={setInnerPost}
+              />
             ))}
             {/* 댓글 더보기 */}
-            <S.AddCircleBox>
+            {/* <S.AddCircleBox>
               <S.AddCircle onClick={moreCommentHandler}>
                 <Icon.AddCircle size={32} />
               </S.AddCircle>
-            </S.AddCircleBox>
+            </S.AddCircleBox> */}
           </S.Comments>
           {/* 좋아요 보관함 아이콘 */}
           <S.Icons>

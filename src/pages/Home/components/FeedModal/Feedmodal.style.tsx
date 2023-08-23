@@ -41,30 +41,26 @@ export const Wrapper = styled.section`
   display: flex;
   border-radius: 5px;
   overflow: hidden;
-  height: fit-content;
-  height: 95vh;
-  max-height: 800px;
+  width: fit-content;
 `;
 
 // 이미지 관련
 export const ImgBox = styled.div`
   display: flex;
-  max-width: 800px;
   position: relative;
-  flex: 2;
   scroll-behavior: smooth;
+  width: 500px;
 `;
 
 export const Images = styled.div`
   display: flex;
   overflow: hidden;
   scroll-behavior: smooth;
-  max-width: 800px;
+  width: 500px;
 `;
 export const Img = styled.img`
-  height: 800px;
-  width: 800px;
-  object-fit: fill;
+  width: 500px;
+  object-fit: cover;
 `;
 
 export const ArrowBox = styled.div`
@@ -113,7 +109,6 @@ export const PosDot = styled.span<StyleProps>`
 export const RightWrapper = styled.div`
   max-width: 500px;
   min-width: 400px;
-  flex: 1;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -245,7 +240,6 @@ export const CommentInput = styled.input`
   flex: 1;
   font-size: ${FONT.S};
   &::placeholder {
-    font-family: "Malgun Gothic", serif;
     color: ${COLOR.Gray3};
   }
 `;

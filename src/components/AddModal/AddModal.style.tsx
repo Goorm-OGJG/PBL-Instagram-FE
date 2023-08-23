@@ -17,7 +17,7 @@ export const Overlay = styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10000;
+  z-index: 9999;
 `;
 
 export const Wrapper = styled.div<StyleProps>`
@@ -140,7 +140,6 @@ export const ImgWrapper = styled.div<StyleProps>`
     props.type === "feed"
       ? css`
           width: 500px;
-          height: 500px;
         `
       : css`
           width: 400px;
@@ -189,7 +188,6 @@ export const Img = styled.img<StyleProps>`
     props.type === "feed"
       ? css`
           width: 500px;
-          height: 500px;
         `
       : css`
           width: 400px;

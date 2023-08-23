@@ -18,25 +18,46 @@ export function useUserAPI() {
           navigate("/home");
           return;
         }
-        alert("올바르지 않은 계정 정보 입니다."); 
+        alert("올바르지 않은 계정 정보 입니다.");
       })
       .catch((error) => {
         alert(error);
       });
   };
 
-  // async function requestIsExistEmail(payload: T.IsExistEmailPayloadType) {
-  //   return axios.get(`${import.meta.env.VITE_API_URL}/api/users/${payload.email}`);
-  // }
+  async function requestIsExistEmail(payload: T.IsExistEmailPayloadType) {
+    return axios
+      .get(`${import.meta.env.VITE_API_URL}/api/users/email/${payload.email}`)
+      .then((response) => {
+        if (!response) {
+          alert("존재하는 이메일 입니다.");
+          return Promise.reject();
+        }
+      });
+  }
+
+  async function requestIsExistUsername(payload: T.IsExistNicknamePayloadType) {
+    return axios
+      .get(`${import.meta.env.VITE_API_URL}/api/users/nickname/${payload.nickname}`)
+      .then((response) => {
+        if (!response) {
+          alert("존재하는 사용자 이름 입니다.");
+          return Promise.reject();
+        }
+      });
+  }
 
   async function requestSignUp(payload: T.SignUpPayloadType) {
     try {
-      // await requestIsExistEmail({ email: payload.email });
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/users/signup`, payload);
-      alert("회원가입 되었습니다.");
-      navigate("/login");
+      await requestIsExistEmail({ email: payload.email });
+      await requestIsExistUsername({ nickname: payload.nickname });
+      // await axios.post(`${import.meta.env.VITE_API_URL}/api/users/signup`, payload);
+      // alert("회원가입 되었습니다.");
+      // navigate("/login");
     } catch (error) {
-      alert(error);
+      if (error) {
+        alert(error);
+      }
     }
   }
 
@@ -75,21 +96,18 @@ export function useUserAPI() {
   }
 
   function requestLogout() {
-    // axios
-    //   .get(`${import.meta.env.VITE_API_URL}/api/users/logout`)
-    //   .then(() => {
-    //     localStorage.removeItem("accessToken");
-    //     localStorage.removeItem("nickname");
-    //     localStorage.removeItem("userImg");
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("nickname");
-    localStorage.removeItem("userImg");
-    localStorage.removeItem("userId");
-    navigate("/login");
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/api/users/logout`)
+      .then(() => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("nickname");
+        localStorage.removeItem("userImg");
+        localStorage.removeItem("userId");
+        navigate("/login");
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   return {
