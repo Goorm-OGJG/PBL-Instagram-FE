@@ -15,44 +15,6 @@ interface FollowPropsType {
   setFollowerModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// interface Follow {
-//   userId: number;
-//   nickname: string;
-//   profileImg: string;
-//   followStatus?: boolean;
-// }
-
-// const followerData: Follow[] = [
-//   {
-//     userId: 1,
-//     nickname: "재균",
-//     profileImg:
-//       "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-//     followStatus: true,
-//   },
-//   {
-//     userId: 2,
-//     nickname: "승재",
-//     profileImg:
-//       "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-//     followStatus: false,
-//   },
-// ];
-// const followData: Follow[] = [
-//   {
-//     userId: 1,
-//     nickname: "JamesJoe",
-//     profileImg:
-//       "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-//   },
-//   {
-//     userId: 2,
-//     nickname: "James",
-//     profileImg:
-//       "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-//   },
-// ];
-
 export default function FollowerModal({
   setFollowModal,
   followerModal,
@@ -60,6 +22,7 @@ export default function FollowerModal({
 }: FollowPropsType) {
   const localIdString = localStorage.getItem("userId");
   const localId = localIdString !== null ? parseInt(localIdString) : null;
+  const localNickname = localStorage.getItem("nickname");
   const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState);
   //🔥 API
   const [followerData, setFollowerData] = useState<T.FollowerResponseType[]>([]);
@@ -90,6 +53,7 @@ export default function FollowerModal({
     try {
       await requestPostFollowing(followId);
       requestFollowerList(userId, setFollowerData);
+      alert("팔로우 요청이 되었습니다.");
     } catch (error) {
       console.error("Error deleting follower:", error);
     }
@@ -166,7 +130,7 @@ export default function FollowerModal({
                     >
                       {data.nickname}
                     </S.Nickname>{" "}
-                    {!data.followingStatus && (
+                    {!data.followingStatus && data.nickname !== localNickname && (
                       <>
                         {" "}
                         ·{" "}

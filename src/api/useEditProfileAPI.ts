@@ -6,12 +6,12 @@ export default function useEditProfileAPI() {
   const axios = useAxios();
 
   // 프로필 수정 가저오기
-  const requestEditProfile = (
+  const requestEditProfile = async (
     userId: number,
     setEditProfileData: React.Dispatch<React.SetStateAction<T.EditProfileResponseType>>,
   ) => {
     const data = { userId: userId };
-    axios
+    await axios
       .get(`${editProfleURL}/profile`, { data })
       .then((response) => {
         setEditProfileData(response.data);

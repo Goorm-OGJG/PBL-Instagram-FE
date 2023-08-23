@@ -16,28 +16,10 @@ import { EditProfileResponseType } from "../../types/client/editProfile.client";
 import { EditProfileState } from "../../recoil/profileState";
 import useEditProfileAPI from "../../api/useEditProfileAPI";
 
-// interface Account {
-//   userid: number;
-//   nickname: string;
-//   userImg: string;
-//   userIntro: string;
-//   isRecommended: boolean;
-//   isSecret: boolean;
-// }
-// const editProfileData: Account = {
-//   userid: 1,
-//   nickname: "JamesJoe",
-//   userImg:
-//     "https://pbl-insta-image.s3.ap-northeast-2.amazonaws.com/images/quokka-gea2e028ee_1280.jpg",
-//   userIntro: "asdasdadasdasd",
-//   isRecommended: true,
-//   isSecret: true,
-// };
-
 function EditProfile() {
   const localIdString = localStorage.getItem("userId");
   const localId = localIdString !== null ? parseInt(localIdString) : null; // localStorage 값
-
+  // const localImg = localStorage.getItem("userImg");
   const navigate = useNavigate();
   const { nickname } = useParams();
 
@@ -47,10 +29,10 @@ function EditProfile() {
   const [editProfileData, setEditProfileData] =
     useRecoilState<EditProfileResponseType>(EditProfileState);
   const [text, setText] = useState(editProfileData.userIntro);
-  const [isChecked, setIsChecked] = useState(editProfileData.isRecommended);
+  const [isChecked, setIsChecked] = useState(editProfileData.recommended);
   const [isOn, setIsOn] = useRecoilState<boolean>(ToggleState);
   const [countText, setCountText] = useState(0);
-  const profileImg = useRecoilValue<string>(EditImgState);
+  const [profileImg, setProfileImg] = useRecoilState<string>(EditImgState);
   const [isEditImgModal, setIsEditImgModal] = useRecoilState<boolean>(EditImgModalState);
   const file = useRecoilValue<File[]>(EditImgFileState);
   //🔥 API
@@ -82,8 +64,8 @@ function EditProfile() {
     //🔥 API
     const requestData = {
       userIntro: text,
-      isRecommended: isChecked,
-      isSecret: isOn,
+      recommended: isChecked,
+      secret: isOn,
     };
     if (localId !== null) {
       requestPutProfile(requestData);
@@ -91,16 +73,25 @@ function EditProfile() {
       navigate(`/accounts/${nickname}/`);
     }
   };
+
   useEffect(() => {
     //🔥 API
-    if (localId !== null) {
-      requestEditProfile(localId, setEditProfileData);
+    const requestEdit = async () => {
+      try {
+        requestEditProfile(localId as number, setEditProfileData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    requestEdit();
+    if (editProfileData.profileImg !== null) {
+      setProfileImg(editProfileData.profileImg);
+    }
+    if (editProfileData.secret !== undefined) {
+      setIsOn(editProfileData.secret);
     }
     const textlength = text.length;
     setCountText(textlength);
-    if (editProfileData) {
-      setIsOn(editProfileData.isSecret);
-    }
   }, []);
 
   return (
@@ -109,7 +100,7 @@ function EditProfile() {
         <S.EditHeader>프로필 편집</S.EditHeader>
         <S.EditUserInfo>
           <S.EditUserImgBox>
-            <S.UserImg src={profileImg} alt="profileImg" />
+            <S.UserImg src={profileImg && profileImg} alt="profileImg" />
           </S.EditUserImgBox>
           <S.EditUserTextBox>
             <S.UserNickname>{nickname}</S.UserNickname>
