@@ -13,7 +13,7 @@ export interface ProfileResponseType {
 export interface FeedDataType {
   feedId: number;
   mediaUrl: string;
-  isMediaOne: boolean;
+  mediaOne: boolean;
   likeCount: number;
   commentCount: number;
 }

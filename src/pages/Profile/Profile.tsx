@@ -20,7 +20,7 @@ import AddModal from "../../components/AddModal/AddModal";
 interface FeedList {
   feedId: number;
   mediaUrl: string;
-  isMediaOne: boolean;
+  mediaOne: boolean;
   likeCount: number;
   commentCount: number;
 }
@@ -80,6 +80,7 @@ function Profile() {
     setLoading(false);
   };
   useEffect(() => {
+    console.log(feeds);
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !loading) {
@@ -103,7 +104,7 @@ function Profile() {
     }
     if (!item && nickname !== undefined) {
       requestProfileFeed(nickname, page, 9, setFeeds);
-      // console.log("피드", feeds);
+      console.log("피드", feeds);
     }
     if (userId !== null && item) {
       requestSavedFeed(page, 9, setFeeds);
@@ -147,7 +148,7 @@ function Profile() {
                       }}
                     >
                       <S.FeedHoverMutiple>
-                        {!feed.isMediaOne && (
+                        {!feed.mediaOne && (
                           <S.FeedHoverMultiItem>
                             <Icon.BoxMultiple size={20} />
                           </S.FeedHoverMultiItem>
@@ -166,18 +167,37 @@ function Profile() {
                           </>
                         )}
                       </S.FeedHover>
-                      <S.FeedImg
-                        src={feed.mediaUrl}
-                        alt="dd"
-                        onMouseEnter={() => {
-                          setOverlay(true);
-                          setImgId(feed.feedId);
-                        }}
-                        onMouseLeave={() => {
-                          setOverlay(false);
-                          setImgId(100000000000);
-                        }}
-                      />
+                      {feed.mediaUrl.slice(
+                        feed.mediaUrl.length - 3,
+                        feed.mediaUrl.length,
+                      ) === "mp4" ? (
+                        <S.FeedImg
+                          as="video"
+                          src={feed.mediaUrl}
+                          alt="dd"
+                          onMouseEnter={() => {
+                            setOverlay(true);
+                            setImgId(feed.feedId);
+                          }}
+                          onMouseLeave={() => {
+                            setOverlay(false);
+                            setImgId(100000000000);
+                          }}
+                        />
+                      ) : (
+                        <S.FeedImg
+                          src={feed.mediaUrl}
+                          alt="dd"
+                          onMouseEnter={() => {
+                            setOverlay(true);
+                            setImgId(feed.feedId);
+                          }}
+                          onMouseLeave={() => {
+                            setOverlay(false);
+                            setImgId(100000000000);
+                          }}
+                        />
+                      )}
                     </S.FeedBox>
                   );
                 })}
