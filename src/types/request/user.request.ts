@@ -17,7 +17,6 @@ export interface IsEqualCertNumberPayloadType {
   validate: string;
 }
 
-
 export interface SetPasswordPayloadType {
   username: string;
   type: string;
@@ -26,6 +25,10 @@ export interface SetPasswordPayloadType {
 
 export interface IsExistEmailPayloadType {
   email: string;
+}
+
+export interface IsExistNicknamePayloadType {
+  nickname: string;
 }
 
 export interface CertNumberPayloadType {
