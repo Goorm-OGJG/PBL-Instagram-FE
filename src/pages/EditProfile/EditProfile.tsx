@@ -100,7 +100,7 @@ function EditProfile() {
         <S.EditHeader>프로필 편집</S.EditHeader>
         <S.EditUserInfo>
           <S.EditUserImgBox>
-            <S.UserImg src={profileImg && profileImg} alt="profileImg" />
+            <S.UserImg src={profileImg} alt="profileImg" />
           </S.EditUserImgBox>
           <S.EditUserTextBox>
             <S.UserNickname>{nickname}</S.UserNickname>
