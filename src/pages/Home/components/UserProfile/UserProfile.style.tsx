@@ -11,13 +11,13 @@ export const Profile = styled.div`
   align-items: center;
 `;
 
-export const ProfileImg = styled.img<PropsType>`
-  width: ${(props) => (props.type === "my" ? "56px" : "32px")};
-  height: ${(props) => (props.type === "my" ? "56px" : "32px")};
+export const ProfileImg = styled.img`
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   cursor: pointer;
   margin: 10px;
-  margin-left: ${(props) => props.type !== "my" && "18px"};
+  margin-left: 18px;
 `;
 
 export const ProfileLink = styled(Link)`
@@ -51,4 +51,12 @@ export const Button = styled.button`
   height: fit-content;
   font-weight: ${FONT.Bold};
   font-size: ${FONT.XS};
+  transition: 0.3s;
+  &:hover {
+    color: ${COLOR.Blue1};
+  }
+`;
+
+export const CancelButton = styled(Button)`
+  color: ${COLOR.Gray2};
 `;

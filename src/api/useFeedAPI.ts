@@ -90,7 +90,7 @@ export function useFeedAPI() {
     setData: React.Dispatch<React.SetStateAction<LikeUserType[]>>,
   ) => {
     axios
-      .get(`${API_URL}/api/innerComment/${innerCommentId}/likesUser`)
+      .get(`${API_URL}/api/inner-comment/${innerCommentId}/likes-user`)
       .then((response) => {
         if (response) {
           setData(response.data);

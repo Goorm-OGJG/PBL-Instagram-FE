@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import * as S from "./SearchInput.style";
 import * as Icon from "../Icon";
 import { SearchUserType } from "../../types/client/search.client";
 import { useSearchAPI } from "../../api/useSearchAPI";
+import { useRecoilState } from "recoil";
+import { searchValueState } from "../../recoil/homeState";
 
 interface PropsType {
   setData: React.Dispatch<React.SetStateAction<SearchUserType[]>>;
@@ -10,7 +12,7 @@ interface PropsType {
 }
 
 function SearchInput({ setData, setIsUser }: PropsType) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useRecoilState(searchValueState);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { requestIdSearch } = useSearchAPI();
