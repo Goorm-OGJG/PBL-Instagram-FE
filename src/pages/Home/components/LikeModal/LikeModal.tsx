@@ -5,6 +5,7 @@ import { isLikeModalOpenState } from "../../../../recoil/homeState";
 import { useEffect, useState } from "react";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
 import { LikeUserType } from "../../../../types/client/feed.client";
+import React from "react";
 
 export default function LikeModal() {
   const [isLikeModalOpen, setIsLikeModalOpen] = useRecoilState(isLikeModalOpenState);
@@ -28,6 +29,8 @@ export default function LikeModal() {
       requestInnerCommentLikeList(isLikeModalOpen.id, setData);
     }
   }, []);
+
+  const nickname = localStorage.getItem("nickname");
   return (
     <S.Overlay id="overlay" onClick={closeHandler}>
       <S.FollowModalWrapper>
@@ -53,10 +56,14 @@ export default function LikeModal() {
                   </S.Nickname>
                 </S.FollowProfileNicknameBox>
                 <S.FollowDeleteBox>
-                  {data.followStatus ? (
-                    <S.DeleteBtn>삭제</S.DeleteBtn>
-                  ) : (
-                    <S.FollowBtn>팔로우</S.FollowBtn>
+                  {nickname !== data.nickname && (
+                    <React.Fragment>
+                      {data.followStatus ? (
+                        <S.DeleteBtn>삭제</S.DeleteBtn>
+                      ) : (
+                        <S.FollowBtn>팔로우</S.FollowBtn>
+                      )}
+                    </React.Fragment>
                   )}
                 </S.FollowDeleteBox>
               </S.FollowModalBox>

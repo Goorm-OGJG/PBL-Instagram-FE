@@ -63,6 +63,11 @@ export const feedsState = atom<FeedDataType[]>({
   default: [],
 });
 
+export const searchValueState = atom<string>({
+  key: "searchValueState",
+  default: "",
+});
+
 export interface commentType {
   id: number;
   type: string;

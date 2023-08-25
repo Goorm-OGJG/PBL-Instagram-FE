@@ -5,6 +5,7 @@ export interface SearchUserType {
   userIntro?: string;
   tagName?: string;
   totalFeedCount?: string;
+  userId?: number;
 }
 
 // export interface SearchTagType {

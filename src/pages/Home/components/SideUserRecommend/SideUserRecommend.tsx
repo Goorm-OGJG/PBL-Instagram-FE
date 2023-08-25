@@ -12,11 +12,11 @@ function SideUserRecommend() {
   }, []);
   const myName = localStorage.getItem("nickname") as string;
   const myProfileImg = localStorage.getItem("userImg") as string;
-
+  // console.log(data);
   return (
     <S.Wrapper>
       {/* 내 프로필 */}
-      <UserProfile nickname={myName} profileImg={myProfileImg} />
+      <UserProfile type="my" nickname={myName} profileImg={myProfileImg} />
       {/* 다른 유저 추천 */}
       <S.UserProfileBox>
         <S.TextBox>
@@ -25,13 +25,19 @@ function SideUserRecommend() {
         </S.TextBox>
         <S.UserProfiles>
           {data.length > 0 &&
-            data.map((user) => (
-              <UserProfile
-                key={user.nickname}
-                nickname={user.nickname}
-                profileImg={user.profileImg}
-              />
-            ))}
+            data.map(
+              (user) =>
+                myName === user.nickname || (
+                  <UserProfile
+                    key={user.nickname}
+                    nickname={user.nickname}
+                    profileImg={user.profileImg}
+                    followingStatus={user.followingStatus}
+                    userId={user.userId}
+                    setData={setData}
+                  />
+                ),
+            )}
         </S.UserProfiles>
       </S.UserProfileBox>
     </S.Wrapper>

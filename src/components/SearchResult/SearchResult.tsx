@@ -6,9 +6,11 @@ import * as S from "./SearchResult.style";
 interface PropsType {
   data: SearchUserType[];
   isUser: boolean;
+  setData: React.Dispatch<React.SetStateAction<SearchUserType[]>>;
+  setIsUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function SearchResult({ data, isUser }: PropsType) {
+function SearchResult({ data, isUser, setData, setIsUser }: PropsType) {
   return (
     <React.Fragment>
       {data.length == 0 && (
@@ -20,7 +22,15 @@ function SearchResult({ data, isUser }: PropsType) {
 
       <React.Fragment>
         {data.length > 0 &&
-          data.map((user, i) => <SearchUser user={user} key={i} isUser={isUser} />)}
+          data.map((user, i) => (
+            <SearchUser
+              user={user}
+              key={i}
+              isUser={isUser}
+              setData={setData}
+              setIsUser={setIsUser}
+            />
+          ))}
       </React.Fragment>
     </React.Fragment>
   );
