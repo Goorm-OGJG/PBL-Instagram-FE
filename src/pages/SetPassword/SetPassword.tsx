@@ -30,7 +30,7 @@ function SetPassword() {
         password,
         type: getUserNameType(location.state?.username),
       };
-      requestSetPassword(payload);
+      requestSetPassword(payload, location.state?.authorization);
     } else {
       alert("유효하지 않은 패스워드 입니다.");
     }

@@ -32,7 +32,6 @@ function FindPassword() {
     setIsTimerStart(true);
     setIsTimerEnd(false);
     restartTimer();
-    alert("인증번호 요청");
 
     const payload: T.CertNumberPayloadType = {
       username,
@@ -52,7 +51,6 @@ function FindPassword() {
       return;
     }
     if (!isTimerEnd) {
-      alert("인증번호 일치 여부 요청");
       const payload: T.IsEqualCertNumberPayloadType = {
         username,
         type: getUserNameType(username),
