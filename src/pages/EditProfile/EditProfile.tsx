@@ -11,7 +11,6 @@ import {
   EditImgFileState,
   EditImgState,
 } from "../../recoil/editProfileState";
-//🔥 API
 import { EditProfileResponseType } from "../../types/client/editProfile.client";
 import { EditProfileState } from "../../recoil/profileState";
 import useEditProfileAPI from "../../api/useEditProfileAPI";
@@ -19,20 +18,18 @@ import useEditProfileAPI from "../../api/useEditProfileAPI";
 function EditProfile() {
   const localIdString = localStorage.getItem("userId");
   const localId = localIdString !== null ? parseInt(localIdString) : null; // localStorage 값
-  // const localImg = localStorage.getItem("userImg");
   const navigate = useNavigate();
   const { nickname } = useParams();
 
-  //🔥 API
   const { requestEditProfile, requestPutProfile, requestPutImgProfile } =
     useEditProfileAPI();
   const [editProfileData, setEditProfileData] =
     useRecoilState<EditProfileResponseType>(EditProfileState);
-  const [text, setText] = useState(editProfileData.userIntro);
-  const [isChecked, setIsChecked] = useState(editProfileData.recommended);
+  const [text, setText] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
   const [isOn, setIsOn] = useRecoilState<boolean>(ToggleState);
   const [countText, setCountText] = useState(0);
-  const [profileImg, setProfileImg] = useRecoilState<string>(EditImgState);
+  const profileImg = useRecoilValue<string>(EditImgState);
   const [isEditImgModal, setIsEditImgModal] = useRecoilState<boolean>(EditImgModalState);
   const file = useRecoilValue<File[]>(EditImgFileState);
   //🔥 API
@@ -48,17 +45,19 @@ function EditProfile() {
   const handleSubmit = async () => {
     // 이미지 s3업로드
     //🔥 API
-    const editporfileImg = file[0];
-    const eiditImg = await handleUpload([editporfileImg]);
+    if (file.length > 0) {
+      const editporfileImg = file[0];
+      const editImg = await handleUpload([editporfileImg]);
 
-    // 이미지 return URL 백엔드에 전송
-    //🔥 API
+      // 이미지 return URL 백엔드에 전송
+      //🔥 API
 
-    if (eiditImg !== undefined) {
-      const requestImgData = {
-        imgUrl: eiditImg[0],
-      };
-      requestPutImgProfile(requestImgData);
+      if (editImg !== undefined) {
+        const requestImgData = {
+          imgUrl: editImg[0],
+        };
+        requestPutImgProfile(requestImgData);
+      }
     }
     // 텍스트 수정후 백엔드에 전송
     //🔥 API
@@ -78,20 +77,14 @@ function EditProfile() {
     //🔥 API
     const requestEdit = async () => {
       try {
-        requestEditProfile(localId as number, setEditProfileData);
+        await requestEditProfile(setEditProfileData, setText, setIsChecked, setIsOn);
+        const textlength = text.length;
+        setCountText(textlength);
       } catch (error) {
         console.log(error);
       }
     };
     requestEdit();
-    if (editProfileData.profileImg !== null) {
-      setProfileImg(editProfileData.profileImg);
-    }
-    if (editProfileData.secret !== undefined) {
-      setIsOn(editProfileData.secret);
-    }
-    const textlength = text.length;
-    setCountText(textlength);
   }, []);
 
   return (
@@ -100,7 +93,10 @@ function EditProfile() {
         <S.EditHeader>프로필 편집</S.EditHeader>
         <S.EditUserInfo>
           <S.EditUserImgBox>
-            <S.UserImg src={profileImg} alt="profileImg" />
+            <S.UserImg
+              src={profileImg ? profileImg : editProfileData.profileImg}
+              alt="profileImg"
+            />
           </S.EditUserImgBox>
           <S.EditUserTextBox>
             <S.UserNickname>{nickname}</S.UserNickname>
@@ -113,13 +109,12 @@ function EditProfile() {
             </S.UserImgEditBtn>
           </S.EditUserTextBox>
         </S.EditUserInfo>
-
         <S.EditEtcForm>
           <S.EditIntroBox>
             <S.EctTitle>소개</S.EctTitle>
             <S.InputBox>
               <S.IntroInput
-                value={text}
+                value={text ? text : editProfileData.userIntro}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                   setText(e.target.value);
                   setCountText(e.target.value.length);
@@ -133,7 +128,7 @@ function EditProfile() {
             <S.EctTitle>프로필 계정 추천 표시</S.EctTitle>
             <S.RecommendCheckBox
               type="checkbox"
-              checked={isChecked}
+              checked={isChecked ? isChecked : editProfileData.recommended}
               onChange={() => {
                 setIsChecked(!isChecked);
               }}
@@ -144,7 +139,6 @@ function EditProfile() {
             </S.RecommendExplain>
           </S.EditRecommendBox>
           <S.PrivateHeader>내 콘텐츠를 볼 수 있는 사람</S.PrivateHeader>
-
           <S.EditPrivateBox>
             <S.PrivateTitle>계정 공개 범위</S.PrivateTitle>
             <S.PrivateTitle>
@@ -153,7 +147,6 @@ function EditProfile() {
                 <Toggle />
               </S.ToggleBox>
             </S.PrivateTitle>
-
             <S.PrivateExplain>
               계정이 공개 상태인 경우 Instagram 계정이 없는 사람을 포함해서 Instagram
               안팎의 모든 사람이 프로필과 게시물을 볼 수 있습니다. <br />

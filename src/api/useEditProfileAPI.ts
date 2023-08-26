@@ -1,5 +1,7 @@
 import { useAxios } from "./useAxios";
 import * as T from "../types/client/editProfile.client";
+import { SetterOrUpdater } from "recoil";
+
 export default function useEditProfileAPI() {
   const API_URL = import.meta.env.VITE_API_URL;
   const editProfleURL = `${API_URL}/api/accounts`;
@@ -7,14 +9,18 @@ export default function useEditProfileAPI() {
 
   // 프로필 수정 가저오기
   const requestEditProfile = async (
-    userId: number,
     setEditProfileData: React.Dispatch<React.SetStateAction<T.EditProfileResponseType>>,
+    setText: React.Dispatch<React.SetStateAction<string>>,
+    setIsChecked: React.Dispatch<React.SetStateAction<boolean>>,
+    setIsOn: SetterOrUpdater<boolean>,
   ) => {
-    const data = { userId: userId };
-    await axios
-      .get(`${editProfleURL}/profile`, { data })
+    axios
+      .get(`${editProfleURL}/profile`)
       .then((response) => {
         setEditProfileData(response.data);
+        setText(response.data.userIntro);
+        setIsChecked(response.data.recommended);
+        setIsOn(response.data.secret);
       })
       .catch((error) => {
         alert(error);

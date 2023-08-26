@@ -1,8 +1,10 @@
 import * as S from "./Profile.style";
+import * as T from "../../types/client/profile.client";
+import * as Icon from "../../components/Icon";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ProfileHeader from "./components/ProfileHeader";
-import * as Icon from "../../components/Icon";
 import { useParams } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   ItemState,
@@ -11,9 +13,7 @@ import {
   ProfileState,
   UserIdState,
 } from "../../recoil/profileState";
-import { ProfileResponseType } from "../../types/client/profile.client";
 import useProfileAPI from "../../api/useProfileAPI";
-import { useRef, useState, useEffect } from "react";
 import { isModalOpenState, whichAddModalOpenState } from "../../recoil/homeState";
 import FeedModal from "../Home/components/FeedModal/FeedModal";
 import AddModal from "../../components/AddModal/AddModal";
@@ -44,7 +44,8 @@ function Profile() {
   const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
-  const [profileInfo, setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState);
+  const [profileInfo, setProfileInfo] =
+    useRecoilState<T.ProfileResponseType>(ProfileState);
   const userId = useRecoilValue<number>(UserIdState);
   const isSecret = profileInfo.secretStatus;
   const handleFeedListClick = () => {
@@ -80,7 +81,6 @@ function Profile() {
     setLoading(false);
   };
   useEffect(() => {
-    console.log(feeds);
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !loading) {
@@ -104,7 +104,6 @@ function Profile() {
     }
     if (!item && nickname !== undefined) {
       requestProfileFeed(nickname, page, 9, setFeeds);
-      console.log("피드", feeds);
     }
     if (userId !== null && item) {
       requestSavedFeed(page, 9, setFeeds);
