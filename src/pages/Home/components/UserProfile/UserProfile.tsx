@@ -26,9 +26,9 @@ function UserProfile({
   const followHandler = async () => {
     const followId = userId as number;
     await requestPostFollowing(followId);
-    // if (setData) {
-    //   requestUserList("", "user", 0, 10, setData);
-    // }
+    if (setData) {
+      requestUserList("", "user", 0, 10, setData);
+    }
   };
 
   const followCancelHandler = async () => {
