@@ -15,8 +15,8 @@ export const UserBox = styled.div`
 `;
 
 export const UserImg = styled.img`
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   margin-right: 10px;
 `;
@@ -34,10 +34,11 @@ export const TextBox = styled.div`
 `;
 
 export const Follow = styled(TextBox)`
-  font-size: ${FONT.S};
+  font-size: ${FONT.XS};
   font-weight: ${FONT.Bold};
   color: ${COLOR.Blue2};
   transition: 0.3s;
+  cursor: pointer;
   &:hover {
     color: ${COLOR.Blue1};
   }
