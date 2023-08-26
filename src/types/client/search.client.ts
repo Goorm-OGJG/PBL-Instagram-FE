@@ -12,3 +12,15 @@ export interface SearchUserType {
 //   tagName: string;
 //   totalFeedCount: number;
 // }
+
+export interface SearchTagInfoType {
+  tagName: string;
+  feedCount: number;
+  thumbnail: string;
+  taggedList: TagFeedListType[];
+}
+export interface TagFeedListType {
+  feedId: number;
+  mediaUrl: string;
+  mediaOne: boolean;
+}
