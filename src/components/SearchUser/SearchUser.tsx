@@ -48,7 +48,7 @@ function SearchUser({ user, isUser, setData, setIsUser }: Props) {
 
   return (
     <S.UserBox>
-      <S.User to={`/accounts/${nickname}`}>
+      <S.User to={isUser ? `/accounts/${nickname}` : `/explore/tags/${tagName}`}>
         {!isUser ? <S.Tag>#</S.Tag> : <S.UserImg src={profileImg} />}
         <S.TextBox>
           <S.UserName>{!isUser ? tagName : nickname}</S.UserName>
