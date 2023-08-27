@@ -38,7 +38,7 @@ export default function Private({ setIsPrivateModalOpen, setIsOn }: PropsType) {
         <S.PrivateFooter>
           <S.PrivateBtn
             onClick={() => {
-              setIsOn(false);
+              setIsOn(true);
               setIsPrivateModalOpen(false);
             }}
           >

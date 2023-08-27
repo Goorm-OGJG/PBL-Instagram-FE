@@ -46,7 +46,7 @@ export default function PublicModal({ setIsPublicModalOpen, setIsOn }: PropsType
         <S.PublicFooter>
           <S.PublicBtn
             onClick={() => {
-              setIsOn(true);
+              setIsOn(false);
               setIsPublicModalOpen(false);
             }}
           >

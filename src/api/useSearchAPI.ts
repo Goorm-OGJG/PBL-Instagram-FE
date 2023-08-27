@@ -1,5 +1,6 @@
 import { SearchUserType } from "../types/client/search.client";
 import { useAxios } from "./useAxios";
+import * as T from "../types/client/search.client";
 
 export function useSearchAPI() {
   const API_URL = `${import.meta.env.VITE_API_URL}/api`;
@@ -42,9 +43,22 @@ export function useSearchAPI() {
         console.error(error);
       });
   };
-
+  const requestTagSearch = async (
+    query: string,
+    setTagFeedList: React.Dispatch<React.SetStateAction<T.SearchTagInfoType>>,
+  ) => {
+    axios
+      .get(`${API_URL}/search/${query}/feed`)
+      .then((response) => {
+        setTagFeedList(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return {
     requestUserList,
     requestIdSearch,
+    requestTagSearch,
   };
 }
