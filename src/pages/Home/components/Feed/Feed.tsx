@@ -99,6 +99,14 @@ function Feed({ data }: PropsType) {
   const { extractHashTagsElement } = useHashTag();
   const extractContent = extractHashTagsElement(content);
 
+  const tagHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target instanceof HTMLSpanElement) {
+      const tag = e.target.getAttribute("tag");
+      // console.log(tag);
+      navigate(`/explore/tags/${tag}`);
+    }
+  };
+
   return (
     <S.FeedWrapper>
       <S.InfoBox>
@@ -156,15 +164,10 @@ function Feed({ data }: PropsType) {
       <S.Span>
         <S.Div>
           <S.UserName>{nickname}</S.UserName>
-          <S.Span>
-            {extractContent.map((content) => {
-              if (content.type === "tag") {
-                return <a>{content.text}&nbsp;</a>;
-              } else {
-                return <span>{content.text}&nbsp;</span>;
-              }
-            })}
-          </S.Span>
+          <S.Content
+            onClick={tagHandler}
+            dangerouslySetInnerHTML={{ __html: extractContent }}
+          ></S.Content>
         </S.Div>
       </S.Span>
       <S.Div>
