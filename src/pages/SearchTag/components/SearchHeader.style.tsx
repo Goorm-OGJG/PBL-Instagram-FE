@@ -9,7 +9,7 @@ interface Props {
   fontColor?: string;
   bluecolor?: string;
 }
-export const ProfileWrapper = styled.div`
+export const SearchWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: calc(100%-40px);
@@ -20,7 +20,7 @@ export const ProfileWrapper = styled.div`
   overflow-x: hidden;
 `;
 
-export const ProfileHeader = styled.header`
+export const SearchHeader = styled.header`
   display: flex;
   margin-bottom: 44px;
   align-items: stretch;
@@ -31,7 +31,7 @@ export const UserImgBox = styled.section`
   display: flex;
   justify-content: center;
   min-width: 150px;
-  max-width: 300px;
+  max-width: 200px;
   flex-basis: 0;
   margin-right: 30px;
   flex-direction: column;
@@ -61,10 +61,9 @@ export const UserImg = styled.img`
   background-color: ${COLOR.Gray4};
 `;
 
-export const ProfileInfoBox = styled.section`
+export const SearchInfoBox = styled.section`
   display: flex;
   justify-content: center;
-
   margin-right: 30px;
   flex-direction: column;
   position: relative;
@@ -78,19 +77,18 @@ export const InfoHeader = styled.div`
   font-size: 100%;
   margin-bottom: 20px;
 `;
-export const UserNickName = styled.a`
+export const UserTagName = styled.a`
   display: inline;
-  cursor: pointer;
 `;
 
-export const NickName = styled.h2`
+export const TagName = styled.h2`
   color: white;
   min-width: 100%;
   margin-right: 20px;
-  font-size: ${FONT.ML};
+  font-size: ${FONT.XL};
 `;
 
-export const EditProfileBtn = styled.button<Props>`
+export const EditSearchBtn = styled.button<Props>`
   display: flex;
   justify-content: center;
   padding: 15px;
@@ -100,7 +98,6 @@ export const EditProfileBtn = styled.button<Props>`
   text-decoration: none;
   outline: none;
   align-items: center;
-  cursor: pointer;
   font-size: ${FONT.S};
   font-weight: ${FONT.Bold};
   color: ${COLOR.Gray1};
@@ -112,20 +109,21 @@ export const EditProfileBtn = styled.button<Props>`
 `;
 export const InfoFollowBox = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-bottom: 20px;
   font-size: ${FONT.M};
+  font-weight: ${FONT.Medium};
+  box-sizing: border-box;
+  line-height: 24px;
 `;
 export const UserPost = styled.div`
   margin-right: 40px;
 `;
 export const UserFollowing = styled.div`
   margin-right: 40px;
-  cursor: pointer;
 `;
 export const UserFollower = styled.div`
   margin-right: 40px;
-  cursor: pointer;
 `;
 export const UserIntro = styled.div`
   font-size: ${FONT.S};

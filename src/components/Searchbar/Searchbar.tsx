@@ -27,7 +27,12 @@ function Searchbar({ isSearch, setIsSearch }: Props) {
           <SearchInput setData={setData} setIsUser={setIsUser} />
         </S.Header>
         <S.SearchResultBox>
-          <SearchResult data={data} isUser={isUser} />
+          <SearchResult
+            data={data}
+            isUser={isUser}
+            setData={setData}
+            setIsUser={setIsUser}
+          />
         </S.SearchResultBox>
       </S.Div>
     </S.Overlay>

@@ -3,28 +3,49 @@ import { styled } from "styled-components";
 import * as COLOR from "../../constants/color";
 import * as FONT from "../../constants/font";
 
-export const UserBox = styled(Link)`
+export const UserBox = styled.div`
   padding: 8px 24px;
   display: flex;
   text-decoration: none;
   color: ${COLOR.Gray1};
-
+  justify-content: space-between;
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
 `;
 
 export const UserImg = styled.img`
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   margin-right: 10px;
+`;
+
+export const User = styled(Link)`
+  display: flex;
+  text-decoration: none;
+  color: ${COLOR.Gray1};
 `;
 
 export const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
+
+export const Follow = styled(TextBox)`
+  font-size: ${FONT.XS};
+  font-weight: ${FONT.Bold};
+  color: ${COLOR.Blue2};
+  transition: 0.3s;
+  cursor: pointer;
+  &:hover {
+    color: ${COLOR.Blue1};
+  }
+`;
+
+export const FollowCancel = styled(Follow)`
+  color: ${COLOR.Gray2};
 `;
 
 export const UserName = styled.span`
