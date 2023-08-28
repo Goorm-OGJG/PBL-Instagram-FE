@@ -52,12 +52,14 @@ export const UserName = styled.span`
   cursor: pointer;
 `;
 
-export const CommentText = styled.span`
+export const CommentText = styled.div`
   font-size: ${FONT.S};
   color: ${COLOR.Black};
   word-break: break-all;
+  padding-top: 5px;
+  line-height: 1.2em;
 
-  & > a {
+  & > span {
     color: ${COLOR.Blue2};
     cursor: pointer;
   }

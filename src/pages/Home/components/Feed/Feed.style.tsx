@@ -210,8 +210,20 @@ export const Span = styled.span`
   padding: 2px 0;
   font-size: ${FONT.S};
   word-break: break-all;
+`;
 
-  & > a {
+export const Content = styled.span`
+  line-height: 18px;
+  padding: 0;
+  font-size: ${FONT.S};
+  word-break: break-all;
+  padding-left: 5px;
+
+  & > :not(:first-child) {
+    display: none;
+  }
+
+  & > span {
     color: ${COLOR.Blue2};
     cursor: pointer;
   }
