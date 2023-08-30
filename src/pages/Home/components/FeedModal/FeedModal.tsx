@@ -5,8 +5,6 @@ import Comment from "../Comment/Comment";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  commentState,
-  commentTypeState,
   feedDetailState,
   isLikeModalOpenState,
   isModalOpenState,
@@ -15,6 +13,7 @@ import { useTimeCalculate } from "../../../../hooks/useTimeCalculate";
 import { useLikeCalculate } from "../../../../hooks/useLikeCalcultate";
 import { useFeedAPI } from "../../../../api/useFeedAPI";
 import { useNavigate } from "react-router";
+import CommentInput from "../CommentInput/CommentInput";
 
 function FeedModal() {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
@@ -29,19 +28,12 @@ function FeedModal() {
     requestFeedDetail,
     requestFeedCollection,
     requestDeleteFeedCollection,
-    requestComment,
     requestFeedLike,
     requestDeleteFeedLike,
     requestDeleteFeed,
-    requestPostInnerComment,
-    // requestDeleteInnerComment,
-    // requestInnerCommentLike,
-    // requestDeleteInnerCommentLike,
   } = useFeedAPI();
   const [data, setData] = useRecoilState(feedDetailState);
   // 댓글 입력 값
-  const [value, setValue] = useRecoilState(commentState);
-  const [commentType, setCommentType] = useRecoilState(commentTypeState);
 
   const {
     userId,
@@ -68,6 +60,7 @@ function FeedModal() {
     innerCommentCount: 0,
     likeStatus,
   };
+  // console.log(data);
   // 날짜 계산
   const timeCalculate = useTimeCalculate();
   const diff_date = timeCalculate(createdAt);
@@ -77,6 +70,7 @@ function FeedModal() {
   const likeNum = likeCalculator(likeCount);
 
   const [isSettingClick, setIsSettingClick] = useState(false);
+  const [innerPost, setInnerPost] = useState(false);
 
   const setIsLikeModal = useSetRecoilState(isLikeModalOpenState);
 
@@ -124,11 +118,6 @@ function FeedModal() {
     // 좋아요 취소 요청 보내기
     requestDeleteFeedLike(feedId, setData);
   };
-
-  // const moreCommentHandler = () => {
-  //   alert("댓글 추가 요청");
-  // };
-
   const bookmarkHandler = () => {
     requestFeedCollection(feedId, setData);
   };
@@ -139,31 +128,6 @@ function FeedModal() {
 
   const likeModalHandler = () => {
     setIsLikeModal({ id: feedId, type: "feed" });
-  };
-
-  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    if (!value.includes(`@${commentType.nickname}`)) {
-      setCommentType((prev) => ({ ...prev, type: "comment" }));
-    } else {
-      setCommentType((prev) => ({ ...prev, type: "innerComment" }));
-    }
-  };
-
-  const [innerPost, setInnerPost] = useState(false);
-
-  const postHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const content = value;
-
-    if (commentType.type === "comment") {
-      requestComment(feedId, { content }, setData);
-    } else if (commentType.type === "innerComment") {
-      requestPostInnerComment(commentType.id, content, feedId, setData);
-      setInnerPost(true);
-    }
-    setCommentType({ id: -1, type: "comment", nickname: "" });
-    setValue("");
   };
 
   const profileClickHandler = () => {
@@ -275,14 +239,7 @@ function FeedModal() {
             <S.UploadText>{diff_date}</S.UploadText>
           </S.LikeUploadWrapper>
           {/* 댓글입력 */}
-          <S.CommentWrapper>
-            <S.CommentInput
-              placeholder="댓글 달기..."
-              value={value}
-              onChange={inputHandler}
-            />
-            <S.Button onClick={postHandler}>게시</S.Button>
-          </S.CommentWrapper>
+          <CommentInput feedId={feedId} setInnerPost={setInnerPost} />
         </S.RightWrapper>
       </S.Wrapper>
     </S.Overlay>

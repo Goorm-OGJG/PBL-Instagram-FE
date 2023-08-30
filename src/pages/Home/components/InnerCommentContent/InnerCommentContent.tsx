@@ -83,6 +83,14 @@ function InnerCommentContent({ innerComment, setInnerComments, commentId }: Prop
   };
 
   const myNickname = localStorage.getItem("nickname");
+  const tagHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target instanceof HTMLSpanElement) {
+      const tag = e.target.getAttribute("tag");
+      // console.log(tag);
+      navigate(`/explore/tags/${tag}`);
+    }
+  };
+
   return (
     <S.ProfileWrapper>
       <S.ProfileImgBox onClick={profileClickHandler}>
@@ -91,15 +99,10 @@ function InnerCommentContent({ innerComment, setInnerComments, commentId }: Prop
       {/* 유저 이름 댓글 내용 */}
       <S.TextWrapper>
         <S.UserName onClick={profileClickHandler}>{nickname}</S.UserName>
-        <S.CommentText>
-          {extractContent.map((content) => {
-            if (content.type === "tag") {
-              return <a>{content.text}&nbsp;</a>;
-            } else {
-              return <span>{content.text}&nbsp;</span>;
-            }
-          })}
-        </S.CommentText>
+        <S.CommentText
+          onClick={tagHandler}
+          dangerouslySetInnerHTML={{ __html: extractContent }}
+        ></S.CommentText>
         <S.CommentInfoWrapper>
           <S.UploadText>{`${diff_date}`}</S.UploadText>
           <React.Fragment>

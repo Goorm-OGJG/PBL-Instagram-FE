@@ -74,6 +74,15 @@ function CommentContent({ comment }: PropsType) {
     setValue(`${value}@${nickname}`);
     setCommentType({ id: commentId, type: "innerComment", nickname: nickname });
   };
+
+  const tagHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target instanceof HTMLSpanElement) {
+      const tag = e.target.getAttribute("tag");
+      // console.log(tag);
+      navigate(`/explore/tags/${tag}`);
+    }
+  };
+
   const myNickname = localStorage.getItem("nickname");
   return (
     <S.ProfileWrapper>
@@ -83,14 +92,19 @@ function CommentContent({ comment }: PropsType) {
       {/* 유저 이름 댓글 내용 */}
       <S.TextWrapper>
         <S.UserName onClick={profileClickHandler}>{nickname}</S.UserName>
-        <S.CommentText>
-          {extractContent.map((content) => {
+        <S.CommentText
+          onClick={tagHandler}
+          dangerouslySetInnerHTML={{ __html: extractContent }}
+        >
+          {/* {extractContent} */}
+
+          {/* {extractContent.map((content) => {
             if (content.type === "tag") {
-              return <a>{content.text}&nbsp;</a>;
+              return content.text;
             } else {
-              return <span>{content.text}&nbsp;</span>;
+              return content.text;
             }
-          })}
+          })} */}
         </S.CommentText>
         {commentId !== -1 && (
           <S.CommentInfoWrapper>

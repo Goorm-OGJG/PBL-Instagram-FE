@@ -2,15 +2,18 @@ import dayjs from "dayjs";
 
 export const useTimeCalculate = () => {
   const timeCalculator = (date: string) => {
-    const now = dayjs(new Date());
+    // const now = dayjs(new Date());
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
+    const utcNow = dayjs(utc);
     const uploadDate = dayjs(date);
-
-    const diff_y = now.diff(uploadDate, "y");
-    const diff_M = now.diff(uploadDate, "M");
-    const diff_d = now.diff(uploadDate, "d");
-    const diff_h = now.diff(uploadDate, "h");
-    const diff_m = now.diff(uploadDate, "m");
-    const diff_s = now.diff(uploadDate, "s");
+    console.log(now, uploadDate);
+    const diff_y = utcNow.diff(uploadDate, "y");
+    const diff_M = utcNow.diff(uploadDate, "M");
+    const diff_d = utcNow.diff(uploadDate, "d");
+    const diff_h = utcNow.diff(uploadDate, "h");
+    const diff_m = utcNow.diff(uploadDate, "m");
+    const diff_s = utcNow.diff(uploadDate, "s");
 
     if (diff_y > 0) {
       return `${diff_y}년 전`;

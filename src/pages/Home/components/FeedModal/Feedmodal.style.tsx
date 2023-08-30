@@ -42,6 +42,7 @@ export const Wrapper = styled.section`
   border-radius: 5px;
   overflow: hidden;
   width: fit-content;
+  max-height: 600px;
 `;
 
 // 이미지 관련
@@ -50,6 +51,7 @@ export const ImgBox = styled.div`
   position: relative;
   scroll-behavior: smooth;
   width: 500px;
+  background-color: ${COLOR.White};
 `;
 
 export const Images = styled.div`
@@ -196,11 +198,7 @@ export const IconFillBox = styled(IconBox)<IconProps>`
 
 export const Comments = styled.div`
   flex: 1;
-  overflow: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  overflow-y: scroll;
 `;
 
 export const IconWrapper = styled.div`
@@ -226,35 +224,6 @@ export const LikeText = styled.span`
 export const UploadText = styled.span`
   cursor: pointer;
   font-size: ${FONT.XS};
-`;
-
-export const CommentWrapper = styled.form`
-  padding: 8px 16px;
-  display: flex;
-`;
-export const CommentInput = styled.input`
-  outline: none;
-  border: none;
-  padding: 10px 0;
-  resize: none;
-  flex: 1;
-  font-size: ${FONT.S};
-  &::placeholder {
-    color: ${COLOR.Gray3};
-  }
-`;
-
-export const Button = styled.button`
-  border: none;
-  color: ${COLOR.Blue2};
-  font-weight: ${FONT.Bold};
-  font-size: ${FONT.S};
-  background-color: transparent;
-  cursor: pointer;
-  padding: 0;
-  &:hover {
-    color: ${COLOR.Black};
-  }
 `;
 
 export const CloseBox = styled.div`

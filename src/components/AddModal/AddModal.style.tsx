@@ -135,6 +135,7 @@ export const SecondStepWrapper = styled(FirstStepWrapper)`
 // 2단계 이미지 동영상 들어가는 부분
 export const ImgWrapper = styled.div<StyleProps>`
   /* width: 80%; */
+  flex: 2;
   position: relative;
   ${(props) =>
     props.type === "feed"
@@ -169,9 +170,9 @@ export const ArrowRightBox = styled(ArrowBox)`
 `;
 // 2단계 글쓰는 부분들
 export const SecondRightWrapper = styled.div`
-  width: 340px;
+  /* width: 340px; */
   display: flex;
-  flex: 1px;
+  flex: 1;
   flex-direction: column;
   height: 100%;
 `;

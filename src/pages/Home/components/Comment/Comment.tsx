@@ -18,12 +18,14 @@ function Comment({ comment, innerPost, setInnerPost }: PropsType) {
   const { requestInnerComment } = useFeedAPI();
   const [showInner, setShowInner] = useState(false);
   useEffect(() => {
-    requestInnerComment(comment.commentId, setInnerComments);
-    setInnerPost(false);
+    if (comment.commentId !== -1) {
+      requestInnerComment(comment.commentId, setInnerComments);
+      setInnerPost(false);
+    }
   }, [innerPost]);
 
   const showInnerCommentHandler = () => {
-    if (innerComments.length === 0) {
+    if (!showInner) {
       requestInnerComment(comment.commentId, setInnerComments);
       setShowInner(true);
     } else {
