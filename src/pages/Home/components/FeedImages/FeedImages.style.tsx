@@ -53,12 +53,15 @@ export const Arrow = styled.div<ArrowProps>`
     `};
 `;
 export const ImgBox = styled.div`
-  width: 100%;
-  height: fit-content;
+  width: 470px;
+  height: 470px;
   display: flex;
   overflow-x: hidden;
   scroll-behavior: smooth;
   border-radius: 5px;
+  align-items: center;
+  background-color: ${COLOR.Gray5};
+  overflow-y: hidden;
 `;
 
 export const FeedImgBox = styled.div`

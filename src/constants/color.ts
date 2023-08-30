@@ -2,6 +2,7 @@ export const Gray1 = "#F5F5F5";
 export const Gray2 = "#A8A8A8";
 export const Gray3 = "#737373";
 export const Gray4 = "#363636";
+export const Gray5 = "#111111";
 
 export const Blue1 = "#E0F1FF";
 export const Blue2 = "#0095F6";

@@ -93,16 +93,16 @@ function FeedModal() {
   const rightHandler = () => {
     const current = imgboxRef.current;
     if (pos < feedMedias.length - 1) {
-      current?.scrollBy(500, 0);
+      current?.scrollBy(499.99, 0);
       setPos(pos + 1);
     }
   };
 
   const leftHandler = () => {
     const current = imgboxRef.current;
-    current?.scrollBy(-500, 0);
+    // current?.scrollBy(-499.99, 0);
     if (pos > 0) {
-      current?.scrollBy(-500, 0);
+      current?.scrollBy(-499.99, 0);
       setPos(pos - 1);
     }
   };
