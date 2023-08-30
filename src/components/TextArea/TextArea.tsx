@@ -18,7 +18,7 @@ function TextArea() {
     <S.AreaBox>
       <S.TextLength>{`${value.length}/2200`}</S.TextLength>
       <S.TextAreaStyle
-        rows={10}
+        rows={19}
         value={value}
         onChange={changeHandelr}
         placeholder="문구 입력..."

@@ -8,12 +8,17 @@ interface StylePropsType {
   nowStory: number;
 }
 
+interface OtherStoryProps {
+  readAll: boolean;
+}
+
 export const StoryWrapper = styled.div<StylePropsType>`
-  max-width: 600px;
-  height: 95vh;
-  max-height: 1068px;
-  min-height: 580px;
+  width: 400px;
+  /* height: 95vh; */
+  height: 800px;
+  /* min-height: 580px; */
   color: white;
+  background-color: ${COLOR.Gray5};
   position: absolute;
   border-radius: 5px;
   display: flex;
@@ -23,16 +28,15 @@ export const StoryWrapper = styled.div<StylePropsType>`
   left: 50%;
   transform: translate(-50%, -50%);
   transition: 0.5s;
-
   ${(props) => {
     const index = props.index;
     const nowStory = props.nowStory;
     if (index !== nowStory) {
       let position = "0px";
       if (Math.abs(index - nowStory) === 1) {
-        position = `${(index - nowStory) * 500}px`;
-      } else {
         position = `${(index - nowStory) * 400}px`;
+      } else {
+        position = `${(index - nowStory) * 300}px`;
       }
 
       return css`
@@ -48,7 +52,8 @@ export const StoryWrapper = styled.div<StylePropsType>`
 `;
 
 export const StoryImgs = styled.div`
-  height: auto;
+  width: 400px;
+  height: 800px;
   object-fit: fill;
   position: relative;
   border-radius: 5px;
@@ -61,11 +66,11 @@ export const StoryImgs = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 export const StoryImg = styled.img`
-  height: 100%;
-  max-width: 600px;
+  width: 400px;
   object-fit: fill;
   position: relative;
   border-radius: 5px;
@@ -127,26 +132,30 @@ export const OtherProfileBox = styled.div`
   gap: 3px;
 `;
 
-export const OtherProfileDiv = styled.div`
-  width: 80px;
-  height: 80px;
+export const OtherProfileDiv = styled.div<OtherStoryProps>`
+  width: 58px;
+  height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(${COLOR.Main});
+  ${(props) =>
+    props.readAll &&
+    css`
+      background: linear-gradient(${COLOR.Main});
+    `}
   border-radius: 50%;
 `;
 export const OtherProfileImg = styled.img`
-  width: 74px;
-  height: 74px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background-color: ${COLOR.Gray4};
 `;
 
 export const OtherName = styled(UserName)`
-  font-size: ${FONT.XL};
+  font-size: ${FONT.M};
 `;
 
 export const OtherUpload = styled(UploadTime)`
-  font-size: ${FONT.XL};
+  font-size: ${FONT.M};
 `;

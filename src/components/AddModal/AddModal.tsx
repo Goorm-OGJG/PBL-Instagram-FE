@@ -86,8 +86,11 @@ function AddModal({ type }: Props) {
   // 스크롤 여러번 누를 시 이상하게 됨
   const rightHandler = () => {
     const current = imgboxRef.current;
-    const width = current!.clientWidth;
-    if (current!.scrollLeft % width === 0) {
+    // const width = current!.clientWidth;
+    const width = whichAddModalOpen === "feed" ? 499.97 : 399.97;
+    // console.log(current!.scrollLeft % width);
+    // console.log(current!.scrollLeft % width === 0);
+    if (0 <= current!.scrollLeft % width && current!.scrollLeft % width < 0.3) {
       if (files && pos < files.length - 1) {
         current?.scrollBy(width, 0);
         setPos(pos + 1);
@@ -98,8 +101,9 @@ function AddModal({ type }: Props) {
   const leftHandler = () => {
     const current = imgboxRef.current;
     // current?.scrollBy(-800, 0);
-    const width = current!.clientWidth;
-    if (current!.scrollLeft % width === 0) {
+    const width = whichAddModalOpen === "feed" ? 499.97 : 399.97;
+    // console.log(current!.scrollLeft % width === 0);
+    if (0 <= current!.scrollLeft % width && current!.scrollLeft % width < 0.3) {
       if (pos > 0) {
         current?.scrollBy(-1 * width, 0);
         setPos(pos - 1);
