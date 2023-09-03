@@ -61,6 +61,7 @@ export const Images = styled.div`
 `;
 export const Img = styled.img`
   min-width: 500px;
+  height: 500px;
   width: 500px;
   object-fit: contain;
 `;
