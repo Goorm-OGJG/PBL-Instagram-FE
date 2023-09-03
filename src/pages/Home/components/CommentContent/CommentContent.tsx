@@ -34,7 +34,7 @@ function CommentContent({ comment }: PropsType) {
 
   const { extractHashTagsElement } = useHashTag();
   const extractContent = extractHashTagsElement(content);
-
+  console.log(extractContent);
   const [isSettingClick, setIsSettingClick] = useState(false);
 
   const navigate = useNavigate();

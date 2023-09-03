@@ -153,7 +153,7 @@ export const Images = styled.div<StyleProps>`
   overflow: hidden;
   scroll-behavior: smooth;
   width: 500px;
-  height: 500px;
+  /* height: 500px; */
 `;
 
 export const ArrowBox = styled.div`
