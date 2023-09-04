@@ -4,12 +4,9 @@ import * as Icon from "../../../components/Icon";
 import useFollowAPI from "../../../api/useFollowAPI";
 import { useState, useEffect } from "react";
 import * as T from "../../../types/client/follow.client";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import { ProfileState, UserIdState, SecretState } from "../../../recoil/profileState";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { ProfileState, UserIdState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
-import useProfileAPI from "../../../api/useProfileAPI";
-import { useParams } from "react-router";
-import React from "react";
 
 interface FollowPropsType {
   followModal: boolean;
@@ -27,13 +24,11 @@ export default function FollowerModal({
   const localId = localIdString !== null ? parseInt(localIdString) : null;
   const localNickname = localStorage.getItem("nickname");
   const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState);
-  const { nickname } = useParams();
   //🔥 API
   const [followerData, setFollowerData] = useState<T.FollowerResponseType[]>([]);
   const [followData, setFollowData] = useState<T.FollowResponseType[]>([]);
   const [userId, setUserId] = useRecoilState<number>(UserIdState);
-  const setSecret = useSetRecoilState<boolean>(SecretState);
-  const setProfileInfo = useSetRecoilState<ProfileResponseType>(ProfileState);
+
   const {
     requestFollowerList,
     requestDeleteFollower,
@@ -41,7 +36,6 @@ export default function FollowerModal({
     requestDeleteFollowing,
     requestPostFollowing,
   } = useFollowAPI();
-  const { requestProfileInfo } = useProfileAPI();
   const handleModalContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // 이벤트 버블링을 방지하여 모달이 닫히지 않도록 함
     e.stopPropagation();
@@ -59,7 +53,6 @@ export default function FollowerModal({
     try {
       await requestPostFollowing(followId);
       requestFollowerList(userId, setFollowerData);
-      requestProfileInfo(nickname as string, setProfileInfo, setSecret);
       alert("팔로우 요청이 되었습니다.");
     } catch (error) {
       console.error("Error deleting follower:", error);
@@ -70,14 +63,9 @@ export default function FollowerModal({
     followId: number,
     setFollowerData: React.Dispatch<React.SetStateAction<T.FollowerResponseType[]>>,
   ) => {
-    console.log(followerData);
-
     try {
       await requestDeleteFollower(followId);
       requestFollowerList(userId, setFollowerData);
-      requestProfileInfo(nickname as string, setProfileInfo, setSecret);
-      console.log("followId", followId);
-      console.log("userId", userId);
     } catch (error) {
       console.error("Error deleting follower:", error);
     }
@@ -89,7 +77,6 @@ export default function FollowerModal({
     try {
       await requestDeleteFollowing(followId);
       requestFollowingList(userId, setFollowData);
-      requestProfileInfo(nickname as string, setProfileInfo, setSecret);
     } catch (error) {
       console.error("Error deleting follower:", error);
     }

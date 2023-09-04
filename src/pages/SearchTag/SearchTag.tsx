@@ -12,6 +12,45 @@ import { useState, useEffect } from "react";
 import { useSearchAPI } from "../../api/useSearchAPI";
 import { useParams } from "react-router-dom";
 
+// interface FeedList {
+//   feedId: number;
+//   mediaUrl: string;
+//   mediaOne: boolean;
+//   likeCount: number;
+//   commentCount: number;
+// }
+
+// const feeds: FeedList[] = [
+//   {
+//     feedId: 1,
+//     mediaUrl: "https://www.job-post.co.kr/news/photo/202302/69349_71769_752.png",
+//     mediaOne: true,
+//     likeCount: 200,
+//     commentCount: 1,
+//   },
+//   {
+//     feedId: 2,
+//     mediaUrl: "https://www.job-post.co.kr/news/photo/202302/69349_71769_752.png",
+//     mediaOne: true,
+//     likeCount: 200,
+//     commentCount: 1,
+//   },
+//   {
+//     feedId: 3,
+//     mediaUrl: "https://www.job-post.co.kr/news/photo/202302/69349_71769_752.png",
+//     mediaOne: true,
+//     likeCount: 200,
+//     commentCount: 1,
+//   },
+//   {
+//     feedId: 4,
+//     mediaUrl: "https://www.job-post.co.kr/news/photo/202302/69349_71769_752.png",
+//     mediaOne: true,
+//     likeCount: 200,
+//     commentCount: 1,
+//   },
+// ];
+
 function SearchTag() {
   // const [feeds, setFeeds] = useState<FeedList[]>([]);
   const { query } = useParams();
@@ -22,7 +61,6 @@ function SearchTag() {
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
   const taggedList = tagFeedList?.taggedList;
-  console.log(taggedList);
   useEffect(() => {
     console.log(query);
     requestTagSearch(
@@ -31,6 +69,7 @@ function SearchTag() {
     );
     console.log(tagFeedList);
   }, [query]);
+
   return (
     <div>
       <Sidebar />
@@ -61,23 +100,13 @@ function SearchTag() {
                       {overlay && ImgId === feed.feedId && (
                         <>
                           {" "}
-                          <S.FeedHoverItem
-                            onMouseEnter={() => {
-                              setOverlay(true);
-                              setImgId(feed.feedId);
-                            }}
-                          >
+                          <S.FeedHoverItem>
                             <Icon.HeartFill size={20} />
-                            {feed.likeCount}
+                            {/* {feed.likeCount} */}
                           </S.FeedHoverItem>{" "}
-                          <S.FeedHoverItem
-                            onMouseEnter={() => {
-                              setOverlay(true);
-                              setImgId(feed.feedId);
-                            }}
-                          >
+                          <S.FeedHoverItem>
                             <Icon.CommentFill size={16} />
-                            {feed.commentCount}
+                            {/* {feed.commentCount} */}
                           </S.FeedHoverItem>
                         </>
                       )}
@@ -88,11 +117,8 @@ function SearchTag() {
                     ) === "mp4" ? (
                       <S.FeedImg
                         as="video"
-                        overlay={overlay}
                         src={feed.mediaUrl}
-                        feedId={feed.feedId}
-                        ImgId={ImgId}
-                        alt="feedImg"
+                        alt="dd"
                         onMouseEnter={() => {
                           setOverlay(true);
                           setImgId(feed.feedId);
@@ -104,11 +130,8 @@ function SearchTag() {
                       />
                     ) : (
                       <S.FeedImg
-                        overlay={overlay}
                         src={feed.mediaUrl}
-                        feedId={feed.feedId}
-                        ImgId={ImgId}
-                        alt="feedImg"
+                        alt="dd"
                         onMouseEnter={() => {
                           setOverlay(true);
                           setImgId(feed.feedId);

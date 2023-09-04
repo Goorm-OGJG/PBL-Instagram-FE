@@ -42,7 +42,6 @@ export const Wrapper = styled.section`
   border-radius: 5px;
   overflow: hidden;
   width: fit-content;
-  max-height: 600px;
 `;
 
 // 이미지 관련
