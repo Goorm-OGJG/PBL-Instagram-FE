@@ -65,4 +65,8 @@ export const SearchResultBox = styled.div`
   position: relative;
   padding-top: 10px;
   flex: 1;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
