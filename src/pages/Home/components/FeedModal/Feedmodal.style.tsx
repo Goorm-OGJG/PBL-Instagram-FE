@@ -67,7 +67,7 @@ export const Img = styled.img`
 `;
 
 export const ArrowBox = styled.div`
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.3);
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -75,7 +75,7 @@ export const ArrowBox = styled.div`
   cursor: pointer;
   transition: 0.3s;
   &:hover {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -101,10 +101,10 @@ export const PosDot = styled.span<StyleProps>`
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
 
   &:nth-child(${(props) => props.pos + 1}) {
-    background-color: ${COLOR.White};
+    background-color: rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -112,6 +112,7 @@ export const PosDot = styled.span<StyleProps>`
 export const RightWrapper = styled.div`
   max-width: 500px;
   min-width: 400px;
+  height: 500px;
   background-color: white;
   display: flex;
   flex-direction: column;

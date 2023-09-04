@@ -92,8 +92,8 @@ function FeedModal() {
 
   const rightHandler = () => {
     const current = imgboxRef.current;
-    if (pos < feedMedias.length - 1) {
-      current?.scrollBy(499.99, 0);
+    if (pos < feedMedias.length - 1 && current!.scrollLeft % 500 == 0) {
+      current?.scrollBy(500, 0);
       setPos(pos + 1);
     }
   };
@@ -101,8 +101,8 @@ function FeedModal() {
   const leftHandler = () => {
     const current = imgboxRef.current;
     // current?.scrollBy(-499.99, 0);
-    if (pos > 0) {
-      current?.scrollBy(-499.99, 0);
+    if (pos > 0 && current!.scrollLeft % 500 == 0) {
+      current?.scrollBy(-500, 0);
       setPos(pos - 1);
     }
   };
