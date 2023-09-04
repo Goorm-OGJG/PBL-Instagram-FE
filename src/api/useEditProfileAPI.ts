@@ -13,7 +13,6 @@ export default function useEditProfileAPI() {
     setText: React.Dispatch<React.SetStateAction<string>>,
     setIsChecked: React.Dispatch<React.SetStateAction<boolean>>,
     setIsOn: SetterOrUpdater<boolean>,
-    setCountText: React.Dispatch<React.SetStateAction<number>>,
   ) => {
     axios
       .get(`${editProfleURL}/profile`)
@@ -22,7 +21,6 @@ export default function useEditProfileAPI() {
         setText(response.data.userIntro);
         setIsChecked(response.data.recommended);
         setIsOn(response.data.secret);
-        setCountText(response.data.userIntro.length);
       })
       .catch((error) => {
         alert(error);

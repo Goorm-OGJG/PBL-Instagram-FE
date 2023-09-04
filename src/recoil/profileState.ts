@@ -23,11 +23,6 @@ export const UserIdState = atom<number>({
   default: 10000000000,
 });
 
-export const SecretState = atom<boolean>({
-  key: "secret",
-  default: false,
-});
-
 export const ProfileState = atom<ProfileResponseType>({
   key: "profileInfo",
   default: {
