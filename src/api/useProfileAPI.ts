@@ -1,3 +1,4 @@
+import { SetterOrUpdater } from "recoil";
 import { useAxios } from "./useAxios";
 import * as T from "../types/client/profile.client";
 
@@ -10,11 +11,14 @@ export default function useProfileAPI() {
   const requestProfileInfo = async (
     nickname: string,
     setPofileInfo: React.Dispatch<React.SetStateAction<T.ProfileResponseType>>,
+    setSecret: SetterOrUpdater<boolean>,
   ) => {
     await axios
       .get(`${profileURL}/${nickname}`)
       .then((response) => {
         setPofileInfo(response.data);
+        setSecret(response.data.secret);
+        console.log(response.data.secret);
       })
       .catch((error) => {
         alert(error);
