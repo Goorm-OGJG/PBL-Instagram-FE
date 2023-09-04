@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import FollowerModal from "./FollowerModal";
 import { useRecoilState } from "recoil";
-import { ProfileState } from "../../../recoil/profileState";
+import { ProfileState, SecretState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
 import useProfileAPI from "../../../api/useProfileAPI";
 import useFollowAPI from "../../../api/useFollowAPI";
@@ -18,9 +18,9 @@ function ProfileHeader() {
   const [followModal, setFollowModal] = useState<boolean>(false);
   const [profileInfo, setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState); // 받아온 프로필 정보 데이터
   const [buttonText, setButtonText] = useState<string>("");
-
+  const [secret, setSecret] = useRecoilState<boolean>(SecretState);
   const profileUserId = profileInfo.userId;
-  const isSecret = profileInfo.secretStatus;
+
   // 🔥
   const { requestPostFollowing, requestDeleteFollower } = useFollowAPI();
   const { requestProfileInfo } = useProfileAPI();
@@ -29,10 +29,10 @@ function ProfileHeader() {
       navigate(`/accounts/${profileInfo.nickname}/edit`);
     } else if (!profileInfo.followingStatus && localId !== profileUserId) {
       await requestPostFollowing(profileUserId);
-      await requestProfileInfo(nickname as string, setProfileInfo);
+      await requestProfileInfo(nickname as string, setProfileInfo, setSecret);
     } else if (localId !== profileUserId && profileInfo.followingStatus === true) {
       await requestDeleteFollower(profileUserId);
-      await requestProfileInfo(nickname as string, setProfileInfo);
+      await requestProfileInfo(nickname as string, setProfileInfo, setSecret);
     }
   };
   const updateButton = () => {
@@ -44,6 +44,11 @@ function ProfileHeader() {
         : "팔로우 취소";
     setButtonText(newButtonText);
   };
+  useEffect(() => {
+    if (nickname !== undefined) {
+      requestProfileInfo(nickname, setProfileInfo, setSecret);
+    }
+  }, [nickname]);
   useEffect(() => {
     updateButton();
   }, [profileInfo]);
@@ -78,7 +83,7 @@ function ProfileHeader() {
             <S.UserFollowing
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
-                if (!isSecret) {
+                if (!secret || localId === profileUserId) {
                   setFollowerModal((prev) => !prev);
                 }
               }}
@@ -96,7 +101,7 @@ function ProfileHeader() {
             <S.UserFollower
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
-                if (!isSecret) {
+                if (!secret || localId === profileUserId) {
                   setFollowModal((prev) => !prev);
                 }
               }}

@@ -21,6 +21,7 @@ export const Overlay = styled.div`
 `;
 
 export const Wrapper = styled.div<StyleProps>`
+  width: 70%;
   height: ${(props) => props.step === 1 && "70%"}; // 단계에 따라 변경 필요할 듯
   position: absolute;
   background-color: ${COLOR.White};
@@ -98,7 +99,7 @@ export const FirstStepWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 30px;
-  gap: 10px;
+  gap: 15px;
 `;
 
 export const Span = styled.span`
@@ -133,14 +134,13 @@ export const SecondStepWrapper = styled(FirstStepWrapper)`
 
 // 2단계 이미지 동영상 들어가는 부분
 export const ImgWrapper = styled.div<StyleProps>`
+  /* width: 80%; */
+  flex: 2;
   position: relative;
-  display: flex;
-  align-items: center;
   ${(props) =>
     props.type === "feed"
       ? css`
           width: 500px;
-          height: 500px;
         `
       : css`
           width: 400px;
@@ -148,12 +148,11 @@ export const ImgWrapper = styled.div<StyleProps>`
         `}
 `;
 
-export const Images = styled.div<StyleProps>`
+export const Images = styled.div`
+  width: 100%;
   display: flex;
-  overflow: hidden;
   scroll-behavior: smooth;
-  width: 500px;
-  /* height: 500px; */
+  overflow: hidden;
 `;
 
 export const ArrowBox = styled.div`
@@ -171,18 +170,21 @@ export const ArrowRightBox = styled(ArrowBox)`
 `;
 // 2단계 글쓰는 부분들
 export const SecondRightWrapper = styled.div`
-  width: 320px;
+  /* width: 340px; */
   display: flex;
+  flex: 1;
   flex-direction: column;
+  height: 100%;
 `;
 
 export const Img = styled.img<StyleProps>`
+  max-width: 100%;
+  object-fit: fill;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
-  object-fit: contain;
   ${(props) =>
     props.type === "feed"
       ? css`
@@ -190,6 +192,7 @@ export const Img = styled.img<StyleProps>`
         `
       : css`
           width: 400px;
+          height: 800px;
         `}
 `;
 
