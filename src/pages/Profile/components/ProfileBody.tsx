@@ -1,154 +1,232 @@
-import styled, { css } from "styled-components";
-import * as FONT from "../../../constants/font";
-import * as COLOR from "../../../constants/color";
+import * as S from "./ProfileBody.style";
+import * as T from "../../../types/client/profile.client";
+import * as Icon from "../../../components/Icon";
+import { useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useRef, useState, useEffect } from "react";
+import {
+  ItemState,
+  OverlayState,
+  ImgIdState,
+  ProfileState,
+  UserIdState,
+  SecretState,
+} from "../../../recoil/profileState";
+import useProfileAPI from "../../../api/useProfileAPI";
+import { isModalOpenState, whichAddModalOpenState } from "../../../recoil/homeState";
+import FeedModal from "../../Home/components/FeedModal/FeedModal";
+import AddModal from "../../../components/AddModal/AddModal";
 
-interface PropsType {
-  fontSize?: string;
-  fontWeight?: string;
-  backGround?: string;
-  fontColor?: string;
-  isactive?: string;
-  overlay?: boolean;
-  feedId?: number;
-  ImgId?: number;
+interface FeedList {
+  feedId: number;
+  mediaUrl: string;
+  mediaOne: boolean;
+  likeCount: number;
+  commentCount: number;
 }
-// profile 바디
-export const ProfileWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: calc(100%-40px);
-  max-width: 935px;
-  margin: 0 auto 30px;
-  min-height: 100vh;
-  padding: 30px 20px 0;
-  overflow-x: hidden;
-`;
 
-export const ProfileNavbar = styled.div`
-  display: flex;
-  justify-content: center;
-  border-top: 1px solid ${COLOR.Gray4};
-  font-size: ${FONT.XS};
-  color: ${COLOR.Gray2};
-  font-weight: ${FONT.Medium};
-`;
+export default function ProfileBody() {
+  const localIdString = localStorage.getItem("userId");
+  let localId: number | null = null;
+  // localStorage 값
+  if (localIdString !== null) {
+    localId = parseInt(localIdString);
+  }
+  const { nickname } = useParams();
+  const localnickname = localStorage.getItem("nickname");
+  const observerRef = useRef<HTMLDivElement | null>(null);
+  const whichModalOpen = useRecoilValue(whichAddModalOpenState);
+  const { requestProfileFeed, requestSavedFeed } = useProfileAPI();
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const profileInfo = useRecoilValue<T.ProfileResponseType>(ProfileState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
+  const [item, setItem] = useRecoilState<boolean>(ItemState);
+  const [feeds, setFeeds] = useState<FeedList[]>([]);
+  const [overlay, setOverlay] = useRecoilState<boolean>(OverlayState);
+  const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
+  const userId = useRecoilValue<number>(UserIdState);
+  const secret = useRecoilValue<boolean>(SecretState);
 
-export const ProfileItem = styled.button<PropsType>`
-  display: flex !important;
-  align-items: center;
-  margin: 0px 70px;
-  height: 52px;
-  text-decoration: none;
-  background: none;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  font-size: ${FONT.XS};
-  font-weight: ${FONT.Bold};
-  color: ${COLOR.Gray3};
-  ${(PropsType) =>
-    PropsType.isactive === "true" &&
-    css`
-      border-top: 1px solid ${COLOR.Gray1};
-      color: ${COLOR.Gray1};
-    `}
-`;
-export const ProfileText = styled.div`
-  margin-left: 10px;
-`;
-export const FeedContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  row-gap: 5px;
-  column-gap: 5px;
-`;
+  const handleFeedListClick = () => {
+    setItem(false);
+    const newData = feeds;
+    setFeeds(newData);
+  };
+  const handleSavedListClick = () => {
+    setItem(true);
+    const newData = feeds;
+    setFeeds(newData);
+  };
 
-export const FeedBox = styled.div`
-  position: relative;
-  color: white;
-  width: 100%;
-  height: 300px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  align-self: center;
-  justify-content: center;
-`;
+  const loadMoreFeeds = async () => {
+    setLoading(true);
+    try {
+      {
+        if (!item && feeds.length > 0) {
+          //🔥 API
+          requestProfileFeed(nickname as string, page, 9, setFeeds);
+          setFeeds((prev) => [...prev, ...feeds]);
+          setPage(page + 1);
+        } else if (item && feeds.length > 0) {
+          //🔥 API
+          requestSavedFeed(page, 9, setFeeds);
+          setFeeds((prev) => [...prev, ...feeds]);
+          setPage(page + 1);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !loading) {
+          loadMoreFeeds();
+        }
+      });
+    });
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, []);
+  useEffect(() => {
+    if (!item && nickname !== undefined) {
+      requestProfileFeed(nickname, page, 9, setFeeds);
+    }
+    if (userId !== null && item) {
+      requestSavedFeed(page, 9, setFeeds);
+    }
+    // console.log(page);
+  }, [item, nickname]);
 
-export const FeedImg = styled.img<PropsType>`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: ${(PropsType) =>
-    PropsType.overlay && PropsType.feedId === PropsType.ImgId
-      ? "brightness(0.5)"
-      : "brightness(1)"};
-`;
-
-export const FeedHoverMutiple = styled.div`
-  position: absolute;
-  display: flex;
-  right: 0;
-  font-size: ${FONT.ML};
-  font-weight: ${FONT.Bold};
-  z-index: 10;
-`;
-
-export const FeedHover = styled.div`
-  position: absolute;
-  display: flex;
-  align-self: center;
-  justify-content: center;
-  font-size: ${FONT.ML};
-  font-weight: ${FONT.Bold};
-  z-index: 100;
-`;
-
-export const FeedHoverMultiItem = styled.div`
-  padding: 5px 10px;
-  align-self: center;
-  justify-content: center;
-  font-size: ${FONT.ML};
-  font-weight: ${FONT.Bold};
-  color: rgba(255, 255, 255, 0.8);
-`;
-
-export const FeedHoverItem = styled.div`
-  padding: 0px 15px;
-  align-self: center;
-  justify-content: center;
-  font-size: ${FONT.ML};
-  font-weight: ${FONT.Bold};
-`;
-export const Observer = styled.div`
-  opacity: 0;
-`;
-
-// 시크릿 모드
-export const SecretContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 150px;
-  width: 100%;
-  padding: 40px;
-  border: 1px solid ${COLOR.Gray4};
-`;
-export const SecretBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  font-size: ${FONT.S};
-  font-weight: ${FONT.Medium};
-  color: ${COLOR.Gray1};
-  margin: 0 auto;
-`;
-export const SecretScript = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  line-height: 24px;
-  margin: 10px 0px;
-`;
+  return (
+    <>
+      <S.ProfileWrapper>
+        {/* 🔥 secret에 ! 느낌표 처리 할 것*/}
+        {!secret || nickname === localnickname ? (
+          <>
+            <S.ProfileNavbar>
+              <S.ProfileItem
+                isactive={!item ? "true" : "false"}
+                onClick={handleFeedListClick}
+              >
+                <Icon.Grid /> <S.ProfileText>게시물 </S.ProfileText>
+              </S.ProfileItem>
+              {/*  🔥  */}
+              {localId === profileInfo.userId && (
+                <S.ProfileItem
+                  isactive={item ? "true" : "false"}
+                  onClick={handleSavedListClick}
+                >
+                  <Icon.Bookmark /> <S.ProfileText>저장됨 </S.ProfileText>
+                </S.ProfileItem>
+              )}
+            </S.ProfileNavbar>
+            <S.FeedContainer>
+              {/* {(!item ? feedList : storageList) */}
+              {feeds.length > 0 &&
+                feeds.map((feed) => {
+                  return (
+                    <S.FeedBox
+                      key={feed.feedId}
+                      onClick={() => {
+                        setIsModalOpen(feed.feedId);
+                      }}
+                    >
+                      <S.FeedHoverMutiple>
+                        {!feed.mediaOne && (
+                          <S.FeedHoverMultiItem>
+                            <Icon.BoxMultiple size={20} />
+                          </S.FeedHoverMultiItem>
+                        )}
+                      </S.FeedHoverMutiple>
+                      <S.FeedHover>
+                        {overlay && ImgId === feed.feedId && (
+                          <>
+                            {" "}
+                            <S.FeedHoverItem
+                              onMouseEnter={() => {
+                                setOverlay(true);
+                                setImgId(feed.feedId);
+                              }}
+                            >
+                              <Icon.HeartFill size={20} /> {feed.likeCount}
+                            </S.FeedHoverItem>{" "}
+                            <S.FeedHoverItem
+                              onMouseEnter={() => {
+                                setOverlay(true);
+                                setImgId(feed.feedId);
+                              }}
+                            >
+                              <Icon.CommentFill size={16} /> {feed.commentCount}
+                            </S.FeedHoverItem>
+                          </>
+                        )}
+                      </S.FeedHover>
+                      {feed.mediaUrl.slice(
+                        feed.mediaUrl.length - 3,
+                        feed.mediaUrl.length,
+                      ) === "mp4" ? (
+                        <S.FeedImg
+                          as="video"
+                          overlay={overlay}
+                          feedId={feed.feedId}
+                          ImgId={ImgId}
+                          src={feed.mediaUrl}
+                          alt="feedImg"
+                          onMouseEnter={() => {
+                            setOverlay(true);
+                            setImgId(feed.feedId);
+                          }}
+                          onMouseLeave={() => {
+                            setOverlay(false);
+                            setImgId(100000000000);
+                          }}
+                        />
+                      ) : (
+                        <S.FeedImg
+                          overlay={overlay}
+                          feedId={feed.feedId}
+                          ImgId={ImgId}
+                          src={feed.mediaUrl}
+                          alt="feedImg"
+                          onMouseEnter={() => {
+                            setOverlay(true);
+                            setImgId(feed.feedId);
+                          }}
+                          onMouseLeave={() => {
+                            setOverlay(false);
+                            setImgId(100000000000);
+                          }}
+                        />
+                      )}
+                    </S.FeedBox>
+                  );
+                })}
+              <S.Observer ref={observerRef} />
+            </S.FeedContainer>
+          </>
+        ) : (
+          <S.SecretContainer>
+            <S.SecretBox>
+              <S.SecretScript>비공개 계정입니다.</S.SecretScript>
+              <S.SecretScript>사진 및 동영상을 보려면 팔로우하세요.</S.SecretScript>
+            </S.SecretBox>
+          </S.SecretContainer>
+        )}
+        {/*   */}
+      </S.ProfileWrapper>
+      {isModalOpen && <FeedModal />}
+      {whichModalOpen === "feed" && <AddModal type="feed" />}
+      {whichModalOpen === "story" && <AddModal type="story" />}
+    </>
+  );
+}
