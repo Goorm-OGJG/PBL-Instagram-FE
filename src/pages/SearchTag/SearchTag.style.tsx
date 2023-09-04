@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import * as FONT from "../../constants/font";
 import * as COLOR from "../../constants/color";
-
+interface PropsType {
+  overlay?: boolean;
+  feedId?: number;
+  ImgId?: number;
+}
 export const SearchTagWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,13 +42,14 @@ export const FeedBox = styled.div`
   justify-content: center;
 `;
 
-export const FeedImg = styled.img`
+export const FeedImg = styled.img<PropsType>`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  &:hover {
-    filter: brightness(0.5);
-  }
+  filter: ${(PropsType) =>
+    PropsType.overlay && PropsType.feedId === PropsType.ImgId
+      ? "brightness(0.5)"
+      : "brightness(1)"};
 `;
 
 export const FeedHoverMutiple = styled.div`
@@ -67,7 +72,7 @@ export const FeedHover = styled.div`
 `;
 
 export const FeedHoverMultiItem = styled.div`
-  margin: 5px 10px;
+  padding: 5px 10px;
   align-self: center;
   justify-content: center;
   font-size: ${FONT.ML};
@@ -76,7 +81,7 @@ export const FeedHoverMultiItem = styled.div`
 `;
 
 export const FeedHoverItem = styled.div`
-  margin: 0px 15px;
+  padding: 0px 15px;
   align-self: center;
   justify-content: center;
   font-size: ${FONT.ML};
