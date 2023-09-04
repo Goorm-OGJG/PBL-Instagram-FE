@@ -42,7 +42,6 @@ export const Wrapper = styled.section`
   border-radius: 5px;
   overflow: hidden;
   width: fit-content;
-  max-height: 600px;
 `;
 
 // 이미지 관련
@@ -61,8 +60,10 @@ export const Images = styled.div`
   width: 500px;
 `;
 export const Img = styled.img`
+  min-width: 500px;
+  height: 500px;
   width: 500px;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 export const ArrowBox = styled.div`

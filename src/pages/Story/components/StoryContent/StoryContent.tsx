@@ -25,7 +25,7 @@ function StoryContent({ story, index }: Props) {
   const isPlay = useRecoilValue(isPlayState);
   const navigate = useNavigate();
   // 업로드 시간 계산
-  const { createdAt, mediaList, nickname, profileImg } = story;
+  const { createdAt, mediaList, nickname, profileImg, readAll } = story;
   const timeCalculate = useTimeCalculate();
   const diff_date = timeCalculate(createdAt);
 
@@ -75,7 +75,7 @@ function StoryContent({ story, index }: Props) {
         {/* 현재 보고 있는 스토리가 아닐 때 */}
         {nowStory !== index && (
           <S.OtherProfileBox>
-            <S.OtherProfileDiv>
+            <S.OtherProfileDiv readAll={readAll}>
               <S.OtherProfileImg src={profileImg} />
             </S.OtherProfileDiv>
             <S.OtherName to="/home">{nickname}</S.OtherName>
