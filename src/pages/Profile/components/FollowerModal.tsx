@@ -66,6 +66,8 @@ export default function FollowerModal({
     try {
       await requestDeleteFollower(followId);
       requestFollowerList(userId, setFollowerData);
+      requestProfileInfo(nickname as string, setProfileInfo, setSecret);
+
     } catch (error) {
       console.error("Error deleting follower:", error);
     }
@@ -149,7 +151,7 @@ export default function FollowerModal({
                       <S.DeleteBtn
                         //🔥 API
                         onClick={() => {
-                          handleDeleteFollower(data.followId, setFollowerData);
+                          handleDeleteFollower(data.userId, setFollowerData);
                         }}
                       >
                         삭제
