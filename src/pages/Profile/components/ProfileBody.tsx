@@ -104,6 +104,7 @@ export default function ProfileBody() {
     if (userId !== null && item) {
       requestSavedFeed(page, 9, setFeeds);
     }
+    // console.log(page);
   }, [item, nickname]);
 
   return (

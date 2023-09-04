@@ -31,6 +31,7 @@ function EditProfile() {
   const [countText, setCountText] = useState(0);
   const profileImg = useRecoilValue<string>(EditImgState);
   const [isEditImgModal, setIsEditImgModal] = useRecoilState<boolean>(EditImgModalState);
+  const [localImg, setLocalImg] = useState<string>(" ");
   const file = useRecoilValue<File[]>(EditImgFileState);
   //🔥 API
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -57,6 +58,8 @@ function EditProfile() {
           imgUrl: editImg[0],
         };
         requestPutImgProfile(requestImgData);
+        setLocalImg(requestImgData.imgUrl);
+        localStorage.setItem("userImg", requestImgData.imgUrl);
       }
     }
     // 텍스트 수정후 백엔드에 전송
@@ -74,6 +77,11 @@ function EditProfile() {
   };
 
   useEffect(() => {
+    const storedImg = localStorage.getItem("userImg");
+    if (storedImg) {
+      setLocalImg(storedImg);
+    }
+
     //🔥 API
     const requestEdit = async () => {
       try {
@@ -99,10 +107,7 @@ function EditProfile() {
         <S.EditHeader>프로필 편집</S.EditHeader>
         <S.EditUserInfo>
           <S.EditUserImgBox>
-            <S.UserImg
-              src={profileImg ? profileImg : editProfileData.profileImg}
-              alt="profileImg"
-            />
+            <S.UserImg src={profileImg ? profileImg : localImg} alt="profileImg" />
           </S.EditUserImgBox>
           <S.EditUserTextBox>
             <S.UserNickname>{nickname}</S.UserNickname>

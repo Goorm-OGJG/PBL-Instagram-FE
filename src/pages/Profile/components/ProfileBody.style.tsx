@@ -12,7 +12,7 @@ interface PropsType {
   feedId?: number;
   ImgId?: number;
 }
-
+// profile 바디
 export const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: column;
