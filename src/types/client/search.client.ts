@@ -23,6 +23,4 @@ export interface TagFeedListType {
   feedId: number;
   mediaUrl: string;
   mediaOne: boolean;
-  commentCount: number;
-  likeCount: number;
 }
