@@ -7,7 +7,7 @@ export const useTimeCalculate = () => {
     const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
     const utcNow = dayjs(utc);
     const uploadDate = dayjs(date);
-    console.log(now, uploadDate);
+    // console.log(now, uploadDate);
     const diff_y = utcNow.diff(uploadDate, "y");
     const diff_M = utcNow.diff(uploadDate, "M");
     const diff_d = utcNow.diff(uploadDate, "d");

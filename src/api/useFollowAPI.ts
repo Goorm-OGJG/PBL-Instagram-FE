@@ -24,7 +24,7 @@ export default function useFollowAPI() {
   // // 팔로워 취소
   const requestDeleteFollower = async (followId: number) => {
     await axios
-      .delete(`${followerURL}/${followId}`)
+      .delete(`${followerURL}/${followId}/follower`)
       .then(() => {})
       .catch((error) => {
         alert(error);
