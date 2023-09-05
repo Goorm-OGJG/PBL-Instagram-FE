@@ -130,6 +130,7 @@ function EditProfile() {
                   setText(e.target.value);
                   setCountText(e.target.value.length);
                 }}
+                maxLength={150}
                 onKeyDown={handleKeyDown}
               />
               <S.InputCounter>{countText}/150</S.InputCounter>

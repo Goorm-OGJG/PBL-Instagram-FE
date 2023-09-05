@@ -25,7 +25,6 @@ export default function useEditProfileAPI() {
         }
         setIsChecked(response.data.recommended);
         setIsOn(response.data.secret);
-        setCountText(response.data.userIntro.length);
       })
       .catch((error) => {
         alert(error);
