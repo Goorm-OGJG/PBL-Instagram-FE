@@ -108,6 +108,7 @@ export const ProfileImg = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 export const UserName = styled(Link)`
@@ -150,6 +151,7 @@ export const OtherProfileImg = styled.img`
   height: 48px;
   border-radius: 50%;
   background-color: ${COLOR.Gray4};
+  cursor: pointer;
 `;
 
 export const OtherName = styled(UserName)`

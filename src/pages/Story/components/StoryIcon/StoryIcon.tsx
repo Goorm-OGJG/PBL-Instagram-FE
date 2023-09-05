@@ -36,10 +36,10 @@ function StoryIcon({ type, onClick, likeStatus }: Props) {
 
   const likeHandler = async () => {
     if (!likeStatus) {
-      alert("좋아요 취소 요청");
+      // alert("좋아요 취소 요청");
       requestDeleteStoryLike(storyId as string, setStoryData);
     } else {
-      alert("좋아요 요청");
+      // alert("좋아요 요청");
       requestPostStoryLike(storyId as string, setStoryData);
       // requestStoryList(setStoryData);
     }
