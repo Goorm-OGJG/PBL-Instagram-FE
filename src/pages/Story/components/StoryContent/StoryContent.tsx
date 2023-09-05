@@ -76,9 +76,12 @@ function StoryContent({ story, index }: Props) {
         {nowStory !== index && (
           <S.OtherProfileBox>
             <S.OtherProfileDiv readAll={readAll}>
-              <S.OtherProfileImg src={profileImg} />
+              <S.OtherProfileImg
+                src={profileImg}
+                onClick={() => navigate(`/accounts/${nickname}`)}
+              />
             </S.OtherProfileDiv>
-            <S.OtherName to="/home">{nickname}</S.OtherName>
+            <S.OtherName to={`/accounts/${nickname}`}>{nickname}</S.OtherName>
             <S.OtherUpload>{diff_date}</S.OtherUpload>
           </S.OtherProfileBox>
         )}
@@ -100,8 +103,11 @@ function StoryContent({ story, index }: Props) {
             </S.Progresses>
             <S.StoryInfo>
               <S.UserInfo>
-                <S.ProfileImg src={profileImg} />
-                <S.UserName to="/accounts/username">{nickname}</S.UserName>
+                <S.ProfileImg
+                  src={profileImg}
+                  onClick={() => navigate(`/accounts/${nickname}`)}
+                />
+                <S.UserName to={`/accounts/${nickname}`}>{nickname}</S.UserName>
                 <S.UploadTime>{diff_date}</S.UploadTime>
               </S.UserInfo>
               {nowStory === index && <ControlBox nickname={nickname} />}
