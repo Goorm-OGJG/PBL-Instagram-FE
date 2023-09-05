@@ -148,7 +148,7 @@ function AddModal({ type }: Props) {
           {step === 2 && (
             <S.SecondStepWrapper>
               <S.ImgWrapper type={whichAddModalOpen}>
-                <S.Images ref={imgboxRef}>
+                <S.Images ref={imgboxRef} type={whichAddModalOpen}>
                   {files?.map((file) => {
                     if (file.type.includes("video")) {
                       return (

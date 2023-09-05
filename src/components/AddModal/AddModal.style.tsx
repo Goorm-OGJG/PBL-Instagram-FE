@@ -152,13 +152,21 @@ export const Images = styled.div<StyleProps>`
   display: flex;
   overflow: hidden;
   scroll-behavior: smooth;
-  width: 500px;
-  /* height: 500px; */
+  ${(props) =>
+    props.type === "feed"
+      ? css`
+          width: 500px;
+          height: 500px;
+        `
+      : css`
+          width: 400px;
+          height: 800px;
+        `}
 `;
 
 export const ArrowBox = styled.div`
   display: flex;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.3);
   position: absolute;
   top: 50%;
   left: 10px;
@@ -182,14 +190,17 @@ export const Img = styled.img<StyleProps>`
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
-  object-fit: contain;
+  object-fit: cover;
   ${(props) =>
     props.type === "feed"
       ? css`
           width: 500px;
+          min-width: 500px;
+          height: 500px;
         `
       : css`
           width: 400px;
+          height: 800px;
         `}
 `;
 

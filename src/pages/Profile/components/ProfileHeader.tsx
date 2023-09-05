@@ -84,10 +84,11 @@ function ProfileHeader() {
             <S.UserFollowing
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
+
                 if (localId === profileUserId) {
-                  setFollowModal((prev) => !prev);
+                  setFollowerModal((prev) => !prev);
                 } else if (localId !== profileUserId && !secret) {
-                  setFollowModal((prev) => !prev);
+                  setFollowerModal((prev) => !prev);
                 }
                 setUserId(profileInfo.userId);
               }}
