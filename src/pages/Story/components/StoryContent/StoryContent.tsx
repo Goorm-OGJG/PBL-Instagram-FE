@@ -104,7 +104,7 @@ function StoryContent({ story, index }: Props) {
                 <S.UserName to="/accounts/username">{nickname}</S.UserName>
                 <S.UploadTime>{diff_date}</S.UploadTime>
               </S.UserInfo>
-              {nowStory === index && <ControlBox />}
+              {nowStory === index && <ControlBox nickname={nickname} />}
             </S.StoryInfo>
           </S.StoryHeader>
         )}
