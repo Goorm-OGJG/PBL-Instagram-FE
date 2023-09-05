@@ -1,5 +1,6 @@
 import * as S from "./FollowerModal.style";
 import * as Icon from "../../../components/Icon";
+
 //:불: API
 import useFollowAPI from "../../../api/useFollowAPI";
 import { useState, useEffect } from "react";
@@ -10,6 +11,7 @@ import { ProfileResponseType } from "../../../types/client/profile.client";
 import useProfileAPI from "../../../api/useProfileAPI";
 import { useParams } from "react-router";
 import React from "react";
+
 interface FollowPropsType {
   followModal: boolean;
   setFollowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,6 +19,8 @@ interface FollowPropsType {
   setFollowerModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function FollowerModal({
+  // followerData,
+  // setFollowerData,
   setFollowModal,
   followerModal,
   setFollowerModal,
@@ -51,6 +55,7 @@ export default function FollowerModal({
       setFollowModal(false);
     }
   };
+
   const handleFollowPost = async (followId: number) => {
     //:불: API
     try {
@@ -95,6 +100,7 @@ export default function FollowerModal({
       requestFollowingList(userId, setFollowData);
     }
   }, []);
+
   return (
     <S.Overlay
       onClick={() => {
@@ -115,6 +121,7 @@ export default function FollowerModal({
         <S.FollowModalBody>
           {followerModal
             ? //  팔로워 모달일때
+
               followerData.map((data) => (
                 <S.FollowModalBox key={data.userId}>
                   <S.FollowProfileImgBox

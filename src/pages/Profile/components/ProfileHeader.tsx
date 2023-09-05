@@ -96,6 +96,7 @@ function ProfileHeader() {
             </S.UserFollowing>
             {followerModal && (
               <FollowerModal
+                // followerData={followerData}
                 followerModal={followerModal}
                 setFollowerModal={setFollowerModal}
                 followModal={followModal}
