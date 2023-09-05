@@ -2,7 +2,7 @@
 
 * {
   box-sizing: border-box;
-	font-family: sans-serif, 'IBM Plex Sans KR';
+	font-family: sans-serif, 'IBM Plex Sans KR' !important ;
 }
 
 html, body, div, span, applet, object, iframe,
