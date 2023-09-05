@@ -79,11 +79,11 @@ export function useStoryAPI() {
       .catch((error) => console.error(error));
   };
 
-  const requestStoryRead = (storyId: string, setData: SetterOrUpdater<StoryType[]>) => {
+  const requestStoryRead = (storyId: string) => {
     axios
       .post(`${API_URL}/story/${storyId}/read`)
       .then(() => {
-        requestStoryList(setData);
+        // requestStoryList(setData);
       })
       .catch((error) => console.error(error));
   };

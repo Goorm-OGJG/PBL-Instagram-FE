@@ -31,7 +31,7 @@ function EditProfile() {
   const [countText, setCountText] = useState(0);
   const profileImg = useRecoilValue<string>(EditImgState);
   const [isEditImgModal, setIsEditImgModal] = useRecoilState<boolean>(EditImgModalState);
-  const [localImg, setLocalImg] = useState<string>(" ");
+  const [localImg, setLocalImg] = useState<string>("");
   const file = useRecoilValue<File[]>(EditImgFileState);
   //🔥 API
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

@@ -212,7 +212,8 @@ export const Span = styled.span`
   word-break: break-all;
 `;
 
-export const Content = styled.span`
+export const Content = styled.div`
+  display: inline-block;
   line-height: 18px;
   padding: 0;
   font-size: ${FONT.S};
