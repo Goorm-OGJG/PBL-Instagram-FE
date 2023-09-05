@@ -2,8 +2,8 @@ import * as S from "./ProfileHeader.style";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import FollowerModal from "./FollowerModal";
-import { useRecoilState } from "recoil";
-import { ProfileState, SecretState } from "../../../recoil/profileState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { ProfileState, UserIdState, SecretState } from "../../../recoil/profileState";
 import { ProfileResponseType } from "../../../types/client/profile.client";
 import useProfileAPI from "../../../api/useProfileAPI";
 import useFollowAPI from "../../../api/useFollowAPI";
@@ -20,9 +20,9 @@ function ProfileHeader() {
   const [buttonText, setButtonText] = useState<string>("");
   const [secret, setSecret] = useRecoilState<boolean>(SecretState);
   const profileUserId = profileInfo.userId;
-
+  const setUserId = useSetRecoilState<number>(UserIdState);
   // 🔥
-  const { requestPostFollowing, requestDeleteFollower } = useFollowAPI();
+  const { requestPostFollowing, requestDeleteFollowing } = useFollowAPI();
   const { requestProfileInfo } = useProfileAPI();
   const handleCompareNickName = async () => {
     if (localId === profileUserId) {
@@ -30,8 +30,8 @@ function ProfileHeader() {
     } else if (!profileInfo.followingStatus && localId !== profileUserId) {
       await requestPostFollowing(profileUserId);
       await requestProfileInfo(nickname as string, setProfileInfo, setSecret);
-    } else if (localId !== profileUserId && profileInfo.followingStatus === true) {
-      await requestDeleteFollower(profileUserId);
+    } else if (localId !== profileUserId && profileInfo.followingStatus) {
+      await requestDeleteFollowing(profileUserId);
       await requestProfileInfo(nickname as string, setProfileInfo, setSecret);
     }
   };
@@ -48,6 +48,7 @@ function ProfileHeader() {
     if (nickname !== undefined) {
       requestProfileInfo(nickname, setProfileInfo, setSecret);
     }
+    console.log(profileInfo);
   }, [nickname]);
   useEffect(() => {
     updateButton();
@@ -83,9 +84,12 @@ function ProfileHeader() {
             <S.UserFollowing
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
-                if (!secret || localId === profileUserId) {
-                  setFollowerModal((prev) => !prev);
+                if (localId === profileUserId) {
+                  setFollowModal((prev) => !prev);
+                } else if (localId !== profileUserId && !secret) {
+                  setFollowModal((prev) => !prev);
                 }
+                setUserId(profileInfo.userId);
               }}
             >
               팔로워 {profileInfo.followCount}
@@ -101,9 +105,12 @@ function ProfileHeader() {
             <S.UserFollower
               onClick={() => {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
-                if (!secret || localId === profileUserId) {
+                if (localId === profileUserId) {
+                  setFollowModal((prev) => !prev);
+                } else if (localId !== profileUserId && !secret) {
                   setFollowModal((prev) => !prev);
                 }
+                setUserId(profileInfo.userId);
               }}
             >
               {" "}

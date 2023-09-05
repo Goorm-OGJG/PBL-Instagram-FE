@@ -111,7 +111,15 @@ export default function ProfileBody() {
     <>
       <S.ProfileWrapper>
         {/* 🔥 secret에 ! 느낌표 처리 할 것*/}
-        {!secret || nickname === localnickname ? (
+
+        {localnickname !== nickname && secret && !profileInfo.followingStatus ? (
+          <S.SecretContainer>
+            <S.SecretBox>
+              <S.SecretScript>비공개 계정입니다.</S.SecretScript>
+              <S.SecretScript>사진 및 동영상을 보려면 팔로우하세요.</S.SecretScript>
+            </S.SecretBox>
+          </S.SecretContainer>
+        ) : (
           <>
             <S.ProfileNavbar>
               <S.ProfileItem
@@ -214,13 +222,6 @@ export default function ProfileBody() {
               <S.Observer ref={observerRef} />
             </S.FeedContainer>
           </>
-        ) : (
-          <S.SecretContainer>
-            <S.SecretBox>
-              <S.SecretScript>비공개 계정입니다.</S.SecretScript>
-              <S.SecretScript>사진 및 동영상을 보려면 팔로우하세요.</S.SecretScript>
-            </S.SecretBox>
-          </S.SecretContainer>
         )}
         {/*   */}
       </S.ProfileWrapper>
