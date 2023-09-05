@@ -1,6 +1,6 @@
 import * as S from "./FollowerModal.style";
 import * as Icon from "../../../components/Icon";
-//🔥 API
+//:불: API
 import useFollowAPI from "../../../api/useFollowAPI";
 import { useState, useEffect } from "react";
 import * as T from "../../../types/client/follow.client";
@@ -10,14 +10,12 @@ import { ProfileResponseType } from "../../../types/client/profile.client";
 import useProfileAPI from "../../../api/useProfileAPI";
 import { useParams } from "react-router";
 import React from "react";
-
 interface FollowPropsType {
   followModal: boolean;
   setFollowModal: React.Dispatch<React.SetStateAction<boolean>>;
   followerModal: boolean;
   setFollowerModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 export default function FollowerModal({
   setFollowModal,
   followerModal,
@@ -28,7 +26,7 @@ export default function FollowerModal({
   const localNickname = localStorage.getItem("nickname");
   const profileInfo = useRecoilValue<ProfileResponseType>(ProfileState);
   const { nickname } = useParams();
-  //🔥 API
+  //:불: API
   const [followerData, setFollowerData] = useState<T.FollowerResponseType[]>([]);
   const [followData, setFollowData] = useState<T.FollowResponseType[]>([]);
   const [userId, setUserId] = useRecoilState<number>(UserIdState);
@@ -46,7 +44,6 @@ export default function FollowerModal({
     // 이벤트 버블링을 방지하여 모달이 닫히지 않도록 함
     e.stopPropagation();
   };
-
   const handleExitModal = () => {
     if (followerModal) {
       setFollowerModal(false);
@@ -55,7 +52,7 @@ export default function FollowerModal({
     }
   };
   const handleFollowPost = async (followId: number) => {
-    //🔥 API
+    //:불: API
     try {
       await requestPostFollowing(followId);
       requestFollowerList(userId, setFollowerData);
@@ -65,13 +62,12 @@ export default function FollowerModal({
       console.error("Error deleting follower:", error);
     }
   };
-  //🔥 API
+  //:불: API
   const handleDeleteFollower = async (
     followId: number,
     setFollowerData: React.Dispatch<React.SetStateAction<T.FollowerResponseType[]>>,
   ) => {
     console.log(followerData);
-
     try {
       await requestDeleteFollower(followId);
       requestFollowerList(userId, setFollowerData);
@@ -99,7 +95,6 @@ export default function FollowerModal({
       requestFollowingList(userId, setFollowData);
     }
   }, []);
-
   return (
     <S.Overlay
       onClick={() => {
@@ -158,7 +153,7 @@ export default function FollowerModal({
                   {localId === profileInfo.userId && (
                     <S.FollowDeleteBox>
                       <S.DeleteBtn
-                        //🔥 API
+                        //:불: API
                         onClick={() => {
                           handleDeleteFollower(data.userId, setFollowerData);
                         }}
@@ -195,7 +190,7 @@ export default function FollowerModal({
                   {localId === profileInfo.userId && (
                     <S.FollowDeleteBox>
                       <S.DeleteBtn
-                        // 🔥 API
+                        // :불: API
                         onClick={() => {
                           handleDeleteFollow(data.followId, setFollowData);
                         }}
