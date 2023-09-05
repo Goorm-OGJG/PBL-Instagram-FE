@@ -19,7 +19,10 @@ export default function useEditProfileAPI() {
       .get(`${editProfleURL}/profile`)
       .then((response) => {
         setEditProfileData(response.data);
-        setText(response.data.userIntro);
+        if (response.data.userIntro) {
+          setText(response.data.userIntro);
+          setCountText(response.data.userIntro.length);
+        }
         setIsChecked(response.data.recommended);
         setIsOn(response.data.secret);
         setCountText(response.data.userIntro.length);
