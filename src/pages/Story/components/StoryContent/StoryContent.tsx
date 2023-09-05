@@ -29,7 +29,7 @@ function StoryContent({ story, index }: Props) {
   const timeCalculate = useTimeCalculate();
   const diff_date = timeCalculate(createdAt);
 
-  const [data, setData] = useRecoilState(storyDataState);
+  const data = useRecoilValue(storyDataState);
   // api 관련
   const [nowStory, setNowStory] = useRecoilState(nowStoryState);
   const { storyId } = useParams();
@@ -38,7 +38,7 @@ function StoryContent({ story, index }: Props) {
   const rightHadler = () => {
     if (count >= mediaList.length - 1) {
       // alert("다음 스토리로 이동");
-      requestStoryRead(storyId as string, setData);
+      requestStoryRead(storyId as string);
 
       if (nowStory < data.length - 1) {
         const next = nowStory + 1;
