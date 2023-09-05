@@ -25,7 +25,7 @@ function EditProfile() {
     useEditProfileAPI();
   const [editProfileData, setEditProfileData] =
     useRecoilState<EditProfileResponseType>(EditProfileState);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(" ");
   const [isChecked, setIsChecked] = useState(false);
   const [isOn, setIsOn] = useRecoilState<boolean>(ToggleState);
   const [countText, setCountText] = useState(0);
@@ -85,7 +85,13 @@ function EditProfile() {
     //🔥 API
     const requestEdit = async () => {
       try {
-        await requestEditProfile(setEditProfileData, setText, setIsChecked, setIsOn);
+        await requestEditProfile(
+          setEditProfileData,
+          setText,
+          setIsChecked,
+          setIsOn,
+          setCountText,
+        );
         const textlength = text.length;
         setCountText(textlength);
       } catch (error) {
@@ -119,7 +125,7 @@ function EditProfile() {
             <S.EctTitle>소개</S.EctTitle>
             <S.InputBox>
               <S.IntroInput
-                value={text ? text : editProfileData.userIntro}
+                value={text ? text : ""}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                   setText(e.target.value);
                   setCountText(e.target.value.length);
