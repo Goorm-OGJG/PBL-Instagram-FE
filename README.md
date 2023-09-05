@@ -32,20 +32,18 @@
 
 ### 1. 메인
 
-<!-- ![](https://images.velog.io/images/pmk4236/post/ae4ed29d-8ac0-481e-839c-93368452f042/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-04-11%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.02.08.png) -->
-
-<!-- - Header에 당근마켓 사이트(PC버전) 없는 로그인 / 회원가입 버튼을 추가했습니다.
-
-- Header 상단 고정 방법으로 `position:sticky`를 선택했습니다. 처음에 `position:fixed`를 사용하였는데, 부모 요소의 영향을 받아 뷰가 깨지는 현상이 있었습니다. 그래서 부모요소의 기준없이 본인 요소에만 속성을 적용하기 편리한 `sticky`를 사용했습니다.
-
-- 총 4개의 배너가 포함되어 있었습니다. 최소화 컴포넌트를 하기 위해 4개로 쪼개어 작업했습니다. 최소화 컴포넌트를 하니 재사용성의 장점을 느껴볼 수 있었습니다. -->
+![image](https://github.com/Goorm-OGJG/PBL-Instagram-FE/assets/62943439/fe4e682a-6496-42f3-8363-1c600ac60adc)
+![Animation](https://github.com/Goorm-OGJG/PBL-Instagram-FE/assets/62943439/1d078a4f-e19c-4f1b-ab04-d373afd28bdf)
+![Animation](https://github.com/Goorm-OGJG/PBL-Instagram-FE/assets/62943439/d7f88a49-ae2f-42a1-a4fc-3e77eca572c2)
+- Intersection Observer API를 이용한 무한스크롤 구현.
+- 왜 인스타그램은 무한스크롤로 구현했을까? UX적인 측면에서 생각해 보았을때, 휠을 계속해서 내리는 방식이 사용자가 훨씬 편리하게 콘텐츠를 감상할 수 있다.
 
 ### 2. 스토리
 
-<!-- ![](https://images.velog.io/images/pmk4236/post/292f2aeb-55d8-4186-b5ad-f24de8452e1b/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-04-11%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.20.46.png) -->
+![Animation](https://github.com/Goorm-OGJG/PBL-Instagram-FE/assets/62943439/1c7105a5-4b96-4a87-a237-24ed27bfda76)
 
-- PC버전에는 로그인 / 회원가입 기능이 없어 직접 구현했습니다. 디자인이 따로 없어서 비슷한 디자인으로 와이어프레임을 작성하여 뷰를 구축했습니다.
-- 백엔드에서 성공적인 reponse를 받지 못할 경우 로그인에 실패했다는 안내의 alert 처리를 해두었습니다.
+- 스토리 구현의 경우 해당 유저의 스토리 목록이 끝나면 다음 스토리로 navigate 하도록 구현했습니다.
+- 5초 마다 하나씩 콘텐츠가 넘어가도록 설정하였고 넘기거나 돌아가고 싶으면 화살표 버튼을 클릭해 이동할 수 있습니다.
 
 ### 3. 로그인
 
@@ -80,10 +78,11 @@
 
 ### 6. 검색
 
-<!-- <center><img src="https://images.velog.io/images/pmk4236/post/6c5d92ac-e728-4d6b-bb13-845c4932acdf/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-04-11%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.15.59.png" width="70%" height="70%" /></center> -->
+![Animation](https://github.com/Goorm-OGJG/PBL-Instagram-FE/assets/62943439/8a34ed94-cd86-45db-ac70-7b440828eda7)
 
-- 매물 클릭 시 해당 ID값으로 상세페이지를 불러오게 했습니다.
-- 이미지, 닉네임, 카테고리, 가격, 상세설명, 채팅/조회 수를 불러옵니다.
+- #을 붙이고 검색을 하면 해시태그, 아니면 유저를 검색합니다.
+- 태그 검색 결과를 클릭 시 해당 태그에 관한 게시물이 있는 페이지로 이동합니다.
+- 유저 검색 결과 클릭 시 유저 프로필 페이지로 이동합니다.
 
 
 
