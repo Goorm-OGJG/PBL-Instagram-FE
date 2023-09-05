@@ -18,7 +18,7 @@ function ProfileHeader() {
   const [followModal, setFollowModal] = useState<boolean>(false);
   const [profileInfo, setProfileInfo] = useRecoilState<ProfileResponseType>(ProfileState); // 받아온 프로필 정보 데이터
   const [buttonText, setButtonText] = useState<string>("");
-  const [secret, setSecret] = useRecoilState<boolean>(SecretState);
+  const setSecret = useSetRecoilState<boolean>(SecretState);
   const profileUserId = profileInfo.userId;
   const setUserId = useSetRecoilState<number>(UserIdState);
   // 🔥
@@ -87,7 +87,7 @@ function ProfileHeader() {
 
                 if (localId === profileUserId) {
                   setFollowerModal((prev) => !prev);
-                } else if (localId !== profileUserId && !secret) {
+                } else if (localId !== profileUserId && profileInfo.followingStatus) {
                   setFollowerModal((prev) => !prev);
                 }
                 setUserId(profileInfo.userId);
@@ -109,7 +109,7 @@ function ProfileHeader() {
                 //🔥 isSecret에 ! 느낌표 처리 할 것
                 if (localId === profileUserId) {
                   setFollowModal((prev) => !prev);
-                } else if (localId !== profileUserId && !secret) {
+                } else if (localId !== profileUserId && profileInfo.followingStatus) {
                   setFollowModal((prev) => !prev);
                 }
                 setUserId(profileInfo.userId);

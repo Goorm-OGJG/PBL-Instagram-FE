@@ -106,6 +106,11 @@ export default function ProfileBody() {
     }
     // console.log(page);
   }, [item, nickname]);
+  useEffect(() => {
+    return () => {
+      setItem(false);
+    };
+  }, [nickname]);
 
   return (
     <>
