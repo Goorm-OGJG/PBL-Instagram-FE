@@ -13,9 +13,14 @@ import {
   SecretState,
 } from "../../../recoil/profileState";
 import useProfileAPI from "../../../api/useProfileAPI";
-import { isModalOpenState, whichAddModalOpenState } from "../../../recoil/homeState";
+import {
+  isLikeModalOpenState,
+  isModalOpenState,
+  whichAddModalOpenState,
+} from "../../../recoil/homeState";
 import FeedModal from "../../Home/components/FeedModal/FeedModal";
 import AddModal from "../../../components/AddModal/AddModal";
+import LikeModal from "../../Home/components/LikeModal/LikeModal";
 
 interface FeedList {
   feedId: number;
@@ -47,7 +52,7 @@ export default function ProfileBody() {
   const [ImgId, setImgId] = useRecoilState<number>(ImgIdState);
   const userId = useRecoilValue<number>(UserIdState);
   const secret = useRecoilValue<boolean>(SecretState);
-
+  const [isLikeModalOpen, setIsLikeModalOpen] = useRecoilState(isLikeModalOpenState);
   const handleFeedListClick = () => {
     setItem(false);
     const newData = feeds;
@@ -109,8 +114,13 @@ export default function ProfileBody() {
   useEffect(() => {
     return () => {
       setItem(false);
+      setIsLikeModalOpen({ id: 0, type: "feed" });
     };
   }, [nickname]);
+
+  useEffect(() => {
+    return () => setIsModalOpen(0);
+  }, []);
 
   return (
     <>
@@ -233,6 +243,7 @@ export default function ProfileBody() {
       {isModalOpen && <FeedModal />}
       {whichModalOpen === "feed" && <AddModal type="feed" />}
       {whichModalOpen === "story" && <AddModal type="story" />}
+      {isLikeModalOpen.id !== 0 && <LikeModal />}
     </>
   );
 }
