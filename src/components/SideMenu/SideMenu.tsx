@@ -13,7 +13,7 @@ interface Props {
 function SideMenu({ type, setState }: Props) {
   const setWhichAddModalOpen = useSetRecoilState(whichAddModalOpenState);
   const navigate = useNavigate();
-  const nickname = "tmp_username";
+  const nickname = localStorage.getItem("nickname");
   const { requestLogout } = useUserAPI();
   const logoutHandler = () => {
     // alert("로그아웃 요청");
