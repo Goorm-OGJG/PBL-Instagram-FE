@@ -31,6 +31,9 @@ function SearchTag() {
     );
     console.log(tagFeedList);
   }, [query]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <Sidebar />
