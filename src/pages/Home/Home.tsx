@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SideUserRecommend from "./components/SideUserRecommend/SideUserRecommend";
 import * as S from "./Home.style";
@@ -6,7 +6,7 @@ import Footer from "./components/Footer/Footer";
 import Stories from "./components/Stories/Stories";
 import Feeds from "./components/Feeds/Feeds";
 import FeedModal from "./components/FeedModal/FeedModal";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   isLikeModalOpenState,
   isModalOpenState,
@@ -16,9 +16,16 @@ import AddModal from "../../components/AddModal/AddModal";
 import LikeModal from "./components/LikeModal/LikeModal";
 
 function Home() {
-  const isModalOpen = useRecoilValue(isModalOpenState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
   const whichModalOpen = useRecoilValue(whichAddModalOpenState);
-  const isLikeModalOpen = useRecoilValue(isLikeModalOpenState);
+  const [isLikeModalOpen, setIsLikeModalOpen] = useRecoilState(isLikeModalOpenState);
+
+  useEffect(() => {
+    return () => {
+      setIsModalOpen(0);
+      setIsLikeModalOpen({ id: 0, type: "feed" });
+    };
+  }, []);
   return (
     <React.Fragment>
       <Sidebar />

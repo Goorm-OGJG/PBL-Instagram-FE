@@ -7,7 +7,7 @@ export default function useEditProfileAPI() {
   const editProfleURL = `${API_URL}/api/accounts`;
   const axios = useAxios();
 
-  // 프로필 수정 가저오기
+  // 프로필 수정 가저 오기
   const requestEditProfile = async (
     setEditProfileData: React.Dispatch<React.SetStateAction<T.EditProfileResponseType>>,
     setText: React.Dispatch<React.SetStateAction<string>>,
