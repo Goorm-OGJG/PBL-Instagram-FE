@@ -14,6 +14,7 @@ function Profile() {
   const { requestProfileInfo } = useProfileAPI();
   const setProfileInfo = useSetRecoilState<T.ProfileResponseType>(ProfileState);
   const setSecret = useSetRecoilState<boolean>(SecretState);
+
   useEffect(() => {
     if (nickname !== undefined) {
       requestProfileInfo(nickname, setProfileInfo, setSecret);
