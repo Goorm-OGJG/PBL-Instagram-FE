@@ -25,7 +25,7 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
   const setIsSetting = useSetRecoilState(isSettingState);
 
   // api 관련
-  const [data, setData] = useRecoilState(storyDataState);
+  const [data] = useRecoilState(storyDataState);
   const { requestStoryRead } = useStoryAPI();
   const { storyId } = useParams();
 
@@ -36,7 +36,7 @@ function Progress({ pos, count, isPlay, setCount, imgLength }: Props) {
       if (now > full - 5) {
         if (count >= imgLength - 1) {
           // alert("다음 스토리로 이동");
-          requestStoryRead(storyId as string, setData);
+          requestStoryRead(storyId as string);
 
           if (nowStory < data.length - 1) {
             const next = nowStory + 1;
