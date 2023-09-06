@@ -101,6 +101,7 @@ export default function FollowerModal({
     }
   }, []);
 
+  console.log(followerModal);
   return (
     <S.Overlay
       onClick={() => {

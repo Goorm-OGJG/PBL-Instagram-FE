@@ -49,6 +49,10 @@ function ProfileHeader() {
       requestProfileInfo(nickname, setProfileInfo, setSecret);
     }
     console.log(profileInfo);
+    return () => {
+      setFollowModal(false);
+      setFollowerModal(false);
+    };
   }, [nickname]);
   useEffect(() => {
     updateButton();
