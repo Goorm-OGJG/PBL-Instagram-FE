@@ -1254,8 +1254,8 @@ This is currently a DEV-only warning but will become a thrown exception in the n
   padding: 2px 0;
   font-size: ${dt};
   word-break: break-all;
-`,B$=L.div`
-  display: inline-block;
+`,B$=L.p`
+  display: inline;
   line-height: 18px;
   padding: 0;
   font-size: ${dt};
