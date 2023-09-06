@@ -30,7 +30,7 @@ export default function LikeModal() {
     }
   }, []);
 
-  const nickname = localStorage.getItem("nickname");
+  // const nickname = localStorage.getItem("nickname");
   return (
     <S.Overlay id="overlay" onClick={closeHandler}>
       <S.FollowModalWrapper>
@@ -55,7 +55,7 @@ export default function LikeModal() {
                     {data.nickname}
                   </S.Nickname>
                 </S.FollowProfileNicknameBox>
-                <S.FollowDeleteBox>
+                {/* <S.FollowDeleteBox>
                   {nickname !== data.nickname && (
                     <React.Fragment>
                       {data.followStatus ? (
@@ -65,7 +65,7 @@ export default function LikeModal() {
                       )}
                     </React.Fragment>
                   )}
-                </S.FollowDeleteBox>
+                </S.FollowDeleteBox> */}
               </S.FollowModalBox>
             ))}
         </S.FollowModalBody>
