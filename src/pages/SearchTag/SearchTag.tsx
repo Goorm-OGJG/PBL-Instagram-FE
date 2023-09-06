@@ -23,6 +23,7 @@ function SearchTag() {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
   const taggedList = tagFeedList?.taggedList;
   console.log(taggedList);
+
   useEffect(() => {
     console.log(query);
     requestTagSearch(
