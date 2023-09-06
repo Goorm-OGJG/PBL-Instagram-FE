@@ -73,8 +73,8 @@ function Stories() {
 
       {/* 스토리 많아지면 생기는 화살표 */}
       {ref.current?.scrollWidth &&
-        ref.current?.scrollWidth >= 720 &&
-        ref.current.scrollLeft <= (ref.current.scrollWidth as number) - 631 && (
+        ref.current?.scrollWidth >= 630 &&
+        ref.current.scrollLeft <= (ref.current.scrollWidth as number) - 630 && (
           <S.IconBox
             onClick={() => scrollHandler("right")}
             direction="right"
